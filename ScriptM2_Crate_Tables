@@ -1,0 +1,65 @@
+DROP TABLE BATTLE
+DROP TABLE USERS
+DROP TABLE SHIPS
+DROP TABLE DEFENSES
+DROP TABLE PLANETS
+
+
+CREATE TABLE USERS
+(ID_User NUMBER,
+Username VARCHAR(30) UNIQUE,
+Birth_date DATE,
+Password VARCHAR(20),
+ID_Planet NUMBER,
+Constraint pk_users PRIMARY KEY (ID_User),
+Constraint fk_planets FOREIGN KEY (ID_Planet)
+REFERENCES Planets (ID_Planet));
+
+CREATE TABLE PLANETS
+(ID_Planet NUMBER,
+Name VARCHAR(30) UNIQUE,
+Technology_attack NUMBER,
+Technology_defense NUMBER,
+Crystal NUMBER,
+Metal NUMBER,
+Deuterium NUMBER,
+Constraint pk_planets PRIMARY KEY (ID_Planet));
+
+CREATE TABLE SHIPS
+(ID_Ships NUMBER,
+Name VARCHAR(30),
+Metal_cost NUMBER,
+Crystal_cost NUMBER,
+Deuterium_cost NUMBER,
+InitialArmor NUMBER,
+Armor NUMBER,
+BaseDamage NUMBER,
+Speed NUMBER,
+Generate_Wastings NUMBER,
+ID_Planet NUMBER,
+Constraint pk_ships PRIMARY KEY (ID_Ships),
+Constraint fk_planets FOREIGN KEY (ID_Planet)
+REFERENCES Planets (ID_Planet));
+
+CREATE TABLE DEFENSES
+(ID_Defense NUMBER,
+Name VARCHAR(30),
+Metal_cost NUMBER,
+Crystal_cost NUMBER,
+Deuterium_cost NUMBER,
+InitialArmor NUMBER,
+Armor NUMBER,
+BaseDamage NUMBER,
+Speed NUMBER,
+Generate_Wastings NUMBER,
+ID_Planet NUMBER,
+Constraint pk_defenses PRIMARY KEY(ID_Defense),
+Constraint fk_planets FOREIGN KEY (ID_Planet)
+REFERENCES Planets (ID_Planet));
+
+CREATE TABLE BATTLE
+(ID_Battle NUMBER,
+ID_User NUMBER,
+Constraint pk_battle PRIMARY KEY (ID_Battle),
+Constraint fk_users FOREIGN KEY (ID_User)
+REFERENCES USERS (ID_User));
