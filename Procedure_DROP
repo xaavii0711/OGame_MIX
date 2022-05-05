@@ -1,0 +1,70 @@
+create or replace procedure DROP_TABLE
+is
+battleNum int;
+usersNum int;
+planetsNum int;
+shipsNum int;
+defensesNum int;
+shipsPlanetsNum int;
+defensesPlanetsNum int;
+
+begin
+select count(*) into battleNum from user_tables where table_name='BATTLE';
+select count(*) into usersNum from user_tables where table_name='USERS';
+select count(*) into planetsNum from user_tables where table_name='PLANETS';
+select count(*) into shipsNum from user_tables where table_name='SHIPS';
+select count(*) into defensesNum from user_tables where table_name='DEFENSES';
+select count(*) into shipsPlanetsNum from user_tables where table_name='SHIPS_IN_PLANETS';
+select count(*) into defensesPlanetsNum from user_tables where table_name='DEFENSES_IN_PLANETS';
+
+if shipsPlanetsNum > 0 then
+ execute immediate 'DROP TABLE SHIPS_IN_PLANETS';
+else
+ DBMS_OUTPUT.PUT_LINE('No existe la tabla SHIPS_IN_PLANETS');
+end if;
+
+if defensesPlanetsNum > 0 then
+ execute immediate 'DROP TABLE DEFENSES_IN_PLANETS';
+else
+ DBMS_OUTPUT.PUT_LINE('No existe la tabla DEFENSES_IN_PLANETS');
+end if;
+
+if battleNum > 0 then
+    execute immediate 'DROP TABLE BATTLE';
+else
+    DBMS_OUTPUT.PUT_LINE('No existe la tabla Battle');
+end if;
+
+if shipsNum > 0 then
+    execute immediate 'DROP TABLE SHIPS';
+else
+    DBMS_OUTPUT.PUT_LINE('No existe la tabla Ships');
+end if;
+
+if defensesNum > 0 then
+    execute immediate 'DROP TABLE DEFENSES';
+else
+    DBMS_OUTPUT.PUT_LINE('No existe la tabla Defenses');
+end if;
+
+if planetsNum > 0 then
+    execute immediate 'DROP TABLE PLANETS';
+else
+    DBMS_OUTPUT.PUT_LINE('No existe la tabla Planets');
+end if;
+
+if usersNum > 0 then
+    execute immediate 'DROP TABLE USERS';
+else
+    DBMS_OUTPUT.PUT_LINE('No existe la tabla Users');
+end if;
+exception
+when others then
+DBMS_OUTPUT.PUT_LINE('Error');
+end;
+
+set SERVEROUTPUT ON
+begin
+
+drop_table();
+end;
