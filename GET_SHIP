@@ -2,6 +2,6 @@ create or replace procedure GET_SHIP(shipID IN OUT INT, nameShip OUT VARCHAR, me
 is
 begin
 
-select * into shipID, nameShip, metalShip, crystalShip, deuteriumShip, initialArmorShip, armorShip, baseDamageShip, speedShip, generateShip from ships; 
+select * into shipID, nameShip, metalShip, crystalShip, deuteriumShip, initialArmorShip, armorShip, baseDamageShip, speedShip, generateShip from ships where id_ships=shipID; 
 
 end;
