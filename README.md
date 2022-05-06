@@ -10,7 +10,7 @@ Raúl García
 Iker Gonzalez
 - Email: igonzalezlumbreras.cf@iesesteveterradas.cat
 - Telf: 675959498
-- 
+
 Samuel Tapia
 - Email: stapia-@iesesteveterradas.cat
 - Telf: 688925527
