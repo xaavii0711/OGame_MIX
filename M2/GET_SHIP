@@ -1,7 +1,15 @@
 create or replace procedure GET_SHIP(shipID IN OUT INT, nameShip OUT VARCHAR, metalShip OUT INT, crystalShip OUT INT, deuteriumShip OUT INT, initialArmorShip OUT INT, armorShip OUT INT, baseDamageShip OUT INT, speedShip OUT INT, generateShip OUT INT)
 is
+existe NUMBER;
+no_existe EXCEPTION;
 begin
-
+select count(*) into existe from ships where id_ships=shipID; 
+if existe != 0 then
 select * into shipID, nameShip, metalShip, crystalShip, deuteriumShip, initialArmorShip, armorShip, baseDamageShip, speedShip, generateShip from ships where id_ships=shipID; 
-
+else
+raise no_existe;
+end if;
+exception
+when no_existe then
+dbms_output.put_line('La ID no existe');
 end;
