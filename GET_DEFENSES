@@ -1,0 +1,7 @@
+create or replace procedure GET_DEFENSE(defenseID IN OUT INT, nameDefense OUT VARCHAR, metalDefense OUT INT, crystalDefense OUT INT, deuteriumDefense OUT INT, initialArmorDefense OUT INT, armorDefense OUT INT, baseDamageDefense OUT INT, speedDefense OUT INT, generateDefense OUT INT)
+is
+begin
+
+select * into defenseID, nameDefense, metalDefense, crystalDefense, deuteriumDefense, initialArmorDefense, armorDefense, baseDamageDefense, speedDefense, generateDefense from defenses; 
+
+end;
