@@ -68,6 +68,7 @@ shipsPlanetsCreate := 'CREATE TABLE SHIPS_IN_PLANETS
 (ID_Planet NUMBER,
 ID_Ships NUMBER,
 Quantity NUMBER,
+Level NUMBER,
 Constraint fk_ships_planets FOREIGN KEY (ID_Planet)
 REFERENCES PLANETS (ID_Planet),
 Constraint fk_ships_planets2 FOREIGN KEY (ID_Ships)
@@ -77,6 +78,7 @@ defensesPlanetsCreate := 'CREATE TABLE DEFENSES_IN_PLANETS
 (ID_Planet NUMBER,
 ID_Defense NUMBER,
 Quantity NUMBER,
+Level NUMBER,
 Constraint fk_ships_defenses FOREIGN KEY (ID_Planet)
 REFERENCES PLANETS (ID_Planet),
 Constraint fk_ships_defenses2 FOREIGN KEY (ID_Defense)
