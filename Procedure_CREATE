@@ -21,6 +21,8 @@ planetsCreate := 'CREATE TABLE PLANETS
 Name VARCHAR(30) UNIQUE,
 Technology_attack NUMBER,
 Technology_defense NUMBER,
+UpgradeTechnology_attack NUMBER,
+UpgradeTechnology_defense NUMBER,
 Crystal NUMBER,
 Metal NUMBER,
 Deuterium NUMBER,
@@ -88,6 +90,7 @@ execute immediate battleCreate;
 execute immediate shipsPlanetsCreate;
 execute immediate defensesPlanetsCreate;
 end;
+
 
 
 set serveroutput on
