@@ -2,6 +2,6 @@ create or replace procedure GET_DEFENSE(defenseID IN OUT INT, nameDefense OUT VA
 is
 begin
 
-select * into defenseID, nameDefense, metalDefense, crystalDefense, deuteriumDefense, initialArmorDefense, armorDefense, baseDamageDefense, speedDefense, generateDefense from defenses; 
+select * into defenseID, nameDefense, metalDefense, crystalDefense, deuteriumDefense, initialArmorDefense, armorDefense, baseDamageDefense, speedDefense, generateDefense from defenses where id_defense=defenseID; 
 
 end;
