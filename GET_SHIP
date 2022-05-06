@@ -1,0 +1,7 @@
+create or replace procedure GET_SHIP(shipID IN OUT INT, nameShip OUT VARCHAR, metalShip OUT INT, crystalShip OUT INT, deuteriumShip OUT INT, initialArmorShip OUT INT, armorShip OUT INT, baseDamageShip OUT INT, speedShip OUT INT, generateShip OUT INT)
+is
+begin
+
+select * into shipID, nameShip, metalShip, crystalShip, deuteriumShip, initialArmorShip, armorShip, baseDamageShip, speedShip, generateShip from ships; 
+
+end;
