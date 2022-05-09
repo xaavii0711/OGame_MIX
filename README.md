@@ -12,7 +12,7 @@ Proyecto Final DAW Primer Año
 - Telf: 675959498
 
 *Samuel Tapia*
-- Email: stapia-@iesesteveterradas.cat
+- Email: stapiagarcia.cf@iesesteveterradas.cat
 - Telf: 688925527
 
 *Xavi Martinez*
