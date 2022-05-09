@@ -4,18 +4,29 @@ import java.io.InputStreamReader;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import java.sql.SQLException;
+
 public class Main {
 	
-	private Integer Iker;
-	
 	public static void main(String[] args) {
-		
-		BufferedReader entrada = new BufferedReader(new InputStreamReader(System.in));
-        int id = -1;
-        Connection cn = null;
+		Planet p = new Planet();
+	}
+}
+
+class VariablesBBDDShips{
+	
+	CallableStatement cst;
+	BufferedReader entrada;
+	int id;
+	Connection cn;
+	
+	public VariablesBBDDShips(int a){
+        cn = null;
+        
 
         try {
             // Carga el driver de oracle
@@ -25,19 +36,23 @@ public class Main {
             cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
             
             // Llamada al procedimiento almacenado
-            CallableStatement cst = cn.prepareCall("{call GET_SHIP (?,?,?,?,?,?,?,?,?,?)}");
+            cst = cn.prepareCall("{call GET_SHIP (?,?,?,?,?,?,?,?,?,?)}");
 
             do {
-                System.out.println("\nIntroduce el ID de la nave:");
-                try {
-                    id = Integer.parseInt(entrada.readLine());
-                } catch (IOException ex) {
-                    System.out.println("Error...");
-                }
-                
-               
+                cst.setInt(1, a);
+                cst.registerOutParameter(2, java.sql.Types.VARCHAR);
+                cst.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst.registerOutParameter(4, java.sql.Types.INTEGER);
+                cst.registerOutParameter(5, java.sql.Types.INTEGER);
+                cst.registerOutParameter(6, java.sql.Types.INTEGER);
+                cst.registerOutParameter(7, java.sql.Types.INTEGER);
+                cst.registerOutParameter(8, java.sql.Types.INTEGER);
+                cst.registerOutParameter(9, java.sql.Types.INTEGER);
+                cst.registerOutParameter(10, java.sql.Types.INTEGER);
+                cst.execute();
+             
 
-            
+
                 // Se obtienen la salida del procedimineto almacenado
                 Integer P_ID = cst.getInt(1);
                 String P_NAME = cst.getString(2);
@@ -63,24 +78,206 @@ public class Main {
 
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
-        } finally {
-            try {
-                cn.close();
-            } catch (SQLException ex) {
-                System.out.println("Error: " + ex.getMessage());
-            }
+        
         }
-		
-
 	}
-
+	public int getCosteMetal() {
+		try {
+			return cst.getInt(3);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getBaseDamage() {
+		try {
+			return cst.getInt(8);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getCosteDeuterium() {
+		try {
+			return cst.getInt(5);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getinitialArmor() {
+		try {
+			return cst.getInt(6);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getActualArmor() {
+		try {
+			return cst.getInt(7);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getGenerateWastings() {
+		try {
+			return cst.getInt(10);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	
 }
+
+class VariablesBBDDDefenses{
+	
+	CallableStatement cst;
+	BufferedReader entrada;
+	int id;
+	Connection cn;
+	
+	public VariablesBBDDDefenses(int a) {
+		
+		cn = null;
+        
+        try {
+            // Carga el driver de oracle
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            
+            // Conecta con la base de datos orcl con el usuario system y la contrase�a password
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            
+            // Llamada al procedimiento almacenado
+            cst = cn.prepareCall("{call GET_DEFENSE (?,?,?,?,?,?,?,?,?,?)}");
+
+            do {
+                cst.setInt(1, a);
+                cst.registerOutParameter(2, java.sql.Types.VARCHAR);
+                cst.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst.registerOutParameter(4, java.sql.Types.INTEGER);
+                cst.registerOutParameter(5, java.sql.Types.INTEGER);
+                cst.registerOutParameter(6, java.sql.Types.INTEGER);
+                cst.registerOutParameter(7, java.sql.Types.INTEGER);
+                cst.registerOutParameter(8, java.sql.Types.INTEGER);
+                cst.registerOutParameter(9, java.sql.Types.INTEGER);
+                cst.registerOutParameter(10, java.sql.Types.INTEGER);
+                cst.execute();
+             
+
+
+                // Se obtienen la salida del procedimineto almacenado
+                Integer P_ID = cst.getInt(1);
+                String P_NAME = cst.getString(2);
+                Integer P_METAL_COST = cst.getInt(3);
+                Integer P_CRYSTAL_COST = cst.getInt(4);
+                Integer P_DEUTERIUM_COST = cst.getInt(5);
+                Integer P_INITIALARMOR = cst.getInt(6);
+                Integer P_ARMOR = cst.getInt(7);
+                Integer P_BASEDAMAGE = cst.getInt(8);
+                Integer P_SPEED = cst.getInt(9);
+                Integer P_GENERATE_WASTINGS = cst.getInt(10);
+                System.out.println("P_ID: "+P_ID);
+                System.out.println("P_NAME: " + P_NAME);
+                System.out.println("P_METAL_COST: " + P_METAL_COST);
+                System.out.println("P_CRYSTAL_COST: " + P_CRYSTAL_COST);
+                System.out.println("P_DEUTERIUM_COST: " + P_DEUTERIUM_COST);
+                System.out.println("P_INITIALARMOR: " + P_INITIALARMOR);
+                System.out.println("P_ARMOR: " + P_ARMOR);
+                System.out.println("P_BASEDAMAGE: " + P_BASEDAMAGE);
+                System.out.println("P_SPEED: " + P_SPEED);
+                System.out.println("P_GENERATE_WASTINGS: " + P_GENERATE_WASTINGS);
+            } while (id > 0);
+
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        
+        }
+	
+		
+	}
+	
+	public int getCosteMetal() {
+		try {
+			return cst.getInt(3);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getBaseDamage() {
+		try {
+			return cst.getInt(8);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getCosteDeuterium() {
+		try {
+			return cst.getInt(5);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getinitialArmor() {
+		try {
+			return cst.getInt(6);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getActualArmor() {
+		try {
+			return cst.getInt(7);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public int getGenerateWastings() {
+		try {
+			return cst.getInt(10);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return 0;
+	}
+}
+
 class Planet {
 	
 	private int technologyDefense;
 	private int technologyAtack;
-	private int metal = 10000;
-	private int deuterium = 10000;
+	private int metal ;
+	private int deuterium ;
 	private int upgradeDefenseTechnologyDeuteriumCost;
 	private int upgradeAttackTechnologyDeuteriumCost;
 	private ArrayList<MilitaryUnit>[] army;
@@ -159,29 +356,13 @@ class Planet {
 	
 	public void newLightHunter(int n) throws ResourceException{
 		army[0] = new ArrayList<>();
-		 // Parametro 1 del procedimiento almacenado
-//      cst.setInt(1, id);
-//      
-//      // Definimos los tipos de los parametros de salida del procedimiento almacenado
-//      cst.registerOutParameter(2, java.sql.Types.VARCHAR);
-//      cst.registerOutParameter(3, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(4, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(5, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(6, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(7, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(8, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(9, java.sql.Types.INTEGER);
-//      cst.registerOutParameter(10, java.sql.Types.INTEGER);
-//      
-//      // Ejecuta el procedimiento almacenado
-//      cst.execute();
-		int costeMetal = 3000;
-		//int costeMetal = cst.getInt(3);
-		int costeDeuterium = 50;
+		VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
+		int costeMetal = variablesLightHunter.getCosteMetal();
+		int costeDeuterium = variablesLightHunter.getCosteDeuterium();
 		int count = 0;
 
-		int armor_plus = Variables.ARMOR_LIGTHHUNTER + (getTechnologyDefense()*Variables.PLUS_ARMOR_LIGTHHUNTER_BY_TECHNOLOGY)*Variables.ARMOR_LIGTHHUNTER/100;
-		int damage_plus = Variables.BASE_DAMAGE_LIGTHHUNTER + (getTechnologyAtack()*Variables.PLUS_ATTACK_LIGTHHUNTER_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_LIGTHHUNTER/100;
+		int armor_plus = variablesLightHunter.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_LIGTHHUNTER_BY_TECHNOLOGY)*variablesLightHunter.getinitialArmor()/100;
+		int damage_plus = variablesLightHunter.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_LIGTHHUNTER_BY_TECHNOLOGY)*variablesLightHunter.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
@@ -211,11 +392,12 @@ class Planet {
 	
 	public void newHeavyHunter(int n) throws ResourceException{
 		army[1] = new ArrayList<>();
-		int costeMetal = 6500;
-		int costeDeuterium = 50;
+		VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
+		int costeMetal = variablesHeavyHunter.getCosteMetal();
+		int costeDeuterium = variablesHeavyHunter.getCosteDeuterium();
 		int count = 0;
-		int armor_plus = Variables.ARMOR_HEAVYHUNTER + (getTechnologyDefense()*Variables.PLUS_ARMOR_HEAVYHUNTER_BY_TECHNOLOGY)*Variables.ARMOR_HEAVYHUNTER/100;
-		int damage_plus = Variables.BASE_DAMAGE_HEAVYHUNTER + (getTechnologyAtack()*Variables.PLUS_ATTACK_HEAVYHUNTER_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_HEAVYHUNTER/100;
+		int armor_plus = variablesHeavyHunter.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_HEAVYHUNTER_BY_TECHNOLOGY)*variablesHeavyHunter.getinitialArmor()/100;
+		int damage_plus = variablesHeavyHunter.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_HEAVYHUNTER_BY_TECHNOLOGY)*variablesHeavyHunter.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
@@ -243,11 +425,12 @@ class Planet {
 	
 	public void newBattleShip(int n) throws ResourceException{
 		army[2] = new ArrayList<>();
-		int costeMetal = 45000;
-		int costeDeuterium = 7000;
+		VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
+		int costeMetal = variablesBattleShip.getCosteMetal();
+		int costeDeuterium = variablesBattleShip.getCosteDeuterium();
 		int count = 0;
-		int armor_plus = Variables.ARMOR_BATTLESHIP + (getTechnologyDefense()*Variables.PLUS_ARMOR_BATTLESHIP_BY_TECHNOLOGY)*Variables.ARMOR_BATTLESHIP/100;
-		int damage_plus = Variables.BASE_DAMAGE_BATTLESHIP + (getTechnologyAtack()*Variables.PLUS_ATTACK_BATTLESHIP_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_BATTLESHIP/100;
+		int armor_plus = variablesBattleShip.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_BATTLESHIP_BY_TECHNOLOGY)*variablesBattleShip.getinitialArmor()/100;
+		int damage_plus = variablesBattleShip.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_BATTLESHIP_BY_TECHNOLOGY)*variablesBattleShip.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
@@ -275,11 +458,12 @@ class Planet {
 	
 	public void newArmoredShip(int n) throws ResourceException{
 		army[3] = new ArrayList<>();
-		int costeMetal = 30000;
-		int costeDeuterium = 15000;
+		VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
+		int costeMetal = variablesArmoredShip.getCosteMetal();
+		int costeDeuterium = variablesArmoredShip.getCosteDeuterium();
 		int count = 0;
-		int armor_plus = Variables.ARMOR_ARMOREDSHIP + (getTechnologyDefense()*Variables.PLUS_ARMOR_ARMOREDSHIP_BY_TECHNOLOGY)*Variables.ARMOR_ARMOREDSHIP/100;
-		int damage_plus = Variables.BASE_DAMAGE_ARMOREDSHIP + (getTechnologyAtack()*Variables.PLUS_ATTACK_ARMOREDSHIP_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_ARMOREDSHIP/100;
+		int armor_plus = variablesArmoredShip.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_ARMOREDSHIP_BY_TECHNOLOGY)*variablesArmoredShip.getinitialArmor()/100;
+		int damage_plus = variablesArmoredShip.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_ARMOREDSHIP_BY_TECHNOLOGY)*variablesArmoredShip.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
@@ -308,16 +492,17 @@ class Planet {
 	
 	public void newMissileLauncher(int n) throws ResourceException{
 		army[4] = new ArrayList<>();
-		int costeMetal = 2000;
-		int costeDeuterium = 0;
+		VariablesBBDDDefenses variablesMissileLauncher = new VariablesBBDDDefenses(1);
+		int costeMetal = variablesMissileLauncher.getCosteMetal();
+		int costeDeuterium = variablesMissileLauncher.getCosteDeuterium();
 		int count = 0;
-		int armor_plus = Variables.ARMOR_MISSILELAUNCHER + (getTechnologyDefense()*Variables.PLUS_ARMOR_MISSILELAUNCHER_BY_TECHNOLOGY)*Variables.ARMOR_MISSILELAUNCHER/100;
-		int damage_plus = Variables.BASE_DAMAGE_MISSILELAUNCHER + (getTechnologyAtack()*Variables.PLUS_ATTACK_MISSILELAUNCHER_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_MISSILELAUNCHER/100;
+		int armor_plus = variablesMissileLauncher.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_MISSILELAUNCHER_BY_TECHNOLOGY)*variablesMissileLauncher.getinitialArmor()/100;
+		int damage_plus = variablesMissileLauncher.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_MISSILELAUNCHER_BY_TECHNOLOGY)*variablesMissileLauncher.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
 				if (getTechnologyDefense() < 1) {
-					army[4].add(new MissileLauncher(Variables.ARMOR_MISSILELAUNCHER,Variables.BASE_DAMAGE_MISSILELAUNCHER));
+					army[4].add(new MissileLauncher(variablesMissileLauncher.getinitialArmor(),variablesMissileLauncher.getBaseDamage()));
 					setMetal(getMetal()-costeMetal);
 					setDeuterium(getDeuterium()-costeDeuterium);
 					count = count + 1;
@@ -340,16 +525,17 @@ class Planet {
 	
 	public void newIonCannon(int n) throws ResourceException{
 		army[5] = new ArrayList<>();
-		int costeMetal = 4000;
-		int costeDeuterium = 500;
+		VariablesBBDDDefenses variablesIonCannon= new VariablesBBDDDefenses(2);
+		int costeMetal = variablesIonCannon.getCosteMetal();
+		int costeDeuterium = variablesIonCannon.getCosteDeuterium();
 		int count = 0;
-		int armor_plus = Variables.ARMOR_IONCANNON + (getTechnologyDefense()*Variables.PLUS_ARMOR_IONCANNON_BY_TECHNOLOGY)*Variables.ARMOR_IONCANNON/100;
-		int damage_plus = Variables.BASE_DAMAGE_IONCANNON + (getTechnologyAtack()*Variables.PLUS_ATTACK_IONCANNON_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_IONCANNON/100;
+		int armor_plus = variablesIonCannon.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_IONCANNON_BY_TECHNOLOGY)*variablesIonCannon.getinitialArmor()/100;
+		int damage_plus = variablesIonCannon.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_IONCANNON_BY_TECHNOLOGY)*variablesIonCannon.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
 				if (getTechnologyDefense() < 1) {
-					army[5].add(new IonCannon(Variables.ARMOR_IONCANNON,Variables.BASE_DAMAGE_IONCANNON));
+					army[5].add(new IonCannon(variablesIonCannon.getinitialArmor(),variablesIonCannon.getBaseDamage()));
 					setMetal(getMetal()-costeMetal);
 					setDeuterium(getDeuterium()-costeDeuterium);
 					count = count + 1;
@@ -371,16 +557,17 @@ class Planet {
 	
 	public void newPlasmaCannon(int n) throws ResourceException{
 		army[6] = new ArrayList<>();
-		int costeMetal = 50000;
-		int costeDeuterium = 5000;
+		VariablesBBDDDefenses variablesPlasmaCannon= new VariablesBBDDDefenses(3);
+		int costeMetal = variablesPlasmaCannon.getCosteMetal();
+		int costeDeuterium = variablesPlasmaCannon.getCosteDeuterium();
 		int count = 0;
-		int armor_plus = Variables.ARMOR_PLASMACANNON + (getTechnologyDefense()*Variables.PLUS_ARMOR_PLASMACANNON_BY_TECHNOLOGY)*Variables.ARMOR_PLASMACANNON/100;
-		int damage_plus = Variables.BASE_DAMAGE_PLASMACANNON + (getTechnologyAtack()*Variables.PLUS_ATTACK_PLASMACANNON_BY_TECHNOLOGY)*Variables.BASE_DAMAGE_PLASMACANNON/100;
+		int armor_plus = variablesPlasmaCannon.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_PLASMACANNON_BY_TECHNOLOGY)*variablesPlasmaCannon.getinitialArmor()/100;
+		int damage_plus = variablesPlasmaCannon.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_PLASMACANNON_BY_TECHNOLOGY)*variablesPlasmaCannon.getBaseDamage()/100;
 		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
 				if (getTechnologyDefense() < 1) {
-					army[6].add(new PlasmaCannon(Variables.ARMOR_PLASMACANNON,Variables.BASE_DAMAGE_PLASMACANNON));
+					army[6].add(new PlasmaCannon(variablesPlasmaCannon.getinitialArmor(),variablesPlasmaCannon.getBaseDamage()));
 					setMetal(getMetal()-costeMetal);
 					setDeuterium(getDeuterium()-costeDeuterium);
 					count = count + 1;
@@ -546,29 +733,31 @@ class LightHunter extends Ship{
 		setBaseDamage(Variables.BASE_DAMAGE_LIGTHHUNTER);
 		setInitialArmor(Variables.ARMOR_LIGTHHUNTER);
 	}
+	
+	VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
 
 	public int attack() {
 		return 80;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		setArmor(variablesLightHunter.getActualArmor()-receivedDamage);
 	}
 
 	public int getActualArmor() {
-		return getArmor();
+		return variablesLightHunter.getActualArmor();
 	}
 
 	public int getMetalCost() {
-		return 3000;
+		return variablesLightHunter.getCosteMetal();
 	}
 
 	public int getDeuteriumCost() {
-		return 50;
+		return variablesLightHunter.getCosteDeuterium();
 	}
 
 	public int getChanceGeneratinWaste() {
-		return 45;
+		return variablesLightHunter.getGenerateWastings();
 	}
 
 	public int getChanceAttackAgain() {
@@ -576,7 +765,7 @@ class LightHunter extends Ship{
 	}
 
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesLightHunter.getinitialArmor());
 	}
 }
 
@@ -596,31 +785,30 @@ class HeavyHunter extends Ship{
 		setInitialArmor(Variables.ARMOR_HEAVYHUNTER);
 	}
 	
-	//si tecnlogia es 0 blindaje y lo otro normal.
-	//si tecnologia es mas grande de 0 con el plus.
+	VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
 	
 	public int attack() {
 		return 150;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		setArmor(variablesHeavyHunter.getActualArmor()-receivedDamage);
 	}
 
 	public int getActualArmor() {
-		return getArmor();
+		return variablesHeavyHunter.getActualArmor();
 	}
 
 	public int getMetalCost() {
-		return 6500;
+		return variablesHeavyHunter.getCosteMetal();
 	}
 
 	public int getDeuteriumCost() {
-		return 50;
+		return variablesHeavyHunter.getCosteDeuterium();
 	}
 
 	public int getChanceGeneratinWaste() {
-		return 55;
+		return variablesHeavyHunter.getGenerateWastings();
 	}
 
 	public int getChanceAttackAgain() {
@@ -628,7 +816,7 @@ class HeavyHunter extends Ship{
 	}
 
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesHeavyHunter.getActualArmor());
 	}
 	
 }
@@ -649,58 +837,47 @@ class BattleShip extends Ship{
 		setBaseDamage(Variables.BASE_DAMAGE_HEAVYHUNTER);
 		setInitialArmor(Variables.ARMOR_BATTLESHIP);
 	}
+	
+	VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
 
-	@Override
 	public int attack() {
 		return 1000;
 	}
 
-	@Override
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		setArmor(variablesBattleShip.getActualArmor()-receivedDamage);
 		
 	}
 
-	@Override
 	public int getActualArmor() {
-		return getArmor();
+		return variablesBattleShip.getActualArmor();
 	}
 
-	@Override
 	public int getMetalCost() {
-		// TODO Auto-generated method stub
-		return 45000;
+		return variablesBattleShip.getCosteMetal();
 	}
 
-	@Override
 	public int getDeuteriumCost() {
-		// TODO Auto-generated method stub
-		return 7000;
+		return variablesBattleShip.getCosteDeuterium();
 	}
 
-	@Override
 	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 70;
+		return variablesBattleShip.getGenerateWastings();
 	}
 
-	@Override
 	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
 		return 45;
 	}
 
 	@Override
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesBattleShip.getActualArmor());
 	}
 	
 }
 
 class ArmoredShip extends Ship{
 	
-	
-
 	public ArmoredShip(int armor, int baseDamage) {
 		super();
 		setArmor(armor);
@@ -714,52 +891,38 @@ class ArmoredShip extends Ship{
 		setInitialArmor(Variables.ARMOR_ARMOREDSHIP);
 	}
 
-	@Override
+	VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
 	public int attack() {
-		// TODO Auto-generated method stub
 		return 8000;
 	}
 
-	@Override
 	public void tekeDamage(int receivedDamage) {
-		// TODO Auto-generated method stub
-		setArmor(getActualArmor()-receivedDamage);
+		setArmor(variablesArmoredShip.getActualArmor()-receivedDamage);
 		
 	}
 
-	@Override
 	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return getArmor();
+		return variablesArmoredShip.getActualArmor();
 	}
 
-	@Override
 	public int getMetalCost() {
-		// TODO Auto-generated method stub
-		return 30000;
+		return variablesArmoredShip.getCosteMetal();
 	}
 
-	@Override
 	public int getDeuteriumCost() {
-		// TODO Auto-generated method stub
-		return 15000;
+		return variablesArmoredShip.getCosteDeuterium();
 	}
 
-	@Override
 	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 85;
+		return variablesArmoredShip.getGenerateWastings();
 	}
 
-	@Override
 	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
 		return 70;
 	}
 
-	@Override
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesArmoredShip.getinitialArmor());
 		
 	}
 	
@@ -799,52 +962,39 @@ class MissileLauncher extends Defense{
 		setBaseDamage(baseDamage);
 		setInitialArmor(armor);
 	}
+	
+	VariablesBBDDDefenses variablesMissileLauncher = new VariablesBBDDDefenses(1);
 
-	@Override
 	public int attack() {
-		// TODO Auto-generated method stub
 		return 80;
 	}
 
-	@Override
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
-		
+		setArmor(variablesMissileLauncher.getActualArmor()-receivedDamage);
 	}
 
-	@Override
 	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return getArmor();
+		return variablesMissileLauncher.getActualArmor();
 	}
 
-	@Override
 	public int getMetalCost() {
-		// TODO Auto-generated method stub
-		return 2000;
+		return variablesMissileLauncher.getCosteMetal();
 	}
 
-	@Override
 	public int getDeuteriumCost() {
-		// TODO Auto-generated method stub
-		return 0;
+		return variablesMissileLauncher.getCosteDeuterium();
 	}
 
-	@Override
 	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 45;
+		return variablesMissileLauncher.getGenerateWastings();
 	}
 
-	@Override
 	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
 		return 5;
 	}
 
-	@Override
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesMissileLauncher.getinitialArmor());
 		
 	}
 
@@ -859,51 +1009,39 @@ class IonCannon extends Defense{
 		setBaseDamage(baseDamage);
 		setInitialArmor(armor);
 	}
+	
+	VariablesBBDDDefenses variablesIonCannon= new VariablesBBDDDefenses(2);
 
-	@Override
 	public int attack() {
-		// TODO Auto-generated method stub
 		return 250;
 	}
 
-	@Override
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		setArmor(variablesIonCannon.getActualArmor()-receivedDamage);
 	}
 
-	@Override
 	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return getArmor();
+		return variablesIonCannon.getActualArmor();
 	}
 
-	@Override
 	public int getMetalCost() {
-		// TODO Auto-generated method stub
-		return 4000;
+		return variablesIonCannon.getCosteMetal();
 	}
 
-	@Override
 	public int getDeuteriumCost() {
-		// TODO Auto-generated method stub
-		return 500;
+		return variablesIonCannon.getCosteDeuterium();
 	}
 
-	@Override
 	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 55;
+		return variablesIonCannon.getGenerateWastings();
 	}
 
-	@Override
 	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
 		return 12;
 	}
 
-	@Override
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesIonCannon.getinitialArmor());
 	}
 	
 }
@@ -915,55 +1053,41 @@ class PlasmaCannon extends Defense{
 		setBaseDamage(baseDamage);
 		setInitialArmor(armor);
 	}
+	
+	VariablesBBDDDefenses variablesPlasmaCannon= new VariablesBBDDDefenses(3);
 
-	@Override
 	public int attack() {
-		// TODO Auto-generated method stub
 		return 2000;
 	}
 
-	@Override
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		setArmor(variablesPlasmaCannon.getActualArmor()-receivedDamage);
 		
 	}
 
-	@Override
 	public int getActualArmor() {
-		// TODO Auto-generated method stub
-		return getArmor();
+		return variablesPlasmaCannon.getActualArmor();
 	}
 
-	@Override
 	public int getMetalCost() {
-		// TODO Auto-generated method stub
-		return 50000;
+		return variablesPlasmaCannon.getActualArmor();
 	}
 
-	@Override
 	public int getDeuteriumCost() {
-		// TODO Auto-generated method stub
-		return 5000;
+		return variablesPlasmaCannon.getCosteDeuterium();
 	}
 
-	@Override
 	public int getChanceGeneratinWaste() {
-		// TODO Auto-generated method stub
-		return 65;
+		return variablesPlasmaCannon.getGenerateWastings();
 	}
 
-	@Override
 	public int getChanceAttackAgain() {
-		// TODO Auto-generated method stub
 		return 30;
 	}
 
-	@Override
 	public void resetArmor() {
-		setArmor(getInitialArmor());
+		setArmor(variablesPlasmaCannon.getinitialArmor());
 	}
-	
-	
 }
 
 
@@ -1068,6 +1192,25 @@ interface Variables{
 	public final int[] CHANCE_ATTACK_ENEMY_UNITS = {10,20,30,40};
 	// percentage of waste that will be generated with respect to the cost of the units
 	public final int PERCENTATGE_WASTE = 70;
+}
+
+class Battle{
+	
+	ArrayList<MilitaryUnit>[] planetArmy;
+	ArrayList<MilitaryUnit>[] enemyArmy;
+	ArrayList[][] armies;
+	String battleDevelopment;
+	int[][] initialCostFleet;
+	int initialNumberUnitsPlanet;
+	int initialNumberUnitsEnemy;
+	int[][] wasteMetalDeuterium;
+	int[] enemyDrops;
+	int[] planetDrops;
+	int[][] resourcesLooses;
+	int[][] initialArmies;
+	int[] actualNumberUnitsPlanet;
+	int[] actualNumberUnitsEnemy;
+	
 }
 
 
