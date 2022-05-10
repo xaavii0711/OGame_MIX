@@ -7,13 +7,16 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-
+import java.util.Collections;
 import java.sql.SQLException;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		Planet p = new Planet();
+		Battle b = new Battle();
+		b.EjercitoAtacanteEnemigo();
+		
+		
 	}
 }
 
@@ -34,6 +37,8 @@ class VariablesBBDDShips{
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
             cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+           
             
             // Llamada al procedimiento almacenado
             cst = cn.prepareCall("{call GET_SHIP (?,?,?,?,?,?,?,?,?,?)}");
@@ -54,26 +59,26 @@ class VariablesBBDDShips{
 
 
                 // Se obtienen la salida del procedimineto almacenado
-                Integer P_ID = cst.getInt(1);
-                String P_NAME = cst.getString(2);
-                Integer P_METAL_COST = cst.getInt(3);
-                Integer P_CRYSTAL_COST = cst.getInt(4);
-                Integer P_DEUTERIUM_COST = cst.getInt(5);
-                Integer P_INITIALARMOR = cst.getInt(6);
-                Integer P_ARMOR = cst.getInt(7);
-                Integer P_BASEDAMAGE = cst.getInt(8);
-                Integer P_SPEED = cst.getInt(9);
-                Integer P_GENERATE_WASTINGS = cst.getInt(10);
-                System.out.println("P_ID: "+P_ID);
-                System.out.println("P_NAME: " + P_NAME);
-                System.out.println("P_METAL_COST: " + P_METAL_COST);
-                System.out.println("P_CRYSTAL_COST: " + P_CRYSTAL_COST);
-                System.out.println("P_DEUTERIUM_COST: " + P_DEUTERIUM_COST);
-                System.out.println("P_INITIALARMOR: " + P_INITIALARMOR);
-                System.out.println("P_ARMOR: " + P_ARMOR);
-                System.out.println("P_BASEDAMAGE: " + P_BASEDAMAGE);
-                System.out.println("P_SPEED: " + P_SPEED);
-                System.out.println("P_GENERATE_WASTINGS: " + P_GENERATE_WASTINGS);
+//                Integer P_ID = cst.getInt(1);
+//                String P_NAME = cst.getString(2);
+//                Integer P_METAL_COST = cst.getInt(3);
+//                Integer P_CRYSTAL_COST = cst.getInt(4);
+//                Integer P_DEUTERIUM_COST = cst.getInt(5);
+//                Integer P_INITIALARMOR = cst.getInt(6);
+//                Integer P_ARMOR = cst.getInt(7);
+//                Integer P_BASEDAMAGE = cst.getInt(8);
+//                Integer P_SPEED = cst.getInt(9);
+//                Integer P_GENERATE_WASTINGS = cst.getInt(10);
+//                System.out.println("P_ID: "+P_ID);
+//                System.out.println("P_NAME: " + P_NAME);
+//                System.out.println("P_METAL_COST: " + P_METAL_COST);
+//                System.out.println("P_CRYSTAL_COST: " + P_CRYSTAL_COST);
+//                System.out.println("P_DEUTERIUM_COST: " + P_DEUTERIUM_COST);
+//                System.out.println("P_INITIALARMOR: " + P_INITIALARMOR);
+//                System.out.println("P_ARMOR: " + P_ARMOR);
+//                System.out.println("P_BASEDAMAGE: " + P_BASEDAMAGE);
+//                System.out.println("P_SPEED: " + P_SPEED);
+//                System.out.println("P_GENERATE_WASTINGS: " + P_GENERATE_WASTINGS);
             } while (id > 0);
 
         } catch (SQLException ex) {
@@ -288,8 +293,14 @@ class Planet {
 	public Planet() {
 		super();
 		army = new ArrayList[7];
+		army[0] = new ArrayList<>(0);
+        army[1] = new ArrayList<>(0);
+        army[2] = new ArrayList<>(0);
+        army[3] = new ArrayList<>(0);
+        army[4] = new ArrayList<>(0);
+        army[5] = new ArrayList<>(0);
+        army[6] = new ArrayList<>(0);
 	}
-
 	public int getCosteAtaque() {
 		return costeAtaque;
 	}
@@ -360,7 +371,6 @@ class Planet {
 		int costeMetal = variablesLightHunter.getCosteMetal();
 		int costeDeuterium = variablesLightHunter.getCosteDeuterium();
 		int count = 0;
-
 		int armor_plus = variablesLightHunter.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_LIGTHHUNTER_BY_TECHNOLOGY)*variablesLightHunter.getinitialArmor()/100;
 		int damage_plus = variablesLightHunter.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_LIGTHHUNTER_BY_TECHNOLOGY)*variablesLightHunter.getBaseDamage()/100;
 		
@@ -382,11 +392,11 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
+				System.out.println("Se han creado " + count + " lanzamisiles.");
 				throw new ResourceException("No se han podido crear mas lanzamisiles.");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		System.out.println("Se han creado " + count + " lanzamisiles.");
 		
 	}
 	
@@ -729,9 +739,9 @@ class LightHunter extends Ship{
 	
 	public LightHunter() {
 		super();
-		setArmor(Variables.ARMOR_LIGTHHUNTER);
-		setBaseDamage(Variables.BASE_DAMAGE_LIGTHHUNTER);
-		setInitialArmor(Variables.ARMOR_LIGTHHUNTER);
+		setArmor(variablesLightHunter.getinitialArmor());
+		setBaseDamage(variablesLightHunter.getBaseDamage());
+		setInitialArmor(variablesLightHunter.getinitialArmor());
 	}
 	
 	VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
@@ -780,9 +790,9 @@ class HeavyHunter extends Ship{
 	}
 	
 	public HeavyHunter() {
-		setArmor(Variables.ARMOR_HEAVYHUNTER);
-		setBaseDamage(Variables.BASE_DAMAGE_HEAVYHUNTER);
-		setInitialArmor(Variables.ARMOR_HEAVYHUNTER);
+		setArmor(variablesHeavyHunter.getinitialArmor());
+		setBaseDamage(variablesHeavyHunter.getBaseDamage());
+		setInitialArmor(variablesHeavyHunter.getinitialArmor());
 	}
 	
 	VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
@@ -833,9 +843,9 @@ class BattleShip extends Ship{
 	}
 	
 	public BattleShip() {
-		setArmor(Variables.ARMOR_BATTLESHIP);
-		setBaseDamage(Variables.BASE_DAMAGE_HEAVYHUNTER);
-		setInitialArmor(Variables.ARMOR_BATTLESHIP);
+		setArmor(variablesBattleShip.getinitialArmor());
+		setBaseDamage(variablesBattleShip.getBaseDamage());
+		setInitialArmor(variablesBattleShip.getinitialArmor());
 	}
 	
 	VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
@@ -869,7 +879,6 @@ class BattleShip extends Ship{
 		return 45;
 	}
 
-	@Override
 	public void resetArmor() {
 		setArmor(variablesBattleShip.getActualArmor());
 	}
@@ -886,9 +895,9 @@ class ArmoredShip extends Ship{
 	}
 	
 	public ArmoredShip() {
-		setArmor(Variables.ARMOR_ARMOREDSHIP);
-		setBaseDamage(Variables.BASE_DAMAGE_ARMOREDSHIP);
-		setInitialArmor(Variables.ARMOR_ARMOREDSHIP);
+		setArmor(variablesArmoredShip.getinitialArmor());
+		setBaseDamage(variablesArmoredShip.getBaseDamage());
+		setInitialArmor(variablesArmoredShip.getinitialArmor());
 	}
 
 	VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
@@ -1196,21 +1205,61 @@ interface Variables{
 
 class Battle{
 	
-	ArrayList<MilitaryUnit>[] planetArmy;
-	ArrayList<MilitaryUnit>[] enemyArmy;
-	ArrayList[][] armies;
-	String battleDevelopment;
-	int[][] initialCostFleet;
-	int initialNumberUnitsPlanet;
-	int initialNumberUnitsEnemy;
-	int[][] wasteMetalDeuterium;
-	int[] enemyDrops;
-	int[] planetDrops;
-	int[][] resourcesLooses;
-	int[][] initialArmies;
-	int[] actualNumberUnitsPlanet;
-	int[] actualNumberUnitsEnemy;
+	private ArrayList<MilitaryUnit> planetArmy;
+	private ArrayList<MilitaryUnit>[] enemyArmy;
+	private ArrayList[][] armies;
+	private String battleDevelopment;
+	private int[][] initialCostFleet;
+	private int initialNumberUnitsPlanet;
+	private int initialNumberUnitsEnemy;
+	private int[][] wasteMetalDeuterium;
+	private int[] enemyDrops;
+	private int[] planetDrops;
+	private int[][] resourcesLooses;
+	private int[][] initialArmies;
+	private int[] actualNumberUnitsPlanet;
+	private int[] actualNumberUnitsEnemy;
 	
+	public Battle() {
+		planetArmy = new ArrayList<MilitaryUnit>();
+		enemyArmy = new ArrayList[4];
+		enemyArmy[0] = new ArrayList<>(0);
+		enemyArmy[1] = new ArrayList<>(0);
+		enemyArmy[2] = new ArrayList<>(0);
+		enemyArmy[3] = new ArrayList<>(0);
+	}
+	
+	public void EjercitoAtacanteEnemigo() {
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[1].add(new HeavyHunter());
+		enemyArmy[1].add(new HeavyHunter());
+		enemyArmy[2].add(new BattleShip());
+		enemyArmy[2].add(new BattleShip());
+		enemyArmy[3].add(new ArmoredShip());
+		enemyArmy[3].add(new ArmoredShip());
+		//enemyArmy1[0].get((int)(Math.random()*enemyArmy1[0].size()));
+		
+		int probabilidadLightHunter = 90;
+		int probabilidadHeavyHunter = 80;
+		int probabilidadBattleShip = 70;
+		int probabilidadArmoredShip = 60;
+		int probabilidad = (int)((Math.random()* 100)+1);
+		
+		if (probabilidad >= probabilidadLightHunter) {
+			System.out.println("Ataca lighthunter");
+		}
+		else if (probabilidad >= probabilidadHeavyHunter && probabilidad <= probabilidadLightHunter) {
+			System.out.println("ataca heavy");
+		}
+		else if (probabilidad >= probabilidadBattleShip && probabilidad <= probabilidadLightHunter && probabilidad <= probabilidadHeavyHunter) {
+			System.out.println("Ataca tu battleship");
+		}
+		else if (probabilidad <= probabilidadArmoredShip) {
+			System.out.println("ataca tu armoredship");
+		}
+	}
 }
 
 
