@@ -17,7 +17,9 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Battle b = new Battle();
-		System.out.println(b.EjercitoDefensorNuestro());
+		b.playBattle();
+		
+	
 		
 		
 		
@@ -701,6 +703,7 @@ interface MilitaryUnit{
 	abstract int getChanceGeneratinWaste();
 	abstract int getChanceAttackAgain();
 	abstract void resetArmor();
+	abstract int getInitialArmor();
 }
 
 abstract class Ship implements MilitaryUnit{
@@ -750,17 +753,21 @@ class LightHunter extends Ship{
 	}
 	
 	VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
+	
+	public int getInitialArmor() {
+		return variablesLightHunter.getinitialArmor();
+	}
 
 	public int attack() {
 		return 80;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesLightHunter.getActualArmor()-receivedDamage);
+		setArmor(variablesLightHunter.getinitialArmor()-receivedDamage);
 	}
 
 	public int getActualArmor() {
-		return variablesLightHunter.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -802,16 +809,20 @@ class HeavyHunter extends Ship{
 	
 	VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
 	
+	public int getInitialArmor() {
+		return variablesHeavyHunter.getinitialArmor();
+	}
+	
 	public int attack() {
 		return 150;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesHeavyHunter.getActualArmor()-receivedDamage);
+		setArmor(variablesHeavyHunter.getinitialArmor()-receivedDamage);
 	}
 
 	public int getActualArmor() {
-		return variablesHeavyHunter.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -831,7 +842,7 @@ class HeavyHunter extends Ship{
 	}
 
 	public void resetArmor() {
-		setArmor(variablesHeavyHunter.getActualArmor());
+		setArmor(variablesHeavyHunter.getinitialArmor());
 	}
 	
 }
@@ -854,18 +865,22 @@ class BattleShip extends Ship{
 	}
 	
 	VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
+	
+	public int getInitialArmor() {
+		return variablesBattleShip.getinitialArmor();
+	}
 
 	public int attack() {
 		return 1000;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesBattleShip.getActualArmor()-receivedDamage);
+		setArmor(variablesBattleShip.getinitialArmor()-receivedDamage);
 		
 	}
 
 	public int getActualArmor() {
-		return variablesBattleShip.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -885,7 +900,7 @@ class BattleShip extends Ship{
 	}
 
 	public void resetArmor() {
-		setArmor(variablesBattleShip.getActualArmor());
+		setArmor(variablesBattleShip.getinitialArmor());
 	}
 	
 }
@@ -907,17 +922,21 @@ class ArmoredShip extends Ship{
 	
 	VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
 	
+	public int getInitialArmor() {
+		return variablesArmoredShip.getinitialArmor();
+	}
+	
 	public int attack() {
 		return 8000;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesArmoredShip.getActualArmor()-receivedDamage);
+		setArmor(variablesArmoredShip.getinitialArmor()-receivedDamage);
 		
 	}
 
 	public int getActualArmor() {
-		return variablesArmoredShip.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -948,6 +967,7 @@ abstract class Defense implements MilitaryUnit,Variables{
 	private int armor;
 	private int initialArmor;
 	private int baseDamage;
+	
 	public int getArmor() {
 		return armor;
 	}
@@ -986,17 +1006,21 @@ class MissileLauncher extends Defense{
 		setInitialArmor(variablesMissileLauncher.getinitialArmor());
 	}
 	
+	public int getInitialArmor() {
+		return variablesMissileLauncher.getinitialArmor();
+	}
+	
 
 	public int attack() {
 		return 80;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesMissileLauncher.getActualArmor()-receivedDamage);
+		setArmor(variablesMissileLauncher.getinitialArmor()-receivedDamage);
 	}
 
 	public int getActualArmor() {
-		return variablesMissileLauncher.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -1040,16 +1064,21 @@ class IonCannon extends Defense{
 	
 	VariablesBBDDDefenses variablesIonCannon= new VariablesBBDDDefenses(2);
 
+	public int getInitialArmor() {
+		return variablesIonCannon.getinitialArmor();
+	}
+	
+	
 	public int attack() {
 		return 250;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesIonCannon.getActualArmor()-receivedDamage);
+		setArmor(variablesIonCannon.getinitialArmor()-receivedDamage);
 	}
 
 	public int getActualArmor() {
-		return variablesIonCannon.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -1089,18 +1118,22 @@ class PlasmaCannon extends Defense{
 	}
 	
 	VariablesBBDDDefenses variablesPlasmaCannon= new VariablesBBDDDefenses(3);
+	
+	public int getInitialArmor() {
+		return variablesPlasmaCannon.getinitialArmor();
+	}
 
 	public int attack() {
 		return 2000;
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(variablesPlasmaCannon.getActualArmor()-receivedDamage);
+		setArmor(variablesPlasmaCannon.getinitialArmor()-receivedDamage);
 		
 	}
 
 	public int getActualArmor() {
-		return variablesPlasmaCannon.getActualArmor();
+		return getArmor();
 	}
 
 	public int getMetalCost() {
@@ -1259,6 +1292,7 @@ class Battle{
 		planetArmy[4] = new ArrayList<>(0);
 		planetArmy[5] = new ArrayList<>(0);
 		planetArmy[6] = new ArrayList<>(0);
+		int[] wasteMetalDeuterium = new int[] {0,0};
 	}
 	
 	public MilitaryUnit EjercitoAtacanteEnemigo() {
@@ -1343,9 +1377,543 @@ class Battle{
 				defensorNuestro = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
 			}
 			return defensorNuestro;
+	}
+	
+	//PREGUNTAR POR CUANDO SE GENERAN RECURSOS
+	//HACER METODO PARA ATACANTE MI PLANETA LOS 6
+	//PREGUNTAR METODOS DEFENSAS 
+	//HACER METODO PARA ACATANTE ENEMIGO SOLO 4
+	// CUANDO ME ATACAN DEFIENDE UNO D LOS 6 VALE
+	// CUANDO YO ATACO QUIEN DEFIENDE
+	public void playBattle() {
+		MilitaryUnit atacanteContrario;
+		MilitaryUnit defensorContrario;
+		MilitaryUnit atacanteMiPlaneta;
+		MilitaryUnit defensorMiPlaneta;
+		boolean turnoMiplaneta = false;
+		boolean turnoPlanetaAtacante = true;
+		atacanteContrario = EjercitoAtacanteEnemigo();
+		defensorContrario = EjercitoDefensorNuestro();
+		atacanteMiPlaneta = EjercitoAtacanteEnemigo();
+		defensorMiPlaneta = EjercitoDefensorNuestro();
+//		int sumaEjercitoAtacante = enemyArmy[0].size() + enemyArmy[1].size() + enemyArmy[2].size() + enemyArmy[3].size();
+//		int sumaEjercitoDefensor = planetArmy[0].size() + planetArmy[1].size() + planetArmy[2].size() +  planetArmy[3].size() + planetArmy[4].size() + planetArmy[5].size() + planetArmy[0].size();
+		int ResiduosTotalMetal = 0;
+		int ResiduosTotalDeuterium = 0;
+		while (true) {
+			if (turnoPlanetaAtacante) {
+				System.out.println("*****CHANGE ATTACKER*****");
+				System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
+				System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
+				defensorContrario.tekeDamage(atacanteContrario.attack());
+				System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+				int probabilidadRecursos = (int)((Math.random()* 100)+1);
+				int probabilidadAtacar = (int)((Math.random()* 100)+1);
+				if (defensorContrario.getActualArmor() <= 0) {
+					if (defensorContrario.getClass().getName().equals("LightHunter")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_LIGTHHUNTER) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[0].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado lighthunter");
+					
+					}
+					else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_HEAVYHUNTER) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[1].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado heavyhunter");
+						
+						
+					}
+					else if (defensorContrario.getClass().getName().equals("BattleShip")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_BATTLESHIP) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[2].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado battleship");
+						
+					}
+					else if (defensorContrario.getClass().getName().equals("ArmoredShip")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_ARMOREDSHIP) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[3].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado armoredship");
+						
+						
+					}
+					else if (defensorContrario.getClass().getName().equals("MissileLauncher")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_MISSILELAUNCHER) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[4].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado missilelauncher");
+						
+						
+					}
+					else if (defensorContrario.getClass().getName().equals("IonCannon")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_IONCANNON) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[5].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado ioncannon");
+						
+						
+					}
+					else if (defensorContrario.getClass().getName().equals("PlasmaCannon")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_PLASMACANNON) {
+							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[6].remove(defensorContrario);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado plasmacannon");
+						
+					}
+				}
+				
+				if (atacanteContrario.getClass().getName().equals("LightHunter")) {
+					if (probabilidadAtacar <= Variables.CHANCE_ATTACK_AGAIN_LIGTHHUNTER) {
+						defensorContrario = EjercitoDefensorNuestro();
+						if (defensorContrario.getClass().getName().equals("LightHunter")) {
+							if (planetArmy[0].size() > 0) {
+								defensorContrario = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
+							}
+							else {
+								System.out.println("hacer algo!!");
+							}
+							
+							
+								
+						}
+						else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
+							if (planetArmy[1].size() > 0) {
+								defensorContrario = planetArmy[1].get((int)(Math.random()*planetArmy[1].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("BattleShip")) {
+							if (planetArmy[2].size() > 0) {
+								defensorContrario = planetArmy[2].get((int)(Math.random()*planetArmy[2].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("ArmoredShip")) {
+							if (planetArmy[3].size() > 0) {
+								defensorContrario = planetArmy[3].get((int)(Math.random()*planetArmy[3].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+	
+						}
+						else if (defensorContrario.getClass().getName().equals("MissileLauncher")) {
+							if (planetArmy[4].size() > 0) {
+								defensorContrario = planetArmy[4].get((int)(Math.random()*planetArmy[4].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("IonCannon")) {
+							if (planetArmy[5].size() > 0) {
+								defensorContrario = planetArmy[5].get((int)(Math.random()*planetArmy[5].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("PlasmaCannon")) {
+							if (planetArmy[6].size() > 0) {
+								defensorContrario = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+					}
+					else {
+						turnoPlanetaAtacante = false;
+						turnoMiplaneta = true;
+						
+					}
+					System.out.println("Attacks Planet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
+					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
+					defensorContrario.tekeDamage(atacanteContrario.attack());
+					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+				}
+				else if (atacanteContrario.getClass().getName().equals("HeavyHunter")) {
+					if (probabilidadAtacar <= Variables.CHANCE_ATTACK_AGAIN_HEAVYHUNTER) {
+						defensorContrario = EjercitoDefensorNuestro();
+						if (defensorContrario.getClass().getName().equals("LightHunter")) {
+							if (planetArmy[0].size() > 0) {
+								defensorContrario = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
+							}
+							else {
+								System.out.println("haer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
+							if (planetArmy[1].size() > 0) {
+								defensorContrario = planetArmy[1].get((int)(Math.random()*planetArmy[1].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("BattleShip")) {
+							if (planetArmy[2].size() > 0) {
+								defensorContrario = planetArmy[2].get((int)(Math.random()*planetArmy[2].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+						
+						}
+						else if (defensorContrario.getClass().getName().equals("ArmoredShip")) {
+							if (planetArmy[3].size() > 0) {
+								defensorContrario = planetArmy[3].get((int)(Math.random()*planetArmy[3].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("MissileLauncher")) {
+							if (planetArmy[4].size() > 0) {
+								defensorContrario = planetArmy[4].get((int)(Math.random()*planetArmy[4].size()));
+							}
+							else {
+								System.out.println("hacer alo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("IonCannon")) {
+							if (planetArmy[5].size() > 0) {
+								defensorContrario = planetArmy[5].get((int)(Math.random()*planetArmy[5].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("PlasmaCannon")) {
+							if (planetArmy[6].size() > 0) {
+								defensorContrario = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+					}
+					else {
+						turnoPlanetaAtacante = false;
+						turnoMiplaneta = true;
+					}
+					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
+					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
+					defensorContrario.tekeDamage(atacanteContrario.attack());
+					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+				}
+				else if (atacanteContrario.getClass().getName().equals("BattleShip")) {
+					if (probabilidadAtacar <= Variables.CHANCE_ATTACK_AGAIN_BATTLESHIP) {
+						defensorContrario = EjercitoDefensorNuestro();
+						if (defensorContrario.getClass().getName().equals("LightHunter")) {
+							if (planetArmy[0].size() > 0) {
+								defensorContrario = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
+							if (planetArmy[1].size() > 0) {
+								defensorContrario = planetArmy[1].get((int)(Math.random()*planetArmy[1].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("BattleShip")) {
+							if (planetArmy[2].size() > 0) {
+								defensorContrario = planetArmy[2].get((int)(Math.random()*planetArmy[2].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("ArmoredShip")) {
+							if (planetArmy[3].size() > 0) {
+								defensorContrario = planetArmy[3].get((int)(Math.random()*planetArmy[3].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("MissileLauncher")) {
+							if (planetArmy[4].size() > 0) {
+								defensorContrario = planetArmy[4].get((int)(Math.random()*planetArmy[4].size()));
+							}
+							else {
+								System.out.println("acer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("IonCannon")) {
+							if (planetArmy[5].size() > 0) {
+								defensorContrario = planetArmy[5].get((int)(Math.random()*planetArmy[5].size()));
+							}
+							else {
+								System.out.println("hacer alfo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("PlasmaCannon")) {
+							if (planetArmy[6].size() > 0) {
+								defensorContrario = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
+							}
+							else {
+								System.out.println("hacer ajaja");
+							}
+							
+						}
+					}
+					else {
+						turnoPlanetaAtacante = false;
+						turnoMiplaneta = true;
+					}
+					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
+					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
+					defensorContrario.tekeDamage(atacanteContrario.attack());
+					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+				}
+				else if (atacanteContrario.getClass().getName().equals("ArmoredShip")) {
+					if (probabilidadAtacar <= Variables.CHANCE_ATTACK_AGAIN_ARMOREDSHIP) {
+						defensorContrario = EjercitoDefensorNuestro();
+						if (defensorContrario.getClass().getName().equals("LightHunter")) {
+							if (planetArmy[0].size() > 0) {
+								defensorContrario = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
+							if (planetArmy[1].size() > 0) {
+								defensorContrario = planetArmy[1].get((int)(Math.random()*planetArmy[1].size()));
+							}
+							else {
+								System.out.println("hacer alfgo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("BattleShip")) {
+							if (planetArmy[2].size() > 0) {
+								defensorContrario = planetArmy[2].get((int)(Math.random()*planetArmy[2].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("ArmoredShip")) {
+							if (planetArmy[3].size() > 0) {
+								defensorContrario = planetArmy[3].get((int)(Math.random()*planetArmy[3].size()));
+							}
+							else {
+								System.out.println("hacer alfo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("MissileLauncher")) {
+							if (planetArmy[4].size() > 0) {
+								defensorContrario = planetArmy[4].get((int)(Math.random()*planetArmy[4].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("IonCannon")) {
+							if (planetArmy[5].size() > 0) {
+								defensorContrario = planetArmy[5].get((int)(Math.random()*planetArmy[5].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+						else if (defensorContrario.getClass().getName().equals("PlasmaCannon")) {
+							if (planetArmy[6].size() > 0) {
+								defensorContrario = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
+							}
+							else {
+								System.out.println("hacer algo");
+							}
+							
+						}
+					}
+					else {
+						turnoPlanetaAtacante = false;
+						turnoMiplaneta = true;
+					}
+					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
+					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
+					defensorContrario.tekeDamage(atacanteContrario.attack());
+					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+				}
+				
+			}
+			if (turnoMiplaneta) {
+				System.out.println("*****CHANGE ATTACKER*****");
+				System.out.println("Attacks Planet enemy: " + atacanteMiPlaneta.getClass().getName() + " attacks " + defensorMiPlaneta.getClass().getName());
+				System.out.println(atacanteMiPlaneta.getClass().getName() + " generates the damage = " + atacanteMiPlaneta.attack());
+				defensorMiPlaneta.tekeDamage(atacanteMiPlaneta.attack());
+				System.out.println(defensorMiPlaneta.getClass().getName() + " stays with armor = " + defensorMiPlaneta.getActualArmor());
+				int probabilidadRecursos = (int)((Math.random()* 100)+1);
+				int probabilidadAtacar = (int)((Math.random()* 100)+1);
+				if (defensorMiPlaneta.getActualArmor() <= 0) {
+					if (defensorMiPlaneta.getClass().getName().equals("LightHunter")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_LIGTHHUNTER) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[0].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado lighthunter");
+						
+					
+					}
+					else if (defensorMiPlaneta.getClass().getName().equals("HeavyHunter")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_HEAVYHUNTER) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[1].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado heavyhunter");
+						
+						
+					}
+					else if (defensorMiPlaneta.getClass().getName().equals("BattleShip")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_BATTLESHIP) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[2].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado battleship");
+					}
+					else if (defensorMiPlaneta.getClass().getName().equals("ArmoredShip")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_ARMOREDSHIP) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[3].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado armoredship");
+						
+					}
+					else if (defensorMiPlaneta.getClass().getName().equals("MissileLauncher")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_MISSILELAUNCHER) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[4].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado missilelauncher");
+
+						
+					}
+					else if (defensorMiPlaneta.getClass().getName().equals("IonCannon")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_IONCANNON) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						planetArmy[5].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado ioncannon");
+						
+					}
+					else if (defensorMiPlaneta.getClass().getName().equals("PlasmaCannon")) {
+						if (probabilidadRecursos <= Variables.CHANCE_GENERATNG_WASTE_PLASMACANNON) {
+							int residuosMetal = defensorMiPlaneta.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
+							int residuoDeuterio = defensorMiPlaneta.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
+							ResiduosTotalMetal += residuosMetal;
+							ResiduosTotalDeuterium += residuoDeuterio;
+						}
+						enemyArmy[6].remove(defensorMiPlaneta);
+//						sumaEjercitoDefensor = sumaEjercitoDefensor -1;
+						System.out.println("Eliminado plasmacannon");
+			
+					}
+				}
+				
+			}
+		}
 		
 		
 	}
+	
+	
+	
 	
 	
 }
