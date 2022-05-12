@@ -1,0 +1,38 @@
+class UserCreated{
+	
+	CallableStatement cst;
+	BufferedReader entrada;
+	int id;
+	Connection cn;
+	
+	public UserCreated() {
+		
+		cn = null;
+        
+        try {
+            // Carga el driver de oracle
+            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+            
+            // Conecta con la base de datos orcl con el usuario system y la contrase�a password
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            
+            // Llamada al procedimiento almacenado
+            cst = cn.prepareCall("{call USERCREATE (?,?,?,?)}");
+
+            do {
+            	 cst.setInt(1,1);
+                 cst.setString(2, "MagikPedri");
+                 cst.setString(3, "23/11/2002");
+                 cst.setString(4, "xavineta123");
+                 cst.execute();
+            	
+            }
+                // Se obtienen la salida del procedimineto almacenado
+             while (id > 0);
+
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        
+        }
+	}
+}
