@@ -40,6 +40,8 @@ PanelInicio panelBuildTroops;
 PanelInicio panelBuildDefenses;
 PanelInicio panelUpgradeTech;
 PanelInicio panelBattleReport;
+PanelInicio panelCurrentBattle;
+PanelInicio PanelThreadComing;
 private JButton[] botonesMenu1= new JButton[8];
 private JButton[] botonesBuild= new JButton[12];
 private JButton[] botonesTech= new JButton[3];
@@ -298,6 +300,37 @@ botonesTech[2].setBounds((ANCHO_TABLERO/2)-75, 400, 200, 50);
 botonesTech[2].setBackground(new Color(246, 90, 90));
 botonesTech[2].addActionListener(new GoBackUpgradeTech());
 panelUpgradeTech.add(backgroundTech);
+
+//View Current Battle
+panelCurrentBattle= new PanelInicio();
+panelCurrentBattle.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelCurrentBattle);
+panelCurrentBattle.setLayout(null);
+panelCurrentBattle.setVisible(false);
+
+JLabel tituloCurrentB = new JLabel("CURRENT BATTLE",SwingConstants.CENTER);
+panelCurrentBattle.add(tituloCurrentB);
+tituloCurrentB.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloCurrentB.setFont(new Font("Verdana",1,35));
+tituloCurrentB.setForeground(Color.white);
+
+
+
+//View Thread Coming
+PanelThreadComing= new PanelInicio();
+PanelThreadComing.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(PanelThreadComing);
+PanelThreadComing.setLayout(null);
+PanelThreadComing.setVisible(false);
+
+
+JLabel tituloThreadC = new JLabel("Thread Coming",SwingConstants.CENTER);
+PanelThreadComing.add(tituloThreadC);
+tituloThreadC.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloThreadC.setFont(new Font("Verdana",1,35));
+tituloThreadC.setForeground(Color.white);
+
+
 
 setLocationRelativeTo(null);
 setResizable(false);
