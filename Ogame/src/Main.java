@@ -29,6 +29,17 @@ class VariablesBBDDShips{
 	BufferedReader entrada;
 	int id;
 	Connection cn;
+	Integer P_ID;
+	String P_NAME;
+	Integer P_METAL_COST;
+	Integer P_CRYSTAL_COST;
+	Integer P_DEUTERIUM_COST;
+	Integer P_INITIALARMOR;
+	Integer P_ARMOR;
+	Integer P_BASEDAMAGE;
+	Integer P_SPEED;
+	Integer P_GENERATE_WASTINGS;
+	
 	
 	public VariablesBBDDShips(int a){
 		
@@ -39,8 +50,8 @@ class VariablesBBDDShips{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
            
             
             // Llamada al procedimiento almacenado
@@ -62,16 +73,16 @@ class VariablesBBDDShips{
 
 
                 // Se obtienen la salida del procedimineto almacenado
-//                Integer P_ID = cst.getInt(1);
-//                String P_NAME = cst.getString(2);
-//                Integer P_METAL_COST = cst.getInt(3);
-//                Integer P_CRYSTAL_COST = cst.getInt(4);
-//                Integer P_DEUTERIUM_COST = cst.getInt(5);
-//                Integer P_INITIALARMOR = cst.getInt(6);
-//                Integer P_ARMOR = cst.getInt(7);
-//                Integer P_BASEDAMAGE = cst.getInt(8);
-//                Integer P_SPEED = cst.getInt(9);
-//                Integer P_GENERATE_WASTINGS = cst.getInt(10);
+                P_ID = cst.getInt(1);
+                P_NAME = cst.getString(2);
+                P_METAL_COST = cst.getInt(3);
+                P_CRYSTAL_COST = cst.getInt(4);
+                P_DEUTERIUM_COST = cst.getInt(5);
+                P_INITIALARMOR = cst.getInt(6);
+                P_ARMOR = cst.getInt(7);
+                P_BASEDAMAGE = cst.getInt(8);
+                P_SPEED = cst.getInt(9);
+                P_GENERATE_WASTINGS = cst.getInt(10);
 //                System.out.println("P_ID: "+P_ID);
 //                System.out.println("P_NAME: " + P_NAME);
 //                System.out.println("P_METAL_COST: " + P_METAL_COST);
@@ -88,66 +99,41 @@ class VariablesBBDDShips{
             System.out.println("Error: " + ex.getMessage());
         
         }
+        finally {
+            try {
+                cn.close();
+            } catch (SQLException ex) {
+                System.out.println("Error: " + ex.getMessage());
+            }
+        }
 	}
 	public int getCosteMetal() {
-		try {
-			return cst.getInt(3);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_METAL_COST;
 	}
 	
 	public int getBaseDamage() {
-		try {
-			return cst.getInt(8);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_BASEDAMAGE;
 	}
 	
 	public int getCosteDeuterium() {
-		try {
-			return cst.getInt(5);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_DEUTERIUM_COST;
+		
 	}
 	
 	public int getinitialArmor() {
-		try {
-			return cst.getInt(6);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_INITIALARMOR;
+		
 	}
 	
 	public int getActualArmor() {
-		try {
-			return cst.getInt(7);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_ARMOR;
+		
 		
 	}
 	
 	public int getGenerateWastings() {
-		try {
-			return cst.getInt(10);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_GENERATE_WASTINGS;
+		
 	}
 	
 	
@@ -159,6 +145,16 @@ class VariablesBBDDDefenses{
 	BufferedReader entrada;
 	int id;
 	Connection cn;
+	Integer P_ID;
+	String P_NAME;
+	Integer P_METAL_COST;
+	Integer P_CRYSTAL_COST;
+	Integer P_DEUTERIUM_COST;
+	Integer P_INITIALARMOR;
+	Integer P_ARMOR;
+	Integer P_BASEDAMAGE;
+	Integer P_SPEED;
+	Integer P_GENERATE_WASTINGS;
 	
 	public VariablesBBDDDefenses(int a) {
 		
@@ -169,8 +165,8 @@ class VariablesBBDDDefenses{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-//            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
             
             // Llamada al procedimiento almacenado
             cst = cn.prepareCall("{call GET_DEFENSE (?,?,?,?,?,?,?,?,?,?)}");
@@ -188,19 +184,17 @@ class VariablesBBDDDefenses{
                 cst.registerOutParameter(10, java.sql.Types.INTEGER);
                 cst.execute();
              
-
-
                 // Se obtienen la salida del procedimineto almacenado
-//                Integer P_ID = cst.getInt(1);
-//                String P_NAME = cst.getString(2);
-//                Integer P_METAL_COST = cst.getInt(3);
-//                Integer P_CRYSTAL_COST = cst.getInt(4);
-//                Integer P_DEUTERIUM_COST = cst.getInt(5);
-//                Integer P_INITIALARMOR = cst.getInt(6);
-//                Integer P_ARMOR = cst.getInt(7);
-//                Integer P_BASEDAMAGE = cst.getInt(8);
-//                Integer P_SPEED = cst.getInt(9);
-//                Integer P_GENERATE_WASTINGS = cst.getInt(10);
+                P_ID = cst.getInt(1);
+                P_NAME = cst.getString(2);
+                P_METAL_COST = cst.getInt(3);
+                P_CRYSTAL_COST = cst.getInt(4);
+                P_DEUTERIUM_COST = cst.getInt(5);
+                P_INITIALARMOR = cst.getInt(6);
+                P_ARMOR = cst.getInt(7);
+                P_BASEDAMAGE = cst.getInt(8);
+                P_SPEED = cst.getInt(9);
+                P_GENERATE_WASTINGS = cst.getInt(10);
 //                System.out.println("P_ID: "+P_ID);
 //                System.out.println("P_NAME: " + P_NAME);
 //                System.out.println("P_METAL_COST: " + P_METAL_COST);
@@ -215,71 +209,47 @@ class VariablesBBDDDefenses{
 
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
-        
-        }
+        } finally {
+            try {
+                cn.close();
+            } catch (SQLException ex) {
+                System.out.println("Error: " + ex.getMessage());
+            }
+        } 
 	
 		
 	}
 	
 	public int getCosteMetal() {
-		try {
-			return cst.getInt(3);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_METAL_COST;
 	}
 	
 	public int getBaseDamage() {
-		try {
-			return cst.getInt(8);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_BASEDAMAGE;
 	}
 	
 	public int getCosteDeuterium() {
-		try {
-			return cst.getInt(5);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_DEUTERIUM_COST;
+		
 	}
 	
 	public int getinitialArmor() {
-		try {
-			return cst.getInt(6);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_INITIALARMOR;
+		
 	}
 	
 	public int getActualArmor() {
-		try {
-			return cst.getInt(7);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_ARMOR;
+		
+		
 	}
 	
 	public int getGenerateWastings() {
-		try {
-			return cst.getInt(10);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return 0;
+		return P_GENERATE_WASTINGS;
+		
 	}
+	
+	
 	
 	
 }
@@ -1292,19 +1262,48 @@ class Battle{
 		planetArmy[4] = new ArrayList<>(0);
 		planetArmy[5] = new ArrayList<>(0);
 		planetArmy[6] = new ArrayList<>(0);
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[1].add(new HeavyHunter());
+		enemyArmy[2].add(new BattleShip());
+		enemyArmy[3].add(new ArmoredShip());
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[1].add(new HeavyHunter());
+		enemyArmy[2].add(new BattleShip());
+		enemyArmy[3].add(new ArmoredShip());
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[1].add(new HeavyHunter());
+		enemyArmy[2].add(new BattleShip());
+		enemyArmy[3].add(new ArmoredShip());
+		enemyArmy[0].add(new LightHunter());
+		enemyArmy[1].add(new HeavyHunter());
+		enemyArmy[2].add(new BattleShip());
+		enemyArmy[3].add(new ArmoredShip());
+		planetArmy[0].add(new LightHunter());
+		planetArmy[1].add(new HeavyHunter());
+		planetArmy[2].add(new BattleShip());
+		planetArmy[3].add(new ArmoredShip());
+		planetArmy[4].add(new MissileLauncher());
+		planetArmy[5].add(new IonCannon());
+		planetArmy[6].add(new PlasmaCannon());
+		planetArmy[0].add(new LightHunter());
+		planetArmy[0].add(new LightHunter());
+		planetArmy[1].add(new HeavyHunter());
+		planetArmy[1].add(new HeavyHunter());
+		planetArmy[1].add(new HeavyHunter());
+		planetArmy[2].add(new BattleShip());
+		planetArmy[2].add(new BattleShip());
+		planetArmy[3].add(new ArmoredShip());
+		planetArmy[3].add(new ArmoredShip());
+		planetArmy[4].add(new MissileLauncher());
+		planetArmy[4].add(new MissileLauncher());
+		planetArmy[5].add(new IonCannon());
+		planetArmy[5].add(new IonCannon());
+		planetArmy[6].add(new PlasmaCannon());
+		planetArmy[6].add(new PlasmaCannon());
 		int[] wasteMetalDeuterium = new int[] {0,0};
 	}
 	
 	public MilitaryUnit EjercitoAtacanteEnemigo() {
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[3].add(new ArmoredShip());
-		enemyArmy[3].add(new ArmoredShip());
 		MilitaryUnit atacanteEnemigo = null;
 		
 		List<Integer> listaProbabilidad = Arrays.asList(1,2,2,3,3,3,4,4,4,4);
@@ -1326,19 +1325,10 @@ class Battle{
 	}
 	
 	public MilitaryUnit EjercitoDefensorEnemigo() {
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[3].add(new ArmoredShip());
-		enemyArmy[3].add(new ArmoredShip());
+		
 		MilitaryUnit defensorEnemigo = null;
 		
 		int TotalUnidades = (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size());
-		
 		
 		int probabilidadLightHunter = (int)100*(enemyArmy[0].size())/(TotalUnidades);
 		int probabilidadHeavyHunter = (int)100*(enemyArmy[1].size())/(TotalUnidades);
@@ -1367,19 +1357,7 @@ class Battle{
 	}
 	
 	public MilitaryUnit EjercitoAtacanteNuestro() {
-		planetArmy[0].add(new LightHunter());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[4].add(new MissileLauncher());
-		planetArmy[5].add(new IonCannon());
-		planetArmy[6].add(new PlasmaCannon());
-		
+
 		int sumaProbabilidades = 5 + 10 + 15 + 40 + 5 + 10 + 15;
 		
 		int[] arrayProbabilidades = new int[] {5,10,15,40,5,10,15};
@@ -1414,18 +1392,7 @@ class Battle{
 	}
 	
 	public MilitaryUnit EjercitoDefensorNuestro() {
-		planetArmy[0].add(new LightHunter());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[4].add(new MissileLauncher());
-		planetArmy[5].add(new IonCannon());
-		planetArmy[6].add(new PlasmaCannon());
+		
 		int TotalUnidades = (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size());
 		MilitaryUnit defensorNuestro = null;
 		
@@ -1530,10 +1497,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[0].size() > 0) {
 							planetArmy[0].remove(defensorMiPlaneta);
 							System.out.println("Eliminado lighthunter");
 							LightHunterMiosFinal = LightHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 						
 						
 					
@@ -1545,10 +1518,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[1].size() > 0) {
 							planetArmy[1].remove(defensorMiPlaneta);
 							System.out.println("Eliminado heavyhunter");
 							HeavyHunterMiosFinal = HeavyHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 
 					}
 					else if (defensorMiPlaneta.getClass().getName().equals("BattleShip")) {
@@ -1558,10 +1537,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[2].size() > 0) {
 							planetArmy[2].remove(defensorMiPlaneta);
 							System.out.println("Eliminado battleship");
 							BattleShipMiosFinal = BattleShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 						
 						
 						
@@ -1573,10 +1558,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[3].size() > 0) {
 							planetArmy[3].remove(defensorMiPlaneta);
 							System.out.println("Eliminado armoredship");
 							ArmoredShipMiosFinal = ArmoredShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 						
 						
 						
@@ -1589,10 +1580,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[4].size() > 0) {
 							planetArmy[4].remove(defensorMiPlaneta);
 							System.out.println("Eliminado missilelauncher");
 							MissileLauncherMiosFinal = MissileLauncherMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 						
 					}
 					else if (defensorMiPlaneta.getClass().getName().equals("IonCannon")) {
@@ -1602,10 +1599,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[5].size() > 0) {
 							planetArmy[5].remove(defensorMiPlaneta);
 							System.out.println("Eliminado ioncannon");
 							IonCannonMiosFinal = IonCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 						
 						
 						
@@ -1618,10 +1621,16 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (planetArmy[6].size() > 0) {
 							planetArmy[6].remove(defensorMiPlaneta);
 							System.out.println("Eliminado plasmacannon");
 							PlasmaCannonMiosFinal = PlasmaCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+						}
+						else {
+							defensorMiPlaneta = EjercitoDefensorNuestro();
+						}
+							
 						
 						
 						
@@ -2776,7 +2785,7 @@ class Battle{
 		System.out.println("HeavyHunters prinicpio = "+ HeavyHunterMiosComienzo + " HeavyHunters final = " + HeavyHunterMiosFinal);
 		System.out.println("BattleShip prinicpio = "+ BattleShipMiosComienzo + " BattleShip final = " + BattleShipMiosFinal );
 		System.out.println("ArmoredShip prinicpio = "+ ArmoredShipMiosComienzo + " ArmoredShip final = " + ArmoredShipMiosFinal );
-		System.out.println("MissileLauncher prinicpio = "+ MissileLauncherMiosComienzo + " ArmoredShip final = " + MissileLauncherMiosFinal );
+		System.out.println("MissileLauncher prinicpio = "+ MissileLauncherMiosComienzo + " MissileLauncher final = " + MissileLauncherMiosFinal );
 		System.out.println("IonCannon prinicpio = "+ IonCannonMiosComienzo + " IonCannon final = " + IonCannonMiosFinal );
 		System.out.println("PlasmaCannon prinicpio = "+ PlasmaCannonMiosComienzo + " PlasmaCannon final = " + PlasmaCannonMiosFinal );
 		System.out.println("");
@@ -2786,12 +2795,7 @@ class Battle{
 		System.out.println("BattleShip prinicpio = "+ BattleShipEnemigoComienzo + " BattleShip final = " + BattleShipEnemigoFinal );
 		System.out.println("ArmoredShip prinicpio = "+ ArmoredShipEnemigoComienzo + " ArmoredShip final = " + ArmoredShipEnemigoFinal );
 		
-		
-		
-		
-		
-		
-		
+
 	}
 	
 	
