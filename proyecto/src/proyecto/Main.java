@@ -39,11 +39,13 @@ PanelInicio panelBuild;
 PanelInicio panelBuildTroops;
 PanelInicio panelBuildDefenses;
 PanelInicio panelUpgradeTech;
+PanelInicio panelBattleReport;
 private JButton[] botonesMenu1= new JButton[8];
 private JButton[] botonesBuild= new JButton[12];
 private JButton[] botonesTech= new JButton[3];
 private JButton botonesStats= new JButton();
-	public static void main(String[] args) {
+private JButton[] botonesReport= new JButton[3];
+public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Main();
 		
@@ -98,7 +100,7 @@ panel1.setLayout(null);
 
 
 JLabel titulo = new JLabel("ORGASM THE MOTHERFUCKING GAME", SwingConstants.CENTER);
-titulo.setFont(new Font("verdana",1,35));
+titulo.setFont(new Font("Verdana",1,35));
 titulo.setForeground(Color.white);
 
 
@@ -116,6 +118,7 @@ botonesMenu1[2].setBounds((ANCHO_TABLERO/2)-150, 210, 300, 50);
 botonesMenu1[2].addActionListener(new AddPanelUpgrade());
 panel1.add(botonesMenu1[3]);
 botonesMenu1[3].setBounds((ANCHO_TABLERO/2)-150, 270, 300, 50);
+botonesMenu1[3].addActionListener(new AddPanelReport());
 panel1.add(botonesMenu1[4]);
 botonesMenu1[4].setEnabled(false);
 botonesMenu1[4].setBounds((ANCHO_TABLERO/2)-150, 330, 300, 50);
@@ -143,10 +146,8 @@ panelStats.setVisible(false);
 JLabel tituloStats = new JLabel("PLANET STATS",SwingConstants.CENTER);
 panelStats.add(tituloStats);
 tituloStats.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
-tituloStats.setFont(new Font("verdana",1,35));
+tituloStats.setFont(new Font("Verdana",1,35));
 tituloStats.setForeground(Color.white);
-
-panelStats.add(tituloStats);
 
 botonesStats = new JButton("Go back");
 
@@ -156,6 +157,24 @@ botonesStats.addActionListener(new GoBackStats());
 botonesStats.setBackground(new Color(246, 90, 90));
 panelStats.add(backgroundStats);
 
+//Panel Battle Report
+panelBattleReport = new PanelInicio();
+panelBattleReport.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelBattleReport);
+panelBattleReport.setLayout(null);
+panelBattleReport.setVisible(false);
+
+
+JLabel tituloReport = new JLabel("BATTLE REPORT",SwingConstants.CENTER);
+panelBattleReport.add(tituloReport);
+tituloReport.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloReport.setFont(new Font("Verdana",1,35));
+
+botonesReport[0] = new JButton("Go Back");
+panelBattleReport.add(botonesReport[0]);
+botonesReport[0].setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+botonesReport[0].setBackground(new Color(246, 90, 90));
+botonesReport[0].addActionListener(new GoBackReport());
 //Panel Build
 panelBuild = new PanelInicio();
 panelBuild.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
@@ -167,7 +186,7 @@ panelBuild.setVisible(false);
 JLabel tituloBuild = new JLabel("BUILD",SwingConstants.CENTER);
 panelBuild.add(tituloBuild);
 tituloBuild.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
-tituloBuild.setFont(new Font("verdana",1,35));
+tituloBuild.setFont(new Font("Verdana",1,35));
 tituloBuild.setForeground(Color.white);
 
 botonesBuild[0] = new JButton("Build Troops");
@@ -199,7 +218,7 @@ panelBuildTroops.setVisible(false);
 JLabel tituloBuildTroops = new JLabel("BUILD TROOPS",SwingConstants.CENTER);
 panelBuildTroops.add(tituloBuildTroops);
 tituloBuildTroops.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
-tituloBuildTroops.setFont(new Font("verdana",1,35));
+tituloBuildTroops.setFont(new Font("Verdana",1,35));
 tituloBuildTroops.setForeground(Color.white);
 
 botonesBuild[3] = new JButton("Build Light Hunter");
@@ -232,7 +251,7 @@ panelBuildDefenses.setVisible(false);
 JLabel tituloBuildDefenses = new JLabel("BUILD DEFENSES",SwingConstants.CENTER);
 panelBuildDefenses.add(tituloBuildDefenses);
 tituloBuildDefenses.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
-tituloBuildDefenses.setFont(new Font("verdana",1,35));
+tituloBuildDefenses.setFont(new Font("Verdana",1,35));
 tituloBuildDefenses.setForeground(Color.white);
 
 botonesBuild[8] = new JButton("Build Missile Launcher");
@@ -263,7 +282,7 @@ panelUpgradeTech.setVisible(false);
 JLabel tituloUpgradeTech = new JLabel("UPGRADE TECHNOLOGY",SwingConstants.CENTER);
 panelUpgradeTech.add(tituloUpgradeTech);
 tituloUpgradeTech.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
-tituloUpgradeTech.setFont(new Font("verdana",1,35));
+tituloUpgradeTech.setFont(new Font("Verdana",1,35));
 tituloUpgradeTech.setForeground(Color.white);
 
 botonesTech[0] = new JButton("Upgrade Attack Technology");
@@ -298,6 +317,15 @@ class AddPanelStats implements ActionListener{
 
 	}
 }
+
+class AddPanelReport implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelBattleReport.setVisible(true);
+
+	}
+}
+
 class AddPanelBuild implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		panel1.setVisible(false);
@@ -305,6 +333,7 @@ class AddPanelBuild implements ActionListener{
 
 	}
 }
+//Go back
 
 class GoBackStats implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
@@ -314,7 +343,14 @@ class GoBackStats implements ActionListener{
 	}
 }
 
-//Go back
+class GoBackReport implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelBattleReport.setVisible(false);
+
+	}
+}
+
 class GoBackBuild implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		panel1.setVisible(true);
