@@ -34,11 +34,15 @@ interface Dimensiones{
 
 public class Main extends JFrame implements Dimensiones{
 PanelInicio panel1;
+PanelInicio panelStats;
 PanelInicio panelBuild;
 PanelInicio panelBuildTroops;
 PanelInicio panelBuildDefenses;
+PanelInicio panelUpgradeTech;
 private JButton[] botonesMenu1= new JButton[8];
 private JButton[] botonesBuild= new JButton[12];
+private JButton[] botonesTech= new JButton[3];
+private JButton botonesStats= new JButton();
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Main();
@@ -76,6 +80,16 @@ JLabel backgroundDefenses;
 ImageIcon imgBuildDefenses = new ImageIcon("buildDefenses.jpg");
 backgroundDefenses = new JLabel("",imgBuildDefenses,JLabel.CENTER);
 backgroundDefenses.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundTech;
+ImageIcon imgBuildTech = new ImageIcon("backg.jpg");
+backgroundTech = new JLabel("",img,JLabel.CENTER);
+backgroundTech.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundStats;
+ImageIcon imgBuildStats = new ImageIcon("backg.jpg");
+backgroundStats = new JLabel("",img,JLabel.CENTER);
+backgroundStats.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
 //Panel INICIAL
 panel1 = new PanelInicio();
 panel1.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
@@ -93,11 +107,13 @@ titulo.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
 
 panel1.add(botonesMenu1[0]);
 botonesMenu1[0].setBounds((ANCHO_TABLERO/2)-150, 90, 300, 50);
+botonesMenu1[0].addActionListener(new AddPanelStats());
 panel1.add(botonesMenu1[1]);
 botonesMenu1[1].setBounds((ANCHO_TABLERO/2)-150, 150, 300, 50);
 botonesMenu1[1].addActionListener(new AddPanelBuild());
 panel1.add(botonesMenu1[2]);
 botonesMenu1[2].setBounds((ANCHO_TABLERO/2)-150, 210, 300, 50);
+botonesMenu1[2].addActionListener(new AddPanelUpgrade());
 panel1.add(botonesMenu1[3]);
 botonesMenu1[3].setBounds((ANCHO_TABLERO/2)-150, 270, 300, 50);
 panel1.add(botonesMenu1[4]);
@@ -116,6 +132,29 @@ botonesMenu1[7].setBounds((ANCHO_TABLERO/2)-150, 510, 300, 50);
 botonesMenu1[7].addActionListener(new CloseProgram());
 panel1.add(background);
 
+//View Planet Stats
+panelStats = new PanelInicio();
+panelStats.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelStats);
+panelStats.setLayout(null);
+panelStats.setVisible(false);
+
+
+JLabel tituloStats = new JLabel("PLANET STATS",SwingConstants.CENTER);
+panelStats.add(tituloStats);
+tituloStats.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloStats.setFont(new Font("verdana",1,35));
+tituloStats.setForeground(Color.white);
+
+panelStats.add(tituloStats);
+
+botonesStats = new JButton("Go back");
+
+panelStats.add(botonesStats);
+botonesStats.setBounds((ANCHO_TABLERO/2)-150, (ALTO_TABLERO)-100, 300, 50);
+botonesStats.addActionListener(new GoBackStats());
+botonesStats.setBackground(new Color(246, 90, 90));
+panelStats.add(backgroundStats);
 
 //Panel Build
 panelBuild = new PanelInicio();
@@ -213,6 +252,33 @@ botonesBuild[11].setBounds((ANCHO_TABLERO/2)-75, 400, 200, 50);
 botonesBuild[11].setBackground(new Color(246, 90, 90));
 botonesBuild[11].addActionListener(new GoBackBuildDefenses());
 panelBuildDefenses.add(backgroundDefenses);
+//Upgrade Tech
+
+panelUpgradeTech = new PanelInicio();
+panelUpgradeTech.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelUpgradeTech);
+panelUpgradeTech.setLayout(null);
+panelUpgradeTech.setVisible(false);
+
+JLabel tituloUpgradeTech = new JLabel("UPGRADE TECHNOLOGY",SwingConstants.CENTER);
+panelUpgradeTech.add(tituloUpgradeTech);
+tituloUpgradeTech.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloUpgradeTech.setFont(new Font("verdana",1,35));
+tituloUpgradeTech.setForeground(Color.white);
+
+botonesTech[0] = new JButton("Upgrade Attack Technology");
+botonesTech[1] = new JButton("Upgrade Defenses Technology");
+botonesTech[2] = new JButton("Go Back");
+
+panelUpgradeTech.add(botonesTech[0]);
+botonesTech[0].setBounds((ANCHO_TABLERO/2)-250, 150, 250, 50);
+panelUpgradeTech.add(botonesTech[1]);
+botonesTech[1].setBounds((ANCHO_TABLERO/2)+15, 150, 250, 50);
+panelUpgradeTech.add(botonesTech[2]);
+botonesTech[2].setBounds((ANCHO_TABLERO/2)-75, 400, 200, 50);
+botonesTech[2].setBackground(new Color(246, 90, 90));
+botonesTech[2].addActionListener(new GoBackUpgradeTech());
+panelUpgradeTech.add(backgroundTech);
 
 setLocationRelativeTo(null);
 setResizable(false);
@@ -223,6 +289,15 @@ setVisible(true);
 class PanelInicio extends JPanel{
 
 }
+
+
+class AddPanelStats implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelStats.setVisible(true);
+
+	}
+}
 class AddPanelBuild implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		panel1.setVisible(false);
@@ -230,7 +305,16 @@ class AddPanelBuild implements ActionListener{
 
 	}
 }
-//Build
+
+class GoBackStats implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelStats.setVisible(false);
+
+	}
+}
+
+//Go back
 class GoBackBuild implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		panel1.setVisible(true);
@@ -266,6 +350,20 @@ class BuildDefenses implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		panelBuild.setVisible(false);
 		panelBuildDefenses.setVisible(true);
+	}
+}
+
+class AddPanelUpgrade implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelUpgradeTech.setVisible(true);
+	}
+}
+
+class GoBackUpgradeTech implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelUpgradeTech.setVisible(false);
 	}
 }
 
