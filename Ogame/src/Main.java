@@ -15,8 +15,10 @@ import java.sql.SQLException;
 
 public class Main {
 	
+	
 	public static void main(String[] args) {
 		Battle b = new Battle();
+		b.createEnemyArmy();
 		b.playBattle();
 		
 
@@ -50,8 +52,8 @@ class VariablesBBDDShips{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
            
             
             // Llamada al procedimiento almacenado
@@ -165,8 +167,8 @@ class VariablesBBDDDefenses{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
             
             // Llamada al procedimiento almacenado
             cst = cn.prepareCall("{call GET_DEFENSE (?,?,?,?,?,?,?,?,?,?)}");
@@ -258,8 +260,8 @@ class Planet {
 	
 	private int technologyDefense;
 	private int technologyAtack;
-	private int metal ;
-	private int deuterium ;
+	private int metal = 100000;
+	private int deuterium = 100000;
 	private int upgradeDefenseTechnologyDeuteriumCost;
 	private int upgradeAttackTechnologyDeuteriumCost;
 	private ArrayList<MilitaryUnit>[] army;
@@ -1235,18 +1237,6 @@ class Battle{
 	
 	private ArrayList<MilitaryUnit>[] planetArmy;
 	private ArrayList<MilitaryUnit>[] enemyArmy;
-	private ArrayList[][] armies;
-	private String battleDevelopment;
-	private int[][] initialCostFleet;
-	private int initialNumberUnitsPlanet;
-	private int initialNumberUnitsEnemy;
-	private int[][] wasteMetalDeuterium;
-	private int[] enemyDrops;
-	private int[] planetDrops;
-	private int[][] resourcesLooses;
-	private int[][] initialArmies;
-	private int[] actualNumberUnitsPlanet;
-	private int[] actualNumberUnitsEnemy;
 	
 	public Battle() {
 		planetArmy = new ArrayList[7];
@@ -1262,29 +1252,27 @@ class Battle{
 		planetArmy[4] = new ArrayList<>(0);
 		planetArmy[5] = new ArrayList<>(0);
 		planetArmy[6] = new ArrayList<>(0);
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[3].add(new ArmoredShip());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[3].add(new ArmoredShip());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[3].add(new ArmoredShip());
-		enemyArmy[0].add(new LightHunter());
-		enemyArmy[1].add(new HeavyHunter());
-		enemyArmy[2].add(new BattleShip());
-		enemyArmy[3].add(new ArmoredShip());
+//		enemyArmy[0].add(new LightHunter());
+//		enemyArmy[1].add(new HeavyHunter());
+//		enemyArmy[2].add(new BattleShip());
+//		enemyArmy[3].add(new ArmoredShip());
+//		enemyArmy[0].add(new LightHunter());
+//		enemyArmy[1].add(new HeavyHunter());
+//		enemyArmy[2].add(new BattleShip());
+//		enemyArmy[3].add(new ArmoredShip());
+//		enemyArmy[0].add(new LightHunter());
+//		enemyArmy[1].add(new HeavyHunter());
+//		enemyArmy[2].add(new BattleShip());
+//		enemyArmy[3].add(new ArmoredShip());
+//		enemyArmy[0].add(new LightHunter());
+//		enemyArmy[1].add(new HeavyHunter());
+//		enemyArmy[2].add(new BattleShip());
+//		enemyArmy[3].add(new ArmoredShip());
 		planetArmy[0].add(new LightHunter());
 		planetArmy[1].add(new HeavyHunter());
 		planetArmy[2].add(new BattleShip());
 		planetArmy[3].add(new ArmoredShip());
 		planetArmy[4].add(new MissileLauncher());
-		planetArmy[5].add(new IonCannon());
-		planetArmy[6].add(new PlasmaCannon());
 		planetArmy[0].add(new LightHunter());
 		planetArmy[0].add(new LightHunter());
 		planetArmy[1].add(new HeavyHunter());
@@ -1296,11 +1284,7 @@ class Battle{
 		planetArmy[3].add(new ArmoredShip());
 		planetArmy[4].add(new MissileLauncher());
 		planetArmy[4].add(new MissileLauncher());
-		planetArmy[5].add(new IonCannon());
-		planetArmy[5].add(new IonCannon());
-		planetArmy[6].add(new PlasmaCannon());
-		planetArmy[6].add(new PlasmaCannon());
-		int[] wasteMetalDeuterium = new int[] {0,0};
+		
 	}
 	
 	public MilitaryUnit EjercitoAtacanteEnemigo() {
@@ -1310,16 +1294,27 @@ class Battle{
 		int probabilidad = (int)((Math.random()* 10)+0);
 		
 		if (listaProbabilidad.get(probabilidad) == 1) {
-			atacanteEnemigo = enemyArmy[0].get((int)(Math.random()*enemyArmy[0].size()));
+				atacanteEnemigo = enemyArmy[0].get((int)(Math.random()*enemyArmy[0].size()));
+			
+			
 		}
 		else if (listaProbabilidad.get(probabilidad) == 2) {
-			atacanteEnemigo = enemyArmy[1].get((int)(Math.random()*enemyArmy[1].size()));
+				atacanteEnemigo = enemyArmy[1].get((int)(Math.random()*enemyArmy[1].size()));
+		
+			
 		}
 		else if (listaProbabilidad.get(probabilidad) == 3) {
-			atacanteEnemigo = enemyArmy[2].get((int)(Math.random()*enemyArmy[2].size()));
+				atacanteEnemigo = enemyArmy[2].get((int)(Math.random()*enemyArmy[2].size()));
+			
+			
 		}
 		else if (listaProbabilidad.get(probabilidad) == 4) {
-			atacanteEnemigo = enemyArmy[3].get((int)(Math.random()*enemyArmy[3].size()));
+				atacanteEnemigo = enemyArmy[3].get((int)(Math.random()*enemyArmy[3].size()));
+			
+			
+		}
+		if (atacanteEnemigo == null) {
+			EjercitoAtacanteEnemigo();
 		}
 		return atacanteEnemigo;
 	}
@@ -1342,21 +1337,31 @@ class Battle{
 		int numAleatorio = (int)((Math.random()* SumaTotalProbabilidades)+1);
 		
 			if (arrayProbabilidades[0] > numAleatorio) {
-				defensorEnemigo = enemyArmy[0].get((int)(Math.random()*enemyArmy[0].size()));
+					defensorEnemigo = enemyArmy[0].get((int)(Math.random()*enemyArmy[0].size()));
+				
 			}
 			else if (arrayProbabilidades[0] + arrayProbabilidades[1] > numAleatorio) {
-				defensorEnemigo = enemyArmy[1].get((int)(Math.random()*enemyArmy[1].size()));
+					defensorEnemigo = enemyArmy[1].get((int)(Math.random()*enemyArmy[1].size()));
+				
+				
 			}
 			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] > numAleatorio) {
-				defensorEnemigo = enemyArmy[2].get((int)(Math.random()*enemyArmy[2].size()));
+					defensorEnemigo = enemyArmy[2].get((int)(Math.random()*enemyArmy[2].size()));
+				
+				
 			}
 			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] > numAleatorio) {
-				defensorEnemigo = enemyArmy[3].get((int)(Math.random()*enemyArmy[3].size()));
+					defensorEnemigo = enemyArmy[3].get((int)(Math.random()*enemyArmy[3].size()));
+				
+				
+			}
+			if (defensorEnemigo == null) {
+				EjercitoDefensorEnemigo();
 			}
 			return defensorEnemigo;
 	}
 	
-	public MilitaryUnit EjercitoAtacanteNuestro() {
+	public MilitaryUnit EjercitoAtacanteNuestro() { 
 
 		int sumaProbabilidades = 5 + 10 + 15 + 40 + 5 + 10 + 15;
 		
@@ -1364,7 +1369,7 @@ class Battle{
 		
 		int numAleatorio = (int)((Math.random()* sumaProbabilidades)+1);
 		
-		MilitaryUnit atacante = null;
+		MilitaryUnit atacante = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));;
 		
 		if (arrayProbabilidades[0] > numAleatorio) {
 			atacante = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
@@ -1386,6 +1391,9 @@ class Battle{
 		}
 		else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] + arrayProbabilidades[5] + arrayProbabilidades[6]> numAleatorio) {
 			atacante = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
+		}
+		if (atacante == null) {
+			EjercitoAtacanteNuestro();
 		}
 		return atacante;
 		
@@ -1410,32 +1418,50 @@ class Battle{
 		
 		int numAleatorio = (int)((Math.random()* SumaTotalProbabilidades)+1);
 		
-			if (arrayProbabilidades[0] > numAleatorio) {
+		if (arrayProbabilidades[0] > numAleatorio) {
 				defensorNuestro = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
-			}
-			else if (arrayProbabilidades[0] + arrayProbabilidades[1] > numAleatorio) {
+			
+			
+		}
+		else if (arrayProbabilidades[0] + arrayProbabilidades[1] > numAleatorio) {
 				defensorNuestro = planetArmy[1].get((int)(Math.random()*planetArmy[1].size()));
-			}
-			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] > numAleatorio) {
+			
+			
+		}
+		else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] > numAleatorio) {
 				defensorNuestro = planetArmy[2].get((int)(Math.random()*planetArmy[2].size()));
-			}
-			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] > numAleatorio) {
+			
+			
+		}
+		else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] > numAleatorio) {
 				defensorNuestro = planetArmy[3].get((int)(Math.random()*planetArmy[3].size()));
-			}
-			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] > numAleatorio) {
+			
+			
+		}
+		else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] > numAleatorio) {
 				defensorNuestro = planetArmy[4].get((int)(Math.random()*planetArmy[4].size()));
-			}
-			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] + arrayProbabilidades[5]> numAleatorio) {
+			
+			
+		}
+		else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] + arrayProbabilidades[5]> numAleatorio) {
 				defensorNuestro = planetArmy[5].get((int)(Math.random()*planetArmy[5].size()));
-			}
-			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] + arrayProbabilidades[5] + arrayProbabilidades[6]> numAleatorio) {
+			
+			
+		}
+		else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] + arrayProbabilidades[4] + arrayProbabilidades[5] + arrayProbabilidades[6]> numAleatorio) {
 				defensorNuestro = planetArmy[6].get((int)(Math.random()*planetArmy[6].size()));
-			}
-			return defensorNuestro;
+			
+			
+		}
+		if (defensorNuestro == null) {
+			EjercitoDefensorNuestro();
+		}
+		return defensorNuestro;
 	}
 	
 	
 	public void playBattle() {
+		
 		boolean turnoMiplaneta = false; 
 		boolean turnoPlanetaAtacante = true;
 		MilitaryUnit atacanteContrario = EjercitoAtacanteEnemigo();
@@ -1500,6 +1526,7 @@ class Battle{
 						if (planetArmy[0].size() > 0) {
 							planetArmy[0].remove(defensorMiPlaneta);
 							System.out.println("Eliminado lighthunter");
+							System.out.println("Lighthunters restantes MIPLANETA " + planetArmy[0].size());
 							LightHunterMiosFinal = LightHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1521,6 +1548,7 @@ class Battle{
 						if (planetArmy[1].size() > 0) {
 							planetArmy[1].remove(defensorMiPlaneta);
 							System.out.println("Eliminado heavyhunter");
+							System.out.println("Heavyhunters restantes MIPLANETA " + planetArmy[1].size());
 							HeavyHunterMiosFinal = HeavyHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1540,6 +1568,7 @@ class Battle{
 						if (planetArmy[2].size() > 0) {
 							planetArmy[2].remove(defensorMiPlaneta);
 							System.out.println("Eliminado battleship");
+							System.out.println("BattleShip restantes MIPLANETA " + planetArmy[2].size());
 							BattleShipMiosFinal = BattleShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1561,6 +1590,7 @@ class Battle{
 						if (planetArmy[3].size() > 0) {
 							planetArmy[3].remove(defensorMiPlaneta);
 							System.out.println("Eliminado armoredship");
+							System.out.println("ArmoredShip restantes MIPLANETA " + planetArmy[3].size());
 							ArmoredShipMiosFinal = ArmoredShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1583,6 +1613,7 @@ class Battle{
 						if (planetArmy[4].size() > 0) {
 							planetArmy[4].remove(defensorMiPlaneta);
 							System.out.println("Eliminado missilelauncher");
+							System.out.println("Missilelauncher restantes MIPLANETA " + planetArmy[4].size());
 							MissileLauncherMiosFinal = MissileLauncherMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1602,6 +1633,7 @@ class Battle{
 						if (planetArmy[5].size() > 0) {
 							planetArmy[5].remove(defensorMiPlaneta);
 							System.out.println("Eliminado ioncannon");
+							System.out.println("Ioncannon restantes MIPLANETA " + planetArmy[5].size());
 							IonCannonMiosFinal = IonCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1624,6 +1656,7 @@ class Battle{
 						if (planetArmy[6].size() > 0) {
 							planetArmy[6].remove(defensorMiPlaneta);
 							System.out.println("Eliminado plasmacannon");
+							System.out.println("Plasmacannon restantes MIPLANETA " + planetArmy[6].size());
 							PlasmaCannonMiosFinal = PlasmaCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 						}
@@ -1762,10 +1795,7 @@ class Battle{
 						
 						
 					}
-//					System.out.println("Attacks Planet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				else if (atacanteContrario.getClass().getName().equals("HeavyHunter")) {
 					if (probabilidadAtacarEnemigo <= Variables.CHANCE_ATTACK_AGAIN_HEAVYHUNTER) {
@@ -1889,10 +1919,7 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 						
 					}
-//					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				else if (atacanteContrario.getClass().getName().equals("BattleShip")) {
 					if (probabilidadAtacarEnemigo <= Variables.CHANCE_ATTACK_AGAIN_BATTLESHIP) {
@@ -2016,10 +2043,7 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 						
 					}
-//					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				else if (atacanteContrario.getClass().getName().equals("ArmoredShip")) {
 					if (probabilidadAtacarEnemigo <= Variables.CHANCE_ATTACK_AGAIN_ARMOREDSHIP) {
@@ -2143,10 +2167,7 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 						
 					}
-//					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				
 			}
@@ -2159,6 +2180,7 @@ class Battle{
 					parar = true;
 					break;
 				}
+				
 				System.out.println("Attacks Planet enemy: " + atacanteMiPlaneta.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
 				System.out.println(atacanteMiPlaneta.getClass().getName() + " generates the damage = " + atacanteMiPlaneta.attack());
 				defensorContrario.tekeDamage(atacanteMiPlaneta.attack());
@@ -2173,13 +2195,17 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (enemyArmy[0].size() > 0) {
 							enemyArmy[0].remove(defensorContrario);
 							System.out.println("Eliminado lighthunter");
+							System.out.println("Lighthunters restantes PLANETAENEMIGO " + enemyArmy[0].size());
 							LightHuntersEnemigoFinal = LightHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
-						
-						
-
+						}
+						else {
+							defensorContrario = EjercitoDefensorEnemigo();
+						}
+							
 					}
 					else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
 						if (probabilidadRecursosEnemigo <= Variables.CHANCE_GENERATNG_WASTE_HEAVYHUNTER) {
@@ -2188,10 +2214,17 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (enemyArmy[1].size() > 0) {
 							enemyArmy[1].remove(defensorContrario);
 							System.out.println("Eliminado heavyhunter");
+							System.out.println("Heavyhunter restantes PLANETAENEMIGO " + enemyArmy[1].size());
 							HeavyHuntersEnemigoFinal = HeavyHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+						}
+						else {
+							defensorContrario = EjercitoDefensorEnemigo();
+						}
+							
 						
 					}
 					else if (defensorContrario.getClass().getName().equals("BattleShip")) {
@@ -2201,10 +2234,17 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (enemyArmy[2].size() > 0) {
 							enemyArmy[2].remove(defensorContrario);
 							System.out.println("Eliminado battleship");
+							System.out.println("BattleShip restantes PLANETAENEMIGO " + enemyArmy[2].size());
 							BattleShipEnemigoFinal = BattleShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+						}
+						else {
+							defensorContrario = EjercitoDefensorEnemigo();
+						}
+						
 						
 						
 					}
@@ -2215,10 +2255,17 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						if (enemyArmy[3].size() > 0) {
 							enemyArmy[3].remove(defensorContrario);
 							System.out.println("Eliminado armoredship");
+							System.out.println("ArmoredShip restantes PLANETAENEMIGO " + enemyArmy[3].size());
 							ArmoredShipEnemigoFinal = ArmoredShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+						}
+						else {
+							defensorContrario = EjercitoDefensorEnemigo();
+						}
+							
 						
 						
 						
@@ -2238,7 +2285,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2256,7 +2303,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2272,7 +2319,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2288,7 +2335,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2301,11 +2348,6 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 					}
 						
-					
-//					System.out.println("Attacks Planet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
 				}
 				else if (atacanteMiPlaneta.getClass().getName().equals("HeavyHunter")) {
 					if (probabilidadAtacarNuestro <= Variables.CHANCE_ATTACK_AGAIN_HEAVYHUNTER) {
@@ -2319,7 +2361,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2335,7 +2377,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2351,7 +2393,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2367,7 +2409,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2381,10 +2423,7 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 						
 					}
-//					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				else if (atacanteMiPlaneta.getClass().getName().equals("BattleShip")) {
 					if (probabilidadAtacarNuestro <= Variables.CHANCE_ATTACK_AGAIN_BATTLESHIP) {
@@ -2398,7 +2437,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2414,7 +2453,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2430,7 +2469,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2446,7 +2485,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2459,10 +2498,7 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 						
 					}
-//					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				else if (atacanteMiPlaneta.getClass().getName().equals("ArmoredShip")) {
 					if (probabilidadAtacarNuestro <= Variables.CHANCE_ATTACK_AGAIN_ARMOREDSHIP) {
@@ -2476,7 +2512,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2492,7 +2528,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2508,7 +2544,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2524,7 +2560,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2538,10 +2574,7 @@ class Battle{
 						System.out.println("*****CHANGE ATTACKER*****");
 						
 					}
-//					System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
-//					System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
-//					defensorContrario.tekeDamage(atacanteContrario.attack());
-//					System.out.println(defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor());
+
 				}
 				else if (atacanteMiPlaneta.getClass().getName().equals("MissileLauncher")){
 					if (probabilidadAtacarNuestro <= Variables.CHANCE_ATTACK_AGAIN_MISSILELAUNCHER) {
@@ -2555,7 +2588,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2571,7 +2604,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2587,7 +2620,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2603,7 +2636,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2630,7 +2663,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2646,7 +2679,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2662,7 +2695,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2678,7 +2711,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2705,7 +2738,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2721,7 +2754,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2737,7 +2770,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2753,7 +2786,7 @@ class Battle{
 								while(true) {
 									random = (int)((Math.random()* 3)+0);
 									if (enemyArmy[random].size() > 0) {
-										defensorMiPlaneta = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
+										defensorContrario = enemyArmy[random].get((int)(Math.random()*enemyArmy[random].size()));
 										break;
 									}
 								}
@@ -2798,7 +2831,65 @@ class Battle{
 
 	}
 	
+	public void createEnemyArmy() {
+		Planet planetMio = new Planet();
+		VariablesBBDDShips Lighthunters = new VariablesBBDDShips(1);
+		VariablesBBDDShips HeavyHunters = new VariablesBBDDShips(2);
+		VariablesBBDDShips Battleship = new VariablesBBDDShips(3);
+		VariablesBBDDShips Armoredship = new VariablesBBDDShips(4);
+		int metal = planetMio.getMetal();
+		int deuterium = planetMio.getDeuterium();
+		int[] arrayProbabilidades = new int[] {35,25,20,20};
+		while (true) {
+			int random = (int)((Math.random()* 100)+1);
+			if(metal < Lighthunters.getCosteMetal() || deuterium < Lighthunters.getCosteDeuterium()) {
+				break;
+			}
+			else if (arrayProbabilidades[0] > random && metal >= Lighthunters.getCosteMetal() && deuterium >= Lighthunters.getCosteDeuterium() ) {
+				enemyArmy[0].add(new LightHunter());
+				metal = metal - Lighthunters.getCosteMetal();
+				deuterium = deuterium - Lighthunters.getCosteDeuterium();
+			}
+			else if (arrayProbabilidades[0] + arrayProbabilidades[1] > random && metal >= HeavyHunters.getCosteMetal() && deuterium >= HeavyHunters.getCosteDeuterium()) {
+				enemyArmy[1].add(new HeavyHunter());
+				metal = metal - HeavyHunters.getCosteMetal();
+				deuterium = deuterium - HeavyHunters.getCosteDeuterium();
+				
+			}
+			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] > random && metal >= Battleship.getCosteMetal() && deuterium >= Battleship.getCosteDeuterium()) {
+				enemyArmy[2].add(new BattleShip());
+				metal = metal -  Battleship.getCosteMetal();
+				deuterium = deuterium - Battleship.getCosteDeuterium();
+			}
+			else if (arrayProbabilidades[0] + arrayProbabilidades[1] + arrayProbabilidades[2] + arrayProbabilidades[3] > random && metal >= Armoredship.getCosteMetal() && deuterium >= Armoredship.getCosteDeuterium()) {
+				enemyArmy[3].add(new ArmoredShip());
+				metal = metal - Armoredship.getCosteMetal();
+				deuterium = deuterium - Armoredship.getCosteDeuterium();
+			}
+		}
+	}
+
+	public ArrayList<MilitaryUnit>[] getPlanetArmy() {
+		return planetArmy;
+	}
+
+	public void setPlanetArmy(ArrayList<MilitaryUnit>[] planetArmy) {
+		this.planetArmy = planetArmy;
+	}
+
+	public ArrayList<MilitaryUnit>[] getEnemyArmy() {
+		return enemyArmy;
+	}
+
+	public void setEnemyArmy(ArrayList<MilitaryUnit>[] enemyArmy) {
+		this.enemyArmy = enemyArmy;
+	}
 	
+	public String ViewThread() {
+		String cadena;
+		cadena = "Light Hunter " + enemyArmy[0].size() + "\nHeavy Hunter " + enemyArmy[1].size() + "\nBattle Ship "+ enemyArmy[2].size() + "\nArmored Ship " + enemyArmy[3].size() ;
+		return cadena;
+	}
 	
 	
 	
