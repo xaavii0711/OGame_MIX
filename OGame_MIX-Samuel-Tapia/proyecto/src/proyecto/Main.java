@@ -68,14 +68,9 @@ public static void main(String[] args) {
 	}
 Main(){
 Planet planetaNuestro = new Planet();
-planetaNuestro.setMetal(55555555);
-planetaNuestro.setDeuterium(11400);
-//try {
-//	planetaNuestro.newArmoredShip(5);
-//} catch (ResourceException e) {
-//	// TODO Auto-generated catch block
-//	e.getMessage();
-//}
+planetaNuestro.setMetal(7000);
+planetaNuestro.setDeuterium(5000);
+
 setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
 setTitle("Orgasm");
 
@@ -258,12 +253,119 @@ panelBuildTroops.add(tituloBuildTroops);
 tituloBuildTroops.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
 tituloBuildTroops.setFont(new Font("Verdana",1,35));
 tituloBuildTroops.setForeground(Color.white);
-
-botonesBuild[3] = new JButton("Build Light Hunter");
+JLabel error3 = new JLabel("");
+error3.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error3);
+error3.setFont(new Font("Verdana",1,15));
+error3.setForeground(Color.black);
+JLabel error4 = new JLabel("");
+error4.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error4);
+error4.setFont(new Font("Verdana",1,15));
+error4.setForeground(Color.black);
+JLabel error5 = new JLabel("");
+error5.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error5);
+error5.setFont(new Font("Verdana",1,15));
+error5.setForeground(Color.black);
+JLabel error6 = new JLabel("");
+error6.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error6);
+error6.setFont(new Font("Verdana",1,15));
+error6.setForeground(Color.black);
 botonesBuild[4] = new JButton("Build Heavy Hunter");
+botonesBuild[3] = new JButton("Build Light Hunter");
+botonesBuild[3].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error4.setText("");
+		error5.setText("");
+		error6.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Lighthunters que desea construir:");
+		int numLightHunters = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newLightHunter(numLightHunters);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error3.setText(e1.getMessage());
+		}
+		
+	}
+});
+
+botonesBuild[4].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error5.setText("");
+		error6.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Heavyhunters que desea construir:");
+		int numHeavyHunters = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newHeavyHunter(numHeavyHunters);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error4.setText(e1.getMessage());
+		}
+		
+	}
+});
 botonesBuild[5] = new JButton("Build Battle Ship");
+botonesBuild[5].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error4.setText("");
+		error6.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Battleships que desea construir:");
+		int numBattleships = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newBattleShip(numBattleships);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error5.setText(e1.getMessage());
+		}
+		
+	}
+});
 botonesBuild[6] = new JButton("Build Armored Ship");
+botonesBuild[6].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error4.setText("");
+		error5.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Armoredship que desea construir:");
+		int numArmoredship = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newArmoredShip(numArmoredship);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error6.setText(e1.getMessage());
+		}
+		
+	}
+});
 botonesBuild[7] = new JButton("Go back");
+botonesBuild[7].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error4.setText("");
+		error5.setText("");
+		error6.setText("");
+		
+	}
+});
 
 panelBuildTroops.add(botonesBuild[3]);
 botonesBuild[3].setBounds((ANCHO_TABLERO/2)-415, 90, 200, 50);
@@ -292,11 +394,88 @@ tituloBuildDefenses.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
 tituloBuildDefenses.setFont(new Font("Verdana",1,35));
 tituloBuildDefenses.setForeground(Color.white);
 
-botonesBuild[8] = new JButton("Build Missile Launcher");
-botonesBuild[9] = new JButton("Build Ion Cannon");
-botonesBuild[10] = new JButton("Build Build Plasma Cannon");
-botonesBuild[11] = new JButton("Go Back");
 
+
+JLabel error8 = new JLabel("");
+error8.setBounds((ANCHO_TABLERO/2)+20, 300, 900, 70);
+panelBuildDefenses.add(error8);
+error8.setFont(new Font("Verdana",1,15));
+error8.setForeground(Color.white);
+JLabel error9 = new JLabel("");
+error9.setBounds((ANCHO_TABLERO/2)+20, 300, 900, 70);
+panelBuildDefenses.add(error9);
+error9.setFont(new Font("Verdana",1,15));
+error9.setForeground(Color.white);
+JLabel error10 = new JLabel("");
+error10.setBounds((ANCHO_TABLERO/2)+20, 300, 900, 70);
+panelBuildDefenses.add(error10);
+error10.setFont(new Font("Verdana",1,15));
+error10.setForeground(Color.white);
+botonesBuild[8] = new JButton("Build Missile Launcher");
+botonesBuild[8].addActionListener(new ActionListener() {
+	
+	public void actionPerformed(ActionEvent e) {
+		error9.setText("");
+		error10.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"MissileLauncher que desea construir:");
+		int numMissileLauncher = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newMissileLauncher(numMissileLauncher);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error8.setText(e1.getMessage());
+		}
+		
+	}
+});
+botonesBuild[9] = new JButton("Build Ion Cannon");
+botonesBuild[9].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error8.setText("");
+		error10.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Ion Cannon que desea construir:");
+		int numIonCannon = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newIonCannon(numIonCannon);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error9.setText(e1.getMessage());
+		}
+		
+	}
+});
+botonesBuild[10] = new JButton("Build Build Plasma Cannon");
+botonesBuild[10].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error8.setText("");
+		error9.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Plasma Cannon que desea construir:");
+		int numPlasmaCannon = Integer.parseInt(getMessage);
+		try {
+			planetaNuestro.newPlasmaCannon(numPlasmaCannon);
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error10.setText(e1.getMessage());
+		}
+	}
+});
+botonesBuild[11] = new JButton("Go Back");
+botonesBuild[11].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error8.setText("");
+		error10.setText("");
+		error9.setText("");
+	}
+});
 
 panelBuildDefenses.add(botonesBuild[8]);
 botonesBuild[8].setBounds((ANCHO_TABLERO/2)-300, 90, 200, 50);
@@ -343,7 +522,6 @@ botonesTech[0].addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			planetaNuestro.upgradeTechnologyAttack();
-			System.out.println(planetaNuestro.getDeuterium());
 			CantidadDeuterium.setText("Deuterium resources: " + planetaNuestro.getDeuterium());
 			botonesTech[0].setText("<html>Upgrade Attack Technology<br> COSTE: "+planetaNuestro.getCosteAtaque()+"</html>");
 			error2.setText("");
@@ -361,7 +539,6 @@ botonesTech[1].addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			planetaNuestro.upgradeTechnologyDefense();
-			System.out.println(planetaNuestro.getDeuterium());
 			CantidadDeuterium.setText("Deuterium resources: " + planetaNuestro.getDeuterium());
 			botonesTech[1].setText("<html>Upgrade Defenses Technology<br> COSTE: "+planetaNuestro.getCosteDefensa()+"</html>");
 			error.setText("");
@@ -899,11 +1076,10 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lanzamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lanzamisiles.");
+		
 		
 	}
 	
@@ -933,11 +1109,10 @@ class Planet {
 				
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 	}
 	
 	public void newBattleShip(int n) throws ResourceException{
@@ -966,11 +1141,10 @@ class Planet {
 				
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 	}
 	
 	public void newArmoredShip(int n) throws ResourceException{
@@ -999,11 +1173,10 @@ class Planet {
 				
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 		
 	}
 	
@@ -1032,11 +1205,10 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 		
 	}
 	
@@ -1065,11 +1237,10 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 	}
 	
 	public void newPlasmaCannon(int n) throws ResourceException{
@@ -1097,11 +1268,10 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " lanzamisiles.<br> No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 	}
 	
 	public String printStats() {
