@@ -1293,12 +1293,12 @@ class Battle{
 		List<Integer> listaProbabilidad = Arrays.asList(1,2,2,3,3,3,4,4,4,4);
 		int probabilidad = (int)((Math.random()* 10)+0);
 		
-		if (listaProbabilidad.get(probabilidad) == 1) {
+		if (enemyArmy[0].size() > 0 && listaProbabilidad.get(probabilidad) == 1) {
 				atacanteEnemigo = enemyArmy[0].get((int)(Math.random()*enemyArmy[0].size()));
 			
 			
 		}
-		else if (listaProbabilidad.get(probabilidad) == 2) {
+		else if (enemyArmy[1].size() > 0 && listaProbabilidad.get(probabilidad) == 2) {
 				atacanteEnemigo = enemyArmy[1].get((int)(Math.random()*enemyArmy[1].size()));
 		
 			
@@ -1357,6 +1357,7 @@ class Battle{
 			}
 			if (defensorEnemigo == null) {
 				EjercitoDefensorEnemigo();
+				//defensorNuestro = new LightHunter();
 			}
 			return defensorEnemigo;
 	}
@@ -1404,6 +1405,7 @@ class Battle{
 		int TotalUnidades = (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size());
 		MilitaryUnit defensorNuestro = null;
 		
+		//si no tienes unidades, te peta divided entre 0
 		int probabilidadLightHunter = (int)100*(planetArmy[0].size())/(TotalUnidades);
 		int probabilidadHeavyHunter = (int)100*(planetArmy[1].size())/(TotalUnidades);
 		int probabilidadBattleShip = (int)100*(planetArmy[2].size())/(TotalUnidades);
@@ -1454,7 +1456,7 @@ class Battle{
 			
 		}
 		if (defensorNuestro == null) {
-			EjercitoDefensorNuestro();
+			defensorNuestro = new LightHunter();
 		}
 		return defensorNuestro;
 	}
@@ -1524,7 +1526,10 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[0].size() > 0) {
-							planetArmy[0].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[0].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[0].remove(0);
+							}
 							System.out.println("Eliminado lighthunter");
 							System.out.println("Lighthunters restantes MIPLANETA " + planetArmy[0].size());
 							LightHunterMiosFinal = LightHunterMiosFinal + 1;
@@ -1546,7 +1551,10 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[1].size() > 0) {
-							planetArmy[1].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[1].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[1].remove(0);
+							}
 							System.out.println("Eliminado heavyhunter");
 							System.out.println("Heavyhunters restantes MIPLANETA " + planetArmy[1].size());
 							HeavyHunterMiosFinal = HeavyHunterMiosFinal + 1;
@@ -1566,7 +1574,10 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[2].size() > 0) {
-							planetArmy[2].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[2].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[2].remove(0);
+							}
 							System.out.println("Eliminado battleship");
 							System.out.println("BattleShip restantes MIPLANETA " + planetArmy[2].size());
 							BattleShipMiosFinal = BattleShipMiosFinal + 1;
@@ -1588,7 +1599,11 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[3].size() > 0) {
-							planetArmy[3].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[3].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[3].remove(0);
+							}
+							
 							System.out.println("Eliminado armoredship");
 							System.out.println("ArmoredShip restantes MIPLANETA " + planetArmy[3].size());
 							ArmoredShipMiosFinal = ArmoredShipMiosFinal + 1;
@@ -1611,7 +1626,11 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[4].size() > 0) {
-							planetArmy[4].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[4].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[4].remove(0);
+							}
+						
 							System.out.println("Eliminado missilelauncher");
 							System.out.println("Missilelauncher restantes MIPLANETA " + planetArmy[4].size());
 							MissileLauncherMiosFinal = MissileLauncherMiosFinal + 1;
@@ -1631,7 +1650,11 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[5].size() > 0) {
-							planetArmy[5].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[5].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[5].remove(0);
+							}
+						
 							System.out.println("Eliminado ioncannon");
 							System.out.println("Ioncannon restantes MIPLANETA " + planetArmy[5].size());
 							IonCannonMiosFinal = IonCannonMiosFinal + 1;
@@ -1654,7 +1677,11 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (planetArmy[6].size() > 0) {
-							planetArmy[6].remove(defensorMiPlaneta);
+							boolean eliminado = planetArmy[6].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								planetArmy[6].remove(0);
+							}
+							
 							System.out.println("Eliminado plasmacannon");
 							System.out.println("Plasmacannon restantes MIPLANETA " + planetArmy[6].size());
 							PlasmaCannonMiosFinal = PlasmaCannonMiosFinal + 1;
@@ -2196,7 +2223,10 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (enemyArmy[0].size() > 0) {
-							enemyArmy[0].remove(defensorContrario);
+							boolean eliminado = enemyArmy[0].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								enemyArmy[0].remove(0);
+							}
 							System.out.println("Eliminado lighthunter");
 							System.out.println("Lighthunters restantes PLANETAENEMIGO " + enemyArmy[0].size());
 							LightHuntersEnemigoFinal = LightHuntersEnemigoFinal + 1;
@@ -2215,7 +2245,11 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (enemyArmy[1].size() > 0) {
-							enemyArmy[1].remove(defensorContrario);
+							boolean eliminado = enemyArmy[1].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								enemyArmy[1].remove(0);
+							}
+						
 							System.out.println("Eliminado heavyhunter");
 							System.out.println("Heavyhunter restantes PLANETAENEMIGO " + enemyArmy[1].size());
 							HeavyHuntersEnemigoFinal = HeavyHuntersEnemigoFinal + 1;
@@ -2235,7 +2269,11 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (enemyArmy[2].size() > 0) {
-							enemyArmy[2].remove(defensorContrario);
+							boolean eliminado = enemyArmy[2].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								enemyArmy[2].remove(0);
+							}
+							
 							System.out.println("Eliminado battleship");
 							System.out.println("BattleShip restantes PLANETAENEMIGO " + enemyArmy[2].size());
 							BattleShipEnemigoFinal = BattleShipEnemigoFinal + 1;
@@ -2256,7 +2294,10 @@ class Battle{
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
 						if (enemyArmy[3].size() > 0) {
-							enemyArmy[3].remove(defensorContrario);
+							boolean eliminado = enemyArmy[3].remove(defensorMiPlaneta);
+							if (!eliminado) {
+								enemyArmy[3].remove(0);
+							}
 							System.out.println("Eliminado armoredship");
 							System.out.println("ArmoredShip restantes PLANETAENEMIGO " + enemyArmy[3].size());
 							ArmoredShipEnemigoFinal = ArmoredShipEnemigoFinal + 1;
@@ -2427,7 +2468,7 @@ class Battle{
 				}
 				else if (atacanteMiPlaneta.getClass().getName().equals("BattleShip")) {
 					if (probabilidadAtacarNuestro <= Variables.CHANCE_ATTACK_AGAIN_BATTLESHIP) {
-						defensorContrario = EjercitoDefensorNuestro();
+						defensorContrario = EjercitoDefensorEnemigo();
 						if (defensorContrario.getClass().getName().equals("LightHunter")) {
 							if (enemyArmy[0].size() > 0) {
 								defensorContrario = enemyArmy[0].get((int)(Math.random()*enemyArmy[0].size()));
