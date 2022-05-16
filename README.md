@@ -1,7 +1,7 @@
 # OGame_MIX
 Proyecto Final DAW Primer Año
 
-Este proyecto consta de un videojuego de estrategia el cual es de un solo jugador y que trata de poder atacar y defender planetas con la ayuda de recursos los cuales vas ganando en las batallas, que sirven para poder construir naves, defensas y poder mejorarlas.
+Este proyecto consta de un videojuego de estrategia el cual es de un solo jugador, que trata de poder atacar y defender planetas con la ayuda de recursos los cuales vas ganando en las batallas, que sirven para poder construir naves, defensas y poder mejorarlas.
 
 **Requisitos**
 
