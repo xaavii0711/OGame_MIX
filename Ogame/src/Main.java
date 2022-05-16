@@ -735,7 +735,9 @@ class LightHunter extends Ship{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 	}
 
 	public int getActualArmor() {
@@ -795,7 +797,9 @@ class HeavyHunter extends Ship{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 	}
 
 	public int getActualArmor() {
@@ -852,7 +856,9 @@ class BattleShip extends Ship{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 	}
 
 	public int getActualArmor() {
@@ -907,7 +913,9 @@ class ArmoredShip extends Ship{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 		
 	}
 
@@ -992,7 +1000,9 @@ class MissileLauncher extends Defense{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 	}
 
 	public int getActualArmor() {
@@ -1050,7 +1060,9 @@ class IonCannon extends Defense{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 	}
 
 	public int getActualArmor() {
@@ -1104,7 +1116,9 @@ class PlasmaCannon extends Defense{
 	}
 
 	public void tekeDamage(int receivedDamage) {
-		setArmor(getActualArmor()-receivedDamage);
+		if (getActualArmor() > 0) {
+			setArmor(getActualArmor()-receivedDamage);
+		}
 		
 	}
 
@@ -1506,15 +1520,11 @@ class Battle{
 		
 		System.out.println("*****CHANGE ATTACKER*****");
 		while (true) {
+			sumaEjercitoAtacante = enemyArmy[0].size() + enemyArmy[1].size() + enemyArmy[2].size() + enemyArmy[3].size();
+			sumaEjercitoDefensor = planetArmy[0].size() + planetArmy[1].size() + planetArmy[2].size() +  planetArmy[3].size() + planetArmy[4].size() + planetArmy[5].size() + planetArmy[0].size();
 			while (turnoPlanetaAtacante == true) {
-				if (sumaEjercitoAtacante <pararAtacante ) {
-					parar = true;
-					break;
-				}
-				else if (sumaEjercitoDefensor < pararDefensor) {
-					parar = true;
-					break;
-				}
+				System.out.println("SUMA EJERCITO ATACANTE = "+sumaEjercitoAtacante);
+				System.out.println("SUMA EJERCITO DEFENSOR = "+sumaEjercitoDefensor);
 				System.out.println("Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorMiPlaneta.getClass().getName());
 				System.out.println(atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack());
 				defensorMiPlaneta.tekeDamage(atacanteContrario.attack());
@@ -1539,6 +1549,14 @@ class Battle{
 							System.out.println("Lighthunters restantes MIPLANETA " + planetArmy[0].size());
 							LightHunterMiosFinal = LightHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -1564,6 +1582,14 @@ class Battle{
 							System.out.println("Heavyhunters restantes MIPLANETA " + planetArmy[1].size());
 							HeavyHunterMiosFinal = HeavyHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -1587,6 +1613,14 @@ class Battle{
 							System.out.println("BattleShip restantes MIPLANETA " + planetArmy[2].size());
 							BattleShipMiosFinal = BattleShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -1613,6 +1647,14 @@ class Battle{
 							System.out.println("ArmoredShip restantes MIPLANETA " + planetArmy[3].size());
 							ArmoredShipMiosFinal = ArmoredShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -1635,11 +1677,19 @@ class Battle{
 							if (!eliminado) {
 								planetArmy[4].remove(0);
 							}
-						
+							
 							System.out.println("Eliminado missilelauncher");
 							System.out.println("Missilelauncher restantes MIPLANETA " + planetArmy[4].size());
 							MissileLauncherMiosFinal = MissileLauncherMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -1664,6 +1714,14 @@ class Battle{
 							System.out.println("Ioncannon restantes MIPLANETA " + planetArmy[5].size());
 							IonCannonMiosFinal = IonCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -1691,6 +1749,14 @@ class Battle{
 							System.out.println("Plasmacannon restantes MIPLANETA " + planetArmy[6].size());
 							PlasmaCannonMiosFinal = PlasmaCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
+							if (sumaEjercitoAtacante <pararAtacante ) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorMiPlaneta = EjercitoDefensorNuestro();
@@ -2204,15 +2270,10 @@ class Battle{
 				
 			}
 			while (turnoMiplaneta == true) {
-				if (sumaEjercitoAtacante < pararAtacante) {
-					parar = true;
-					break;
-				}
-				else if (sumaEjercitoDefensor < pararDefensor) {
-					parar = true;
-					break;
-				}
-				
+				sumaEjercitoAtacante = enemyArmy[0].size() + enemyArmy[1].size() + enemyArmy[2].size() + enemyArmy[3].size();
+				sumaEjercitoDefensor = planetArmy[0].size() + planetArmy[1].size() + planetArmy[2].size() +  planetArmy[3].size() + planetArmy[4].size() + planetArmy[5].size() + planetArmy[0].size();
+				System.out.println("SUMA EJERCITO ATACANTE = "+sumaEjercitoAtacante);
+				System.out.println("SUMA EJERCITO DEFENSOR = "+sumaEjercitoDefensor);
 				System.out.println("Attacks Planet enemy: " + atacanteMiPlaneta.getClass().getName() + " attacks " + defensorContrario.getClass().getName());
 				System.out.println(atacanteMiPlaneta.getClass().getName() + " generates the damage = " + atacanteMiPlaneta.attack());
 				defensorContrario.tekeDamage(atacanteMiPlaneta.attack());
@@ -2228,6 +2289,7 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						System.out.println("LIGTHUNTERS RESTANTES: " + enemyArmy[0].size());
 						if (enemyArmy[0].size() > 0) {
 							boolean eliminado = enemyArmy[0].remove(defensorContrario);
 							if (!eliminado) {
@@ -2235,8 +2297,17 @@ class Battle{
 							}
 							System.out.println("Eliminado lighthunter");
 							System.out.println("Lighthunters restantes PLANETAENEMIGO " + enemyArmy[0].size());
+							System.out.println("LIGTHUNTERS RESTANTES: " + enemyArmy[0].size());
 							LightHuntersEnemigoFinal = LightHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+							if (sumaEjercitoAtacante < pararAtacante) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorContrario = EjercitoDefensorEnemigo();
@@ -2250,6 +2321,7 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						System.out.println("HEAVYHUNTERS RESTANTES: " + enemyArmy[1].size());
 						if (enemyArmy[1].size() > 0) {
 							boolean eliminado = enemyArmy[1].remove(defensorContrario);
 							if (!eliminado) {
@@ -2258,8 +2330,17 @@ class Battle{
 						
 							System.out.println("Eliminado heavyhunter");
 							System.out.println("Heavyhunter restantes PLANETAENEMIGO " + enemyArmy[1].size());
+							System.out.println("HEAVYHUNTERS RESTANTES: " + enemyArmy[1].size());
 							HeavyHuntersEnemigoFinal = HeavyHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+							if (sumaEjercitoAtacante < pararAtacante) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorContrario = EjercitoDefensorEnemigo();
@@ -2274,6 +2355,7 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						System.out.println("BATTLESHIP RESTANTES: " + enemyArmy[2].size());
 						if (enemyArmy[2].size() > 0) {
 							boolean eliminado = enemyArmy[2].remove(defensorContrario);
 							if (!eliminado) {
@@ -2282,8 +2364,17 @@ class Battle{
 							
 							System.out.println("Eliminado battleship");
 							System.out.println("BattleShip restantes PLANETAENEMIGO " + enemyArmy[2].size());
+							System.out.println("BATTLESHIP RESTANTES: " + enemyArmy[2].size());
 							BattleShipEnemigoFinal = BattleShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+							if (sumaEjercitoAtacante < pararAtacante) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorContrario = EjercitoDefensorEnemigo();
@@ -2299,6 +2390,7 @@ class Battle{
 							ResiduosTotalMetal += residuosMetal;
 							ResiduosTotalDeuterium += residuoDeuterio;
 						}
+						System.out.println("ARMOREDSHIP RESTANTES: " + enemyArmy[3].size());
 						if (enemyArmy[3].size() > 0) {
 							boolean eliminado = enemyArmy[3].remove(defensorContrario);
 							if (!eliminado) {
@@ -2306,8 +2398,17 @@ class Battle{
 							}
 							System.out.println("Eliminado armoredship");
 							System.out.println("ArmoredShip restantes PLANETAENEMIGO " + enemyArmy[3].size());
+							System.out.println("ARMOREDHIP RESTANTES: " + enemyArmy[3].size());
 							ArmoredShipEnemigoFinal = ArmoredShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
+							if (sumaEjercitoAtacante < pararAtacante) {
+								parar = true;
+								break;
+							}
+							else if (sumaEjercitoDefensor < pararDefensor) {
+								parar = true;
+								break;
+							}
 						}
 						else {
 							defensorContrario = EjercitoDefensorEnemigo();
