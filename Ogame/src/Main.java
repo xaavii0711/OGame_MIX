@@ -22,16 +22,16 @@ public class Main {
 	public static void main(String[] args) {
 		Planet p = new Planet();
 		Battle b = new Battle();
-//		b.createEnemyArmy();
-//		b.playBattle();
+		b.createEnemyArmy();
+		b.playBattle();
 		
-		CallableStatement cst;
+		CallableStatement cst,cst1,cst2,cst3,cst4,cst5,cst6,cst7;
 		BufferedReader entrada;
 		int id;
 		Connection cn;
 		cn = null;
-		id = -1;
-		System.out.println(b.LightHuntersEnemigoComienzo);
+		id = 0;
+		int id_batalla = 1;
         
         try {
             // Carga el driver de oracle
@@ -43,27 +43,144 @@ public class Main {
            
             
             // Llamada al procedimiento almacenado
-            cst = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?)}");
-
+            cst = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst1 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst2 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst3 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst4 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst5 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst6 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
+            cst7 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
             do {
+            	cst4.setInt(1, 1);
+            	cst4.registerOutParameter(2, java.sql.Types.INTEGER);
+            	cst4.registerOutParameter(3, java.sql.Types.INTEGER);
+            	cst4.registerOutParameter(4, java.sql.Types.INTEGER);
+            	cst4.registerOutParameter(5, java.sql.Types.INTEGER);
+            	cst4.registerOutParameter(6, java.sql.Types.INTEGER);
+            	cst4.registerOutParameter(7, java.sql.Types.INTEGER);
+            	cst4.setInt(1, id_batalla);
+            	cst4.setInt(2, 1);
+            	cst4.setInt(3, 1);
+            	cst4.setInt(4, b.LightHunterMiosComienzo);
+            	cst4.setInt(5, b.LightHunterMiosFinal);
+            	cst4.setInt(6, 0);
+            	cst4.setInt(7, 0);
+            	cst4.execute();
+            	
+            	cst5.setInt(1, 1);
+            	cst5.registerOutParameter(2, java.sql.Types.INTEGER);
+            	cst5.registerOutParameter(3, java.sql.Types.INTEGER);
+            	cst5.registerOutParameter(4, java.sql.Types.INTEGER);
+            	cst5.registerOutParameter(5, java.sql.Types.INTEGER);
+            	cst5.registerOutParameter(6, java.sql.Types.INTEGER);
+            	cst5.registerOutParameter(7, java.sql.Types.INTEGER);
+            	cst5.setInt(1, id_batalla);
+            	cst5.setInt(2, 1);
+            	cst5.setInt(3, 2);
+            	cst5.setInt(4, b.HeavyHunterMiosComienzo);
+            	cst5.setInt(5, b.HeavyHunterMiosFinal);
+            	cst5.setInt(6, 0);
+            	cst5.setInt(7, 0);
+            	cst5.execute();
+            	
+            	cst6.setInt(1, 1);
+            	cst6.registerOutParameter(2, java.sql.Types.INTEGER);
+            	cst6.registerOutParameter(3, java.sql.Types.INTEGER);
+            	cst6.registerOutParameter(4, java.sql.Types.INTEGER);
+            	cst6.registerOutParameter(5, java.sql.Types.INTEGER);
+            	cst6.registerOutParameter(6, java.sql.Types.INTEGER);
+            	cst6.registerOutParameter(7, java.sql.Types.INTEGER);
+            	cst6.setInt(1, id_batalla);
+            	cst6.setInt(2, 1);
+            	cst6.setInt(3, 3);
+            	cst6.setInt(4, b.BattleShipMiosComienzo);
+            	cst6.setInt(5, b.BattleShipMiosFinal);
+            	cst6.setInt(6, 0);
+            	cst6.setInt(7, 0);
+            	cst6.execute();
+            	
+            	cst7.setInt(1, 1);
+            	cst7.registerOutParameter(2, java.sql.Types.INTEGER);
+            	cst7.registerOutParameter(3, java.sql.Types.INTEGER);
+            	cst7.registerOutParameter(4, java.sql.Types.INTEGER);
+            	cst7.registerOutParameter(5, java.sql.Types.INTEGER);
+            	cst7.registerOutParameter(6, java.sql.Types.INTEGER);
+            	cst7.registerOutParameter(7, java.sql.Types.INTEGER);
+            	cst7.setInt(1, id_batalla);
+            	cst7.setInt(2, 1);
+            	cst7.setInt(3, 4);
+            	cst7.setInt(4, b.ArmoredShipMiosComienzo);
+            	cst7.setInt(5, b.ArmoredShipMiosFinal);
+            	cst7.setInt(6, 0);
+            	cst7.setInt(7, 0);
+            	cst7.execute();
+            	
             	cst.setInt(1, 1);
                 cst.registerOutParameter(2, java.sql.Types.INTEGER);
                 cst.registerOutParameter(3, java.sql.Types.INTEGER);
                 cst.registerOutParameter(4, java.sql.Types.INTEGER);
                 cst.registerOutParameter(5, java.sql.Types.INTEGER);
                 cst.registerOutParameter(6, java.sql.Types.INTEGER);
-                cst.setInt(1, 1);
+                cst.registerOutParameter(7, java.sql.Types.INTEGER);
+                cst.setInt(1, id_batalla);
                 cst.setInt(2, 2);
                 cst.setInt(3, 1);
                 cst.setInt(4, b.LightHuntersEnemigoComienzo);
-                cst.setInt(5, 0);
+                cst.setInt(5, b.LightHuntersEnemigoFinal);
                 cst.setInt(6, 0);
-                System.out.println("aaaa");
+                cst.setInt(7, 0);
                 cst.execute();
-                System.out.println("bbbb");
-            
-
-
+                
+                cst1.setInt(1, 1);
+                cst1.registerOutParameter(2, java.sql.Types.INTEGER);
+                cst1.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst1.registerOutParameter(4, java.sql.Types.INTEGER);
+                cst1.registerOutParameter(5, java.sql.Types.INTEGER);
+                cst1.registerOutParameter(6, java.sql.Types.INTEGER);
+                cst1.registerOutParameter(7, java.sql.Types.INTEGER);
+                cst1.setInt(1, id_batalla);
+                cst1.setInt(2, 2);
+                cst1.setInt(3, 2);
+                cst1.setInt(4, b.HeavyHuntersEnemigoComienzo);
+                cst1.setInt(5, b.HeavyHuntersEnemigoFinal);
+                cst1.setInt(6, 0);
+                cst1.setInt(7, 0);
+                cst1.execute();
+                
+                cst2.setInt(1, 1);
+                cst2.registerOutParameter(2, java.sql.Types.INTEGER);
+                cst2.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst2.registerOutParameter(4, java.sql.Types.INTEGER);
+                cst2.registerOutParameter(5, java.sql.Types.INTEGER);
+                cst2.registerOutParameter(6, java.sql.Types.INTEGER);
+                cst2.registerOutParameter(7, java.sql.Types.INTEGER);
+                cst2.setInt(1, id_batalla);
+                cst2.setInt(2, 2);
+                cst2.setInt(3, 3);
+                cst2.setInt(4, b.BattleShipEnemigoComienzo);
+                cst2.setInt(5, b.BattleShipEnemigoFinal);
+                cst2.setInt(6, 0);
+                cst2.setInt(7, 0);
+                cst2.execute();
+                
+                cst3.setInt(1, 1);
+                cst3.registerOutParameter(2, java.sql.Types.INTEGER);
+                cst3.registerOutParameter(3, java.sql.Types.INTEGER);
+                cst3.registerOutParameter(4, java.sql.Types.INTEGER);
+                cst3.registerOutParameter(5, java.sql.Types.INTEGER);
+                cst3.registerOutParameter(6, java.sql.Types.INTEGER);
+                cst3.registerOutParameter(7, java.sql.Types.INTEGER);
+                cst3.setInt(1, id_batalla);
+                cst3.setInt(2, 2);
+                cst3.setInt(3, 4);
+                cst3.setInt(4, b.ArmoredShipEnemigoComienzo);
+                cst3.setInt(5, b.ArmoredShipEnemigoFinal);
+                cst3.setInt(6, 0);
+                cst3.setInt(7, 0);
+                cst3.execute();
+                
+                System.out.println("Datos insertados correctamente");
             } while (id > 0);
 
         } catch (SQLException ex) {
