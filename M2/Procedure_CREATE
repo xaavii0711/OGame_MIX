@@ -1,4 +1,4 @@
-create or replace procedure CREATE_TABLE
+create or replace NONEDITIONABLE procedure CREATE_TABLE
 is
 planetsCreate varchar2(1000);
 usersCreate varchar2(1000);
@@ -68,7 +68,7 @@ shipsPlanetsCreate := 'CREATE TABLE SHIPS_IN_PLANETS
 (ID_Planet NUMBER,
 ID_Ships NUMBER,
 Quantity NUMBER,
-Level NUMBER,
+ShipLevel NUMBER,
 Constraint fk_ships_planets FOREIGN KEY (ID_Planet)
 REFERENCES PLANETS (ID_Planet),
 Constraint fk_ships_planets2 FOREIGN KEY (ID_Ships)
@@ -78,7 +78,7 @@ defensesPlanetsCreate := 'CREATE TABLE DEFENSES_IN_PLANETS
 (ID_Planet NUMBER,
 ID_Defense NUMBER,
 Quantity NUMBER,
-Level NUMBER,
+DefenseLevel NUMBER,
 Constraint fk_ships_defenses FOREIGN KEY (ID_Planet)
 REFERENCES PLANETS (ID_Planet),
 Constraint fk_ships_defenses2 FOREIGN KEY (ID_Defense)
@@ -91,11 +91,4 @@ execute immediate defensesCreate;
 execute immediate battleCreate;
 execute immediate shipsPlanetsCreate;
 execute immediate defensesPlanetsCreate;
-end;
-
-
-
-set serveroutput on
-begin
-create_TABLE();
 end;
