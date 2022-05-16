@@ -96,4 +96,4 @@ execute immediate defensesCreate;
 execute immediate battleCreate;
 execute immediate shipsPlanetsCreate;
 execute immediate defensesPlanetsCreate;
-end;.
+end;
