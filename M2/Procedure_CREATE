@@ -60,6 +60,11 @@ Constraint pk_defenses PRIMARY KEY(ID_Defense))';
 battleCreate := 'CREATE TABLE BATTLE
 (ID_Battle NUMBER,
 ID_User NUMBER,
+AllyShip NUMBER,
+EnemyShip NUMBER,
+AllyDefense NUMBER,
+EnemyDefense NUMBER,
+TechnologyLevel NUMBER,
 Constraint pk_battle PRIMARY KEY (ID_Battle),
 Constraint fk_users_battle FOREIGN KEY (ID_User)
 REFERENCES USERS (ID_User))';
