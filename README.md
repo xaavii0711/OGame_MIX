@@ -5,7 +5,7 @@ Este proyecto consta de un videojuego de estrategia el cual es de un solo jugado
 
 **Requisitos**
 
-Para poder utilizar este videojuego se necesitará tener instalado java, el programa Eclipse, tener instalado una base de datos Oracle y ejecutar nuestros procedimientos
+Para poder utilizar este videojuego se necesitará tener instalado java, el programa Eclipse, tener instalado una base de datos Oracle y ejecutar nuestros procedimientos.
 
 **CONTACTE**
 
