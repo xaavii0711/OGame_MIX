@@ -1,0 +1,5 @@
+create or replace procedure insert_ships_in_planets(id_battle INT, id_planet INT, id_ships INT, quantity INT, tecnhologyAttack INT, tecnhologyDefense INT)
+is
+begin
+insert into ships_in_planets values(id_battle, id_planet, id_ships, quantity, tecnhologyAttack, tecnhologyDefense);
+end;
