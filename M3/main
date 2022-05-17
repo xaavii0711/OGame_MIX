@@ -1,5 +1,3 @@
-package proyecto;
-
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -56,15 +54,17 @@ PanelInicio panelBuild;
 PanelInicio panelBuildTroops;
 PanelInicio panelBuildDefenses;
 PanelInicio panelUpgradeTech;
-PanelInicio panelBattleReport;
 PanelInicio panelCurrentBattle;
 PanelInicio PanelThreadComing;
+PanelInicio panelBattleReport;
+PanelInicio panelReportedBattle;
 private JButton[] botonesMenu1= new JButton[8];
 private JButton[] botonesBuild= new JButton[12];
 private JButton[] botonesTech= new JButton[3];
 private JButton botonesStats= new JButton();
 private JButton botonesCurrent = new JButton();
 private JButton botonesThread= new JButton();
+private JButton botonesReportedBattle= new JButton();
 private JButton[] botonesReport= new JButton[3];
 
 public static void main(String[] args) {
@@ -123,6 +123,10 @@ JLabel backgroundStats;
 ImageIcon imgBuildStats = new ImageIcon("backg.jpg");
 backgroundStats = new JLabel("",img,JLabel.CENTER);
 backgroundStats.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundReport;
+backgroundReport = new JLabel("",img,JLabel.CENTER);
+backgroundReport.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
 //Panel INICIAL
 panel1 = new PanelInicio();
 panel1.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
@@ -208,17 +212,78 @@ add(panelBattleReport);
 panelBattleReport.setLayout(null);
 panelBattleReport.setVisible(false);
 
+panelReportedBattle = new PanelInicio();
+panelReportedBattle.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelReportedBattle);
+panelReportedBattle.setLayout(null);
+panelReportedBattle.setVisible(false);
 
 JLabel tituloReport = new JLabel("BATTLE REPORT",SwingConstants.CENTER);
 panelBattleReport.add(tituloReport);
 tituloReport.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
 tituloReport.setFont(new Font("Verdana",1,35));
+tituloReport.setForeground(Color.white);
 
-botonesReport[0] = new JButton("Go Back");
+JLabel tituloReportedBattle2 = new JLabel("",SwingConstants.CENTER);
+panelReportedBattle.add(tituloReportedBattle2);
+
+JLabel reports = new JLabel();
+panelReportedBattle.add(reports);
+reports.setBounds((ANCHO_TABLERO/2)-250, 30, 900, 480);
+reports.setFont(new Font("Verdana",1,11));
+
+botonesReport[0] = new JButton("View Battle");
+botonesReport[1] = new JButton("Go Back");
+
 panelBattleReport.add(botonesReport[0]);
-botonesReport[0].setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
-botonesReport[0].setBackground(new Color(246, 90, 90));
-botonesReport[0].addActionListener(new GoBackReport());
+panelBattleReport.add(botonesReport[1]);
+
+botonesReport[0].setBounds((ANCHO_TABLERO/2)-150, (ALTO_TABLERO/2)-50, 300, 50);
+botonesReport[0].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Batalla que deseas ver");
+		
+		try {
+			int numBattleReport = Integer.parseInt(getMessage);
+			System.out.println("Elegiste la batalla "+numBattleReport);
+			if (numBattleReport > 5){
+				JOptionPane.showMessageDialog(panelBattleReport,"La batalla con ID "+numBattleReport+" no existe");
+			} else if (numBattleReport > 0 && numBattleReport <= 5) {
+				
+				panelBattleReport.setVisible(false);
+				panelReportedBattle.setVisible(true);
+				
+				botonesReportedBattle = new JButton("Go Back");
+				panelReportedBattle.add(botonesReportedBattle);
+				botonesReportedBattle.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+				botonesReportedBattle.setBackground(new Color(246, 90, 90));
+				botonesReportedBattle.addActionListener(new GoBackReportedBattle());
+				
+				tituloReportedBattle2.setText("BATTLE " + Integer.toString(numBattleReport));
+				
+				tituloReportedBattle2.setBounds((ANCHO_TABLERO/2)-455, 15, 900, 70);
+				tituloReportedBattle2.setFont(new Font("Verdana",1,35));
+				
+				reports.setText(batalla.battleReport());
+			}
+		} catch (Exception e1) {
+			// TODO: handle exception
+			System.out.println(e1.getMessage());
+		}
+		
+		
+	}
+});
+
+botonesReport[1].setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+botonesReport[1].setBackground(new Color(246, 90, 90));
+botonesReport[1].addActionListener(new GoBackReport());
+
+panelBattleReport.add(backgroundReport);
+
 //Panel Build
 panelBuild = new PanelInicio();
 panelBuild.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
@@ -602,7 +667,6 @@ botonesCurrent.setBackground(new Color(246, 90, 90));
 botonesCurrent.addActionListener(new GoBackViewCurrentBattle());
 
 
-
 JTextArea battleCurrent = new JTextArea();
 battleCurrent.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
 battleCurrent.setFont(new Font("Verdana",1,11));
@@ -618,7 +682,6 @@ panelCurrentBattle.add(scrollPane);
 botonesMenu1[4].addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
 		battleCurrent.setText(batalla.getBattleDevelopment());
-		battleCurrent.setText("es una canción interpretada por la cantante estadounidense Madonna, incluida en su quinto álbum de En términos generales, «Erotica» obtuvo comentarios positivos deEn términos generales, «Erotica» obtuvo comentarios positivos de los críticos y periodistas musicales, quienes vieron similitudes con «Justify My Love» por las partes habladas y la reconocieron como una de las canciones más destacadas del disco. Desde el punto de vista comercial, alcanzó la tercera posición en el Billboard Hot 100 de Estados Unidos; si bien esto supuso el primer sencillo principal de un álbum de Madonna que no lideró el conteo desde su disco debut de 1983, significó el mayor debut en la historia de la lista Hot 100 Airplay al ingresar en la segunda posición. Además, obtuvo un disco de oro de la Recording Industry Association of America (RIAA) y estuvo entre los diez mejores en otros países europeos, entre ellos Grecia e Italia, donde llegó al primer puesto.En términos generales, «Erotica» obtuvo comentarios positivos de los críticos y periodistas musicales, quienes vieron similitudes con «Justify My Love» por las partes habladas y la reconocieron como una de las canciones más destacadas del disco. Desde el punto de vista comercial, alcanzó la tercera posición en el Billboard Hot 100 de Estados Unidos; si bien esto supuso el primer sencillo principal de un álbum de Madonna que no lideró el conteo desde su disco debut de 1983, significó el mayor debut en la historia de la lista Hot 100 Airplay al ingresar en la segunda posición. Además, obtuvo un disco de oro de la Recording Industry Association of America (RIAA) y estuvo entre los diez mejores en otros países europeos, entre ellos Grecia e Italia, donde llegó al primer puesto.En términos generales, «Erotica» obtuvo comentarios positivos de los críticos y periodistas musicales, quienes vieron similitudes con «Justify My Love» por las partes habladas y la reconocieron como una de las canciones más destacadas del disco. Desde el punto de vista comercial, alcanzó la tercera posición en el Billboard Hot 100 de Estados Unidos; si bien esto supuso el primer sencillo principal de un álbum de Madonna que no lideró el conteo desde su disco debut de 1983, significó el mayor debut en la historia de la lista Hot 100 Airplay al ingresar en la segunda posición. Además, obtuvo un disco de oro de la Recording Industry Association of America (RIAA) y estuvo entre los diez mejores en otros países europeos, entre ellos Grecia e Italia, donde llegó al primer puesto. los críticos y periodistas musicales, quienes vieron similitudes con «Justify My Love» por las partes habladas y la reconocieron como una de las canciones más destacadas del disco. Desde el punto de vista comercial, alcanzó la tercera posición en el Billboard Hot 100 de Estados Unidos; si bien esto supuso el primer sencillo principal de un álbum de Madonna que no lideró el conteo desde su disco debut de 1983, significó el mayor debut en la historia de la lista Hot 100 Airplay al ingresar en la segunda posición. Además, obtuvo un disco de oro de la Recording Industry Association of America (RIAA) y estuvo entre los diez mejores en otros países europeos, entre ellos Grecia e Italia, donde llegó al primer puesto. estudio del mismo nombre. Las compañías Maverick, Sire y Warner Bros. Records la publicaron el 29 de septiembre de 1992 como el primer sencillo del disco, y figuró posteriormente en los grandes éxitos GHV2 (2001) y Celebration (2009). Compuesta y producida por Madonna y Shep Pettibone —con escritura adicional de Anthony Shimkin—, es un tema de género trip hop e incluye loops agudos y una voz susurrante de la cantante. Se destaca por emplear la técnica del spoken word o palabra hablada que se había introducido anteriormente en «Justify My Love» (1990). La artista adopta un alter ego llamado Dita, en homenaje a la actriz alemana Dita Parlo, y en la letra invita a su amante a asumir un rol sumiso a la vez que lo lleva a explorar los límites entre el dolor y el placer.");
 	}
 });
 
@@ -675,8 +738,8 @@ TimerTask task3 = new TimerTask() {
         botonesMenu1[5].setEnabled(false);
     }
 };
-timer.schedule(task1, 5000, 180000);
-timer.schedule(task2, 10000, 180000);
+timer.schedule(task1, 5000, 12000);
+timer.schedule(task2, 10000, 18000);
 //timer.schedule(task3, 0, 180000);
 
 setLocationRelativeTo(null);
@@ -746,6 +809,14 @@ class GoBackReport implements ActionListener{
 	}
 }
 
+class GoBackReportedBattle implements ActionListener{
+    public void actionPerformed(ActionEvent e) {
+        panelBattleReport.setVisible(true);
+        panelReportedBattle.setVisible(false);
+
+    }
+}
+
 class GoBackBuild implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		panel1.setVisible(true);
@@ -812,6 +883,8 @@ class GoBackUpgradeTech implements ActionListener{
 	}
 }
 
+
+
 class ResetDatabase implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		int reset = JOptionPane.showConfirmDialog(panel1, "Â¿Do you really want to reset database?");
@@ -831,6 +904,8 @@ class CloseProgram implements ActionListener{
 	
 	}
 }
+
+
 }
 
 
@@ -2198,8 +2273,8 @@ class Battle{
 		
 		int numAleatorio = (int)((Math.random()* sumaProbabilidades)+1);
 		
-		MilitaryUnit atacante = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));;
-		
+		MilitaryUnit atacante = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
+				
 		if (planetArmy[0].size() > 0 && arrayProbabilidades[0] > numAleatorio) {
 			atacante = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
 		}
@@ -2224,6 +2299,7 @@ class Battle{
 		if (atacante == null) {
 			atacante = EjercitoAtacanteNuestro();
 		}
+		
 		return atacante;
 		
 	}
@@ -2353,18 +2429,17 @@ class Battle{
 		 MissileLauncherMiosFinal = 0;
 		 IonCannonMiosFinal = 0;
 		 PlasmaCannonMiosFinal = 0;
-		battle = "<html>";
-		battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+		battle ="*****CHANGE ATTACKER*****" + "\n";
 		while (true) {
 			
 			sumaEjercitoAtacante = enemyArmy[0].size() + enemyArmy[1].size() + enemyArmy[2].size() + enemyArmy[3].size();
 			sumaEjercitoDefensor = planetArmy[0].size() + planetArmy[1].size() + planetArmy[2].size() +  planetArmy[3].size() + planetArmy[4].size() + planetArmy[5].size() + planetArmy[0].size();
 			while (turnoPlanetaAtacante == true) {
 				
-				battle = battle + "Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorMiPlaneta.getClass().getName() + "<br>";
-				battle = battle + atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack() + "<br>";
+				battle = battle + "Attacks fleet enemy: " + atacanteContrario.getClass().getName() + " attacks " + defensorMiPlaneta.getClass().getName() + "\n";
+				battle = battle + atacanteContrario.getClass().getName() + " generates the damage = " + atacanteContrario.attack() + "\n";
 				defensorMiPlaneta.tekeDamage(atacanteContrario.attack());
-				battle = battle + defensorMiPlaneta.getClass().getName() + " stays with armor = " + defensorMiPlaneta.getActualArmor() + "<br>";
+				battle = battle + defensorMiPlaneta.getClass().getName() + " stays with armor = " + defensorMiPlaneta.getActualArmor() + "\n";
 				int probabilidadAtacarEnemigo = (int)((Math.random()* 100)+1);
 				int probabilidadRecursosNuestro = (int)((Math.random()* 100)+1);
 				if (defensorMiPlaneta.getActualArmor() <= 0) {
@@ -2381,7 +2456,7 @@ class Battle{
 							if (!eliminado) {
 								planetArmy[0].remove(0);
 							}
-							battle = battle + "Eliminado lighthunter" + "<br>";
+							battle = battle + "Eliminado lighthunter" + "\n";
 							LightHunterMiosFinal = LightHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2413,7 +2488,7 @@ class Battle{
 							if (!eliminado) {
 								planetArmy[1].remove(0);
 							}
-							battle = battle + "Eliminado heavyhunter" + "<br>";
+							battle = battle + "Eliminado heavyhunter" + "\n";
 							HeavyHunterMiosFinal = HeavyHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2443,7 +2518,7 @@ class Battle{
 							if (!eliminado) {
 								planetArmy[2].remove(0);
 							}
-							battle = battle + "Eliminado battleship" + "<br>";
+							battle = battle + "Eliminado battleship" + "\n";
 							BattleShipMiosFinal = BattleShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2475,7 +2550,7 @@ class Battle{
 							if (!eliminado) {
 								planetArmy[3].remove(0);
 							}
-							battle = battle + "Eliminado armoredship" + "<br>";
+							battle = battle + "Eliminado armoredship" + "\n";
 							ArmoredShipMiosFinal = ArmoredShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2508,7 +2583,7 @@ class Battle{
 							if (!eliminado) {
 								planetArmy[4].remove(0);
 							}	
-							battle = battle + "Eliminado missilelauncher" + "<br>";
+							battle = battle + "Eliminado missilelauncher" + "\n";
 							MissileLauncherMiosFinal = MissileLauncherMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2539,7 +2614,7 @@ class Battle{
 								planetArmy[5].remove(0);
 							}
 						
-							battle = battle + "Eliminado ioncannon" + "<br>";
+							battle = battle + "Eliminado ioncannon" + "\n";
 							IonCannonMiosFinal = IonCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2573,7 +2648,7 @@ class Battle{
 								planetArmy[6].remove(0);
 							}
 							
-							battle = battle + "Eliminado PlasmaCannon" + "<br>";
+							battle = battle + "Eliminado PlasmaCannon" + "\n";
 							PlasmaCannonMiosFinal = PlasmaCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
 							if (sumaEjercitoAtacante <pararAtacante ) {
@@ -2716,7 +2791,7 @@ class Battle{
 					else {
 						turnoPlanetaAtacante = false;
 						turnoMiplaneta = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 						
 					}
@@ -2841,7 +2916,7 @@ class Battle{
 					else {
 						turnoPlanetaAtacante = false;
 						turnoMiplaneta = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 
@@ -2965,7 +3040,7 @@ class Battle{
 					else {
 						turnoPlanetaAtacante = false;
 						turnoMiplaneta = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 
@@ -3089,7 +3164,7 @@ class Battle{
 					else {
 						turnoPlanetaAtacante = false;
 						turnoMiplaneta = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 						
 					}
@@ -3101,10 +3176,10 @@ class Battle{
 				
 				sumaEjercitoAtacante = enemyArmy[0].size() + enemyArmy[1].size() + enemyArmy[2].size() + enemyArmy[3].size();
 				sumaEjercitoDefensor = planetArmy[0].size() + planetArmy[1].size() + planetArmy[2].size() +  planetArmy[3].size() + planetArmy[4].size() + planetArmy[5].size() + planetArmy[0].size();
-				battle = battle + "Attacks Planet enemy: " + atacanteMiPlaneta.getClass().getName() + " attacks " + defensorContrario.getClass().getName() + "<br>";
-				battle = battle + atacanteMiPlaneta.getClass().getName() + " generates the damage = " + atacanteMiPlaneta.attack() + "<br>";
+				battle = battle + "Attacks Planet enemy: " + atacanteMiPlaneta.getClass().getName() + " attacks " + defensorContrario.getClass().getName() + "\n";
+				battle = battle + atacanteMiPlaneta.getClass().getName() + " generates the damage = " + atacanteMiPlaneta.attack() + "\n";
 				defensorContrario.tekeDamage(atacanteMiPlaneta.attack());
-				battle = battle + defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor() + "<br>";
+				battle = battle + defensorContrario.getClass().getName() + " stays with armor = " + defensorContrario.getActualArmor() + "\n";
 				int probabilidadAtacarNuestro = (int)((Math.random()* 100)+1);
 				int probabilidadRecursosEnemigo = (int)((Math.random()* 100)+1);
 				if (defensorContrario.getActualArmor() <= 0) {
@@ -3120,7 +3195,7 @@ class Battle{
 							if (!eliminado) {
 								enemyArmy[0].remove(0);
 							}
-							battle = battle + "Eliminado lighthunter" + "<br>";
+							battle = battle + "Eliminado lighthunter" + "\n";
 							LightHuntersEnemigoFinal = LightHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
 							if (sumaEjercitoAtacante < pararAtacante) {
@@ -3150,7 +3225,7 @@ class Battle{
 								enemyArmy[1].remove(0);
 							}
 							
-							battle = battle + "Eliminado heavyhunter" + "<br>";
+							battle = battle + "Eliminado heavyhunter" + "\n";
 							HeavyHuntersEnemigoFinal = HeavyHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
 							if (sumaEjercitoAtacante < pararAtacante) {
@@ -3180,7 +3255,7 @@ class Battle{
 							if (!eliminado) {
 								enemyArmy[2].remove(0);
 							}
-							battle = battle + "Eliminado battleship" + "<br>";
+							battle = battle + "Eliminado battleship" + "\n";
 							BattleShipEnemigoFinal = BattleShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
 							if (sumaEjercitoAtacante < pararAtacante) {
@@ -3211,7 +3286,7 @@ class Battle{
 							if (!eliminado) {
 								enemyArmy[3].remove(0);
 							}
-							battle = battle + "Eliminado armoredship" + "<br>";
+							battle = battle + "Eliminado armoredship" + "\n";
 							ArmoredShipEnemigoFinal = ArmoredShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
 							if (sumaEjercitoAtacante < pararAtacante) {
@@ -3306,7 +3381,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 					}
 						
 				}
@@ -3381,7 +3456,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 
@@ -3456,7 +3531,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 
@@ -3532,7 +3607,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 
@@ -3608,7 +3683,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 				}
@@ -3683,7 +3758,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 				}
@@ -3758,7 +3833,7 @@ class Battle{
 					else {
 						turnoMiplaneta = false;
 						turnoPlanetaAtacante = true;
-						battle = battle + "*****CHANGE ATTACKER*****" + "<br>";
+						battle = battle + "\n*****CHANGE ATTACKER*****" + "\n";
 						
 					}
 					
@@ -3766,7 +3841,6 @@ class Battle{
 					
 			}
 			if (parar == true) {
-				battle = battle + "</html>";
 				break;
 			}
 			
@@ -3878,33 +3952,33 @@ class Battle{
 				HeavyHuntersEnemigoFinal*HeavyHunters.getCosteDeuterium() + BattleShipEnemigoFinal*Battleship.getCosteDeuterium() + ArmoredShipEnemigoFinal*Armoredship.getCosteDeuterium());
 		int weightedPlaneta = (metalPerdidoPlaneta) + (deuteriumPerdidoPlaneta)*5;
 		int weightedEnemigo = (metalPerdidoEnemigo) + (deuteriumPerdidoEnemigo)*5;
-		String cadena = "<html>BATTLE STATISTICS<br><br>"
-				+ "Army Planet Units Drops Initial Army Enemy Units Drops<br>"
-				+ "LightHunter "+LightHunterMiosComienzo + " "+ LightHunterMiosFinal + " Light Hunter" + LightHuntersEnemigoComienzo + LightHuntersEnemigoFinal + "<br>"
-						+ "Heavy Hunter "+ HeavyHunterMiosComienzo + " "+ HeavyHunterMiosFinal + " Heavy Hunter "+HeavyHuntersEnemigoComienzo + " "+HeavyHuntersEnemigoFinal + "<br>"
-								+ "Battle Ship "+BattleShipMiosComienzo + " "+BattleShipMiosFinal + " Battle Ship "+BattleShipEnemigoComienzo + " "+BattleShipEnemigoFinal + "<br>"
-										+ "Armored Ship "+ArmoredShipMiosComienzo+" "+ArmoredShipMiosFinal + " Armored Ship "+ArmoredShipEnemigoComienzo + " "+ArmoredShipEnemigoFinal + "<br>"
-												+ "Missile Launcher "+MissileLauncherMiosComienzo + " "+MissileLauncherMiosFinal+"<br>"
-														+ "Ion Cannon "+ IonCannonMiosComienzo + " "+IonCannonMiosFinal+"<br>"
-																+ "Plasma Cannon "+PlasmaCannonMiosComienzo + " "+PlasmaCannonMiosFinal + "<br>"
-																		+ "*********************************" + "<br>"
-																				+ "Cost Army Planet Cost Army Enemy"+"<br>"
-																						+ "Metal: "+ metalPlaneta + "Metal: " + metalEnemigo + "<br>"
-																												+ "Deuterium: " + deuteriumPlaneta+ "Deuterium: " + deuteriumEnemigo + "<br>"
-																																		+ "**************************************" + "<br>"
-																																				+ "Losses Army Planet Losses Army Enemy" + "<br>"
-																																						+ "Metal: "+ metalPerdidoPlaneta + "Metal: " +  metalPerdidoEnemigo+ "<br>"
-																																												+ "Deuterium: " + deuteriumPerdidoPlaneta + "Deuterium " + deuteriumPerdidoEnemigo + "<br>"
-																																																		+ "Weighted: " + weightedPlaneta + "Weighted: " + weightedEnemigo + "<br>"
-																																																				+ "*********************" + "<br>"
+		String cadena = "<html>"
+				+ "Army Planet&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Units&nbsp&nbsp&nbsp&nbsp&nbsp Drops&nbsp&nbsp&nbsp&nbsp&nbsp Initial Army Enemy&nbsp&nbsp&nbsp&nbsp&nbsp Units&nbsp&nbsp&nbsp&nbsp&nbsp Drops<br>"
+				+ "LightHunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+LightHunterMiosComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ LightHunterMiosFinal + " &nbsp&nbsp&nbsp&nbsp Light Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + LightHuntersEnemigoComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + LightHuntersEnemigoFinal + "<br>"
+						+ "Heavy Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ HeavyHunterMiosComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ HeavyHunterMiosFinal + " &nbsp&nbsp&nbsp&nbsp Heavy Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+HeavyHuntersEnemigoComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+HeavyHuntersEnemigoFinal + "<br>"
+								+ "Battle Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipMiosComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipMiosFinal + " &nbsp&nbsp&nbsp&nbsp Battle Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipEnemigoComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipEnemigoFinal + "<br>"
+										+ "Armored Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipMiosComienzo+" &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipMiosFinal + " &nbsp&nbsp&nbsp&nbsp Armored Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipEnemigoComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipEnemigoFinal + "<br>"
+												+ "Missile Launcher &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+MissileLauncherMiosComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+MissileLauncherMiosFinal+"<br>"
+														+ "Ion Cannon &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ IonCannonMiosComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+IonCannonMiosFinal+"<br>"
+																+ "Plasma Cannon &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+PlasmaCannonMiosComienzo + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+PlasmaCannonMiosFinal + "<br>"
+																		+ "***************************************************************" + "<br>"
+																				+ "Cost Army Planet &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Cost Army Enemy"+"<br>"
+																						+ "Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ metalPlaneta + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + metalEnemigo + "<br>"
+																												+ "Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumPlaneta+ " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumEnemigo + "<br>"
+																																		+ "***************************************************************" + "<br>"
+																																				+ "Losses Army Planet &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Losses Army Enemy" + "<br>"
+																																						+ "Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ metalPerdidoPlaneta + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " +  metalPerdidoEnemigo+ "<br>"
+																																												+ "Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumPerdidoPlaneta + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Deuterium &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumPerdidoEnemigo + "<br>"
+																																																		+ "Weighted: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + weightedPlaneta + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Weighted: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + weightedEnemigo + "<br>"
+																																																				+ "***************************************************************" + "<br>"
 																																																						+ "Waste Generated " + "<br>"
-																																																								+ "Metal: "+ residuosMetal + "<br>"
-																																																										+ "Deuterium: "+ residuoDeuterio + "<br></html>";
+																																																								+ "Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ residuosMetal + "<br>"
+																																																										+ "Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ residuoDeuterio + "<br><br><br>";
 		if (weightedEnemigo < weightedPlaneta) {
-			cadena = cadena + "Battle Winned by Fleet enemy, don't Collecte Rubble";
+			cadena = cadena + "Battle Winned by Fleet enemy, don't Collecte Rubble </html>";
 		}
 		else if (weightedPlaneta < weightedEnemigo) {
-			cadena = cadena + "Battle Winned by Planet, We Collect Rubble";
+			cadena = cadena + "Battle Winned by Planet, We Collect Rubble </html>";
 		}
 		return cadena;												
 	}
