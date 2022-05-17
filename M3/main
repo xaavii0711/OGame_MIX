@@ -729,7 +729,7 @@ botonesMenu1[5].addActionListener(new ActionListener() {
 TimerTask task2 = new TimerTask() {
     public void run() {
         System.out.println("WE HAVE BEEN ATTACKED");
-        batalla.playBattle();
+        batalla.playBattle(planetaNuestro);
         botonesMenu1[4].setEnabled(true);
     }
 };
@@ -738,8 +738,8 @@ TimerTask task3 = new TimerTask() {
         botonesMenu1[5].setEnabled(false);
     }
 };
-timer.schedule(task1, 5000, 12000);
-timer.schedule(task2, 10000, 18000);
+timer.schedule(task1, 5000, 999999);
+timer.schedule(task2, 10000, 999999);
 //timer.schedule(task3, 0, 180000);
 
 setLocationRelativeTo(null);
@@ -2141,9 +2141,14 @@ class Battle{
 	private ArrayList<MilitaryUnit>[] planetArmy;
 	private ArrayList<MilitaryUnit>[] enemyArmy;
 	
+	private ArrayList<MilitaryUnit>[] fleetsDeaths;
+	private ArrayList<MilitaryUnit>[] enemyDeaths;
+	
 	public Battle() {
 		planetArmy = new ArrayList[7];
 		enemyArmy = new ArrayList[4];
+		fleetsDeaths = new ArrayList[7];
+		enemyDeaths = new ArrayList[4];
 		enemyArmy[0] = new ArrayList<>(0);
 		enemyArmy[1] = new ArrayList<>(0);
 		enemyArmy[2] = new ArrayList<>(0);
@@ -2155,6 +2160,17 @@ class Battle{
 		planetArmy[4] = new ArrayList<>(0);
 		planetArmy[5] = new ArrayList<>(0);
 		planetArmy[6] = new ArrayList<>(0);
+		fleetsDeaths[0] = new ArrayList<>(0);
+		fleetsDeaths[1] = new ArrayList<>(0);
+		fleetsDeaths[2] = new ArrayList<>(0);
+		fleetsDeaths[3] = new ArrayList<>(0);
+		fleetsDeaths[4] = new ArrayList<>(0);
+		fleetsDeaths[5] = new ArrayList<>(0);
+		fleetsDeaths[6] = new ArrayList<>(0);
+		enemyDeaths[0] = new ArrayList<>(0);
+		enemyDeaths[1] = new ArrayList<>(0);
+		enemyDeaths[2] = new ArrayList<>(0);
+		enemyDeaths[3] = new ArrayList<>(0);
 //		enemyArmy[0].add(new LightHunter());
 //		enemyArmy[1].add(new HeavyHunter());
 //		enemyArmy[2].add(new BattleShip());
@@ -2171,22 +2187,22 @@ class Battle{
 //		enemyArmy[1].add(new HeavyHunter());
 //		enemyArmy[2].add(new BattleShip());
 //		enemyArmy[3].add(new ArmoredShip());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[4].add(new MissileLauncher());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[4].add(new MissileLauncher());
-		planetArmy[4].add(new MissileLauncher());
+//		planetArmy[0].add(new LightHunter());
+//		planetArmy[1].add(new HeavyHunter());
+//		planetArmy[2].add(new BattleShip());
+//		planetArmy[3].add(new ArmoredShip());
+//		planetArmy[4].add(new MissileLauncher());
+//		planetArmy[0].add(new LightHunter());
+//		planetArmy[0].add(new LightHunter());
+//		planetArmy[1].add(new HeavyHunter());
+//		planetArmy[1].add(new HeavyHunter());
+//		planetArmy[1].add(new HeavyHunter());
+//		planetArmy[2].add(new BattleShip());
+//		planetArmy[2].add(new BattleShip());
+//		planetArmy[3].add(new ArmoredShip());
+//		planetArmy[3].add(new ArmoredShip());
+//		planetArmy[4].add(new MissileLauncher());
+//		planetArmy[4].add(new MissileLauncher());
 		
 	}
 	
@@ -2310,6 +2326,9 @@ class Battle{
 		MilitaryUnit defensorNuestro = null;
 		
 		//si no tienes unidades, te peta divided entre 0
+		if (TotalUnidades <= 0) {
+			TotalUnidades = 1;
+		}
 		int probabilidadLightHunter = (int)100*(planetArmy[0].size())/(TotalUnidades);
 		int probabilidadHeavyHunter = (int)100*(planetArmy[1].size())/(TotalUnidades);
 		int probabilidadBattleShip = (int)100*(planetArmy[2].size())/(TotalUnidades);
@@ -2393,7 +2412,8 @@ class Battle{
 	
 	
 	
-	public void playBattle() {
+	public void playBattle(Planet miPlaneta) {
+		planetArmy=miPlaneta.getArmy();
 		boolean turnoMiplaneta = false; 
 		boolean turnoPlanetaAtacante = true;
 		MilitaryUnit atacanteContrario = EjercitoAtacanteEnemigo();
@@ -2454,6 +2474,7 @@ class Battle{
 							
 							boolean eliminado = planetArmy[0].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[0].add(defensorMiPlaneta);
 								planetArmy[0].remove(0);
 							}
 							battle = battle + "Eliminado lighthunter" + "\n";
@@ -2486,6 +2507,7 @@ class Battle{
 						if (planetArmy[1].size() > 0) {
 							boolean eliminado = planetArmy[1].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[1].add(defensorMiPlaneta);
 								planetArmy[1].remove(0);
 							}
 							battle = battle + "Eliminado heavyhunter" + "\n";
@@ -2516,6 +2538,7 @@ class Battle{
 						if (planetArmy[2].size() > 0) {
 							boolean eliminado = planetArmy[2].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[2].add(defensorMiPlaneta);
 								planetArmy[2].remove(0);
 							}
 							battle = battle + "Eliminado battleship" + "\n";
@@ -2548,6 +2571,7 @@ class Battle{
 						if (planetArmy[3].size() > 0) {
 							boolean eliminado = planetArmy[3].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[3].add(defensorMiPlaneta);
 								planetArmy[3].remove(0);
 							}
 							battle = battle + "Eliminado armoredship" + "\n";
@@ -2581,6 +2605,7 @@ class Battle{
 						if (planetArmy[4].size() > 0) {
 							boolean eliminado = planetArmy[4].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[4].add(defensorMiPlaneta);
 								planetArmy[4].remove(0);
 							}	
 							battle = battle + "Eliminado missilelauncher" + "\n";
@@ -2611,6 +2636,7 @@ class Battle{
 						if (planetArmy[5].size() > 0) {
 							boolean eliminado = planetArmy[5].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[5].add(defensorMiPlaneta);
 								planetArmy[5].remove(0);
 							}
 						
@@ -2645,6 +2671,7 @@ class Battle{
 						if (planetArmy[6].size() > 0) {
 							boolean eliminado = planetArmy[6].remove(defensorMiPlaneta);
 							if (!eliminado) {
+								fleetsDeaths[6].add(defensorMiPlaneta);
 								planetArmy[6].remove(0);
 							}
 							
@@ -3193,6 +3220,7 @@ class Battle{
 						if (enemyArmy[0].size() > 0) {
 							boolean eliminado = enemyArmy[0].remove(defensorContrario);
 							if (!eliminado) {
+								enemyDeaths[0].add(defensorContrario);
 								enemyArmy[0].remove(0);
 							}
 							battle = battle + "Eliminado lighthunter" + "\n";
@@ -3222,6 +3250,7 @@ class Battle{
 						if (enemyArmy[1].size() > 0) {
 							boolean eliminado = enemyArmy[1].remove(defensorContrario);
 							if (!eliminado) {
+								enemyDeaths[1].add(defensorContrario);
 								enemyArmy[1].remove(0);
 							}
 							
@@ -3253,6 +3282,7 @@ class Battle{
 						if (enemyArmy[2].size() > 0) {
 							boolean eliminado = enemyArmy[2].remove(defensorContrario);
 							if (!eliminado) {
+								enemyDeaths[2].add(defensorContrario);
 								enemyArmy[2].remove(0);
 							}
 							battle = battle + "Eliminado battleship" + "\n";
@@ -3284,6 +3314,7 @@ class Battle{
 						if (enemyArmy[3].size() > 0) {
 							boolean eliminado = enemyArmy[3].remove(defensorContrario);
 							if (!eliminado) {
+								enemyDeaths[3].add(defensorContrario);
 								enemyArmy[3].remove(0);
 							}
 							battle = battle + "Eliminado armoredship" + "\n";
@@ -3841,6 +3872,18 @@ class Battle{
 					
 			}
 			if (parar == true) {
+				System.out.println(fleetsDeaths[0].size());
+				System.out.println(fleetsDeaths[1].size());
+				System.out.println(fleetsDeaths[2].size());
+				System.out.println(fleetsDeaths[3].size());
+				System.out.println(fleetsDeaths[4].size());
+				System.out.println(fleetsDeaths[5].size());
+				System.out.println(fleetsDeaths[6].size());
+				
+				System.out.println(enemyDeaths[0].size());
+				System.out.println(enemyDeaths[1].size());
+				System.out.println(enemyDeaths[2].size());
+				System.out.println(enemyDeaths[3].size());
 				break;
 			}
 			
