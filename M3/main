@@ -1,3 +1,5 @@
+package proyecto;
+
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
@@ -64,6 +66,7 @@ private JButton botonesStats= new JButton();
 private JButton botonesCurrent = new JButton();
 private JButton botonesThread= new JButton();
 private JButton[] botonesReport= new JButton[3];
+
 public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		new Main();
@@ -72,6 +75,7 @@ public static void main(String[] args) {
 Main(){
 Planet planetaNuestro = new Planet();
 Battle batalla = new Battle();
+
 planetaNuestro.setMetal(999999);
 planetaNuestro.setDeuterium(999999);
 
@@ -593,22 +597,23 @@ panelCurrentBattle.add(botonesCurrent);
 botonesCurrent.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
 botonesCurrent.setBackground(new Color(246, 90, 90));
 botonesCurrent.addActionListener(new GoBackViewCurrentBattle());
-JScrollPane scrollPane = new JScrollPane();
-scrollPane.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
 
-scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
-panelCurrentBattle.add(scrollPane);
 
-JLabel battleCurrent = new JLabel();
-battleCurrent.setText(batalla.ViewThread());
+
+JTextArea battleCurrent = new JTextArea();
 battleCurrent.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
 battleCurrent.setFont(new Font("Verdana",1,11));
-scrollPane.add(battleCurrent);
+battleCurrent.setForeground(Color.black);
+
+JScrollPane scrollPane = new JScrollPane(battleCurrent);
+scrollPane.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+panelCurrentBattle.add(scrollPane);
 
 botonesMenu1[4].addActionListener(new ActionListener() {
 	public void actionPerformed(ActionEvent e) {
 		battleCurrent.setText(batalla.getBattleDevelopment());
-		
+		//battleCurrent.setText("fowaf0iawjf9owaofwafa");
 	}
 });
 
@@ -665,9 +670,9 @@ TimerTask task3 = new TimerTask() {
         botonesMenu1[5].setEnabled(false);
     }
 };
-timer.schedule(task1, 10000, 180000);
-timer.schedule(task2, 15000, 180000);
-timer.schedule(task3, 0, 180000);
+timer.schedule(task1, 5000, 180000);
+timer.schedule(task2, 10000, 180000);
+//timer.schedule(task3, 0, 180000);
 
 setLocationRelativeTo(null);
 setResizable(false);
@@ -852,8 +857,8 @@ class VariablesBBDDShips{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "admin");
            
             
             // Llamada al procedimiento almacenado
@@ -967,8 +972,8 @@ class VariablesBBDDDefenses{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "system", "admin");
             
             // Llamada al procedimiento almacenado
             cst = cn.prepareCall("{call GET_DEFENSE (?,?,?,?,?,?,?,?,?,?)}");
