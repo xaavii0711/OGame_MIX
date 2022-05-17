@@ -1,0 +1,5 @@
+create or replace procedure insert_planets(id_planet INT, name_planet VARCHAR, technology_attack INT , technology_defense INT, upgradeTechnologyAttack INT, upgradeTecnhonologyDefense INT, crystal INT, metal INT, deuterium INT, id_user INT)
+is
+begin
+insert into planets values(id_planet, name_planet, technology_attack, technology_defense, upgradeTechnologyAttack, upgradeTecnhonologyDefense, crystal, metal, deuterium, id_user);
+end;
