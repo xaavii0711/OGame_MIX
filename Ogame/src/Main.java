@@ -1,10 +1,35 @@
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.LayoutManager;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.Action;
+import javax.swing.BorderFactory;
+import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.SwingConstants;
+import javax.swing.border.Border;
+import javax.swing.text.AbstractDocument.Content;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Array;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,27 +39,1000 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.sql.SQLException;
 
-public class Main {
-	
-	
-	public static void main(String[] args) {
-		Planet miPlaneta = new Planet();
-		try {
-			miPlaneta.newLightHunter(1);
-			miPlaneta.newIonCannon(3);
-		} catch (ResourceException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		Battle b = new Battle();
-		b.createEnemyArmy();
-		b.playBattle(miPlaneta);
-//		System.out.println(b.getBattleDevelopment());
-//		System.out.println(b.battleReport(7));
-		System.out.println(b.getBattleDevelopmentbyUser(7));
+
+interface Dimensiones{
+	public static int ANCHO_TABLERO = 1000;
+	public static int ALTO_TABLERO = 600;
+}
+
+public class Main extends JFrame implements Dimensiones{
+PanelInicio panel1;
+PanelInicio panelStats;
+PanelInicio panelBuild;
+PanelInicio panelBuildTroops;
+PanelInicio panelBuildDefenses;
+PanelInicio panelUpgradeTech;
+PanelInicio panelCurrentBattle;
+PanelInicio PanelThreadComing;
+PanelInicio panelBattleReport;
+PanelInicio panelReportedBattle;
+PanelInicio panelDevelopmentBattle;
+private JButton[] botonesMenu1= new JButton[8];
+private JButton[] botonesBuild= new JButton[12];
+private JButton[] botonesTech= new JButton[3];
+private JButton botonesStats= new JButton();
+private JButton botonesCurrent = new JButton();
+private JButton botonesThread= new JButton();
+private JButton botonesReportedBattle= new JButton();
+private JButton botonDevelopmentBattle = new JButton();
+private JButton[] botonesReport= new JButton[3];
+
+public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		new Main();
+		
 	}
+Main(){
+Planet planetaNuestro = new Planet();
+Battle batalla = new Battle();
+
+setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+setTitle("Orgasm");
+
+botonesMenu1[0] = new JButton("View Planet Stats");
+botonesMenu1[1] = new JButton("Build");
+botonesMenu1[2] = new JButton("Upgrade Technology");
+botonesMenu1[3] = new JButton("View Battle Report");
+botonesMenu1[4] = new JButton("View Current Battle");
+botonesMenu1[5] = new JButton("View Thread Coming");
+botonesMenu1[6] = new JButton("Reset Battle History");
+botonesMenu1[7] = new JButton("Exit");
+
+//Background Images
+JLabel background;
+ImageIcon img = new ImageIcon("backg.jpg");
+background = new JLabel("",img,JLabel.CENTER);
+background.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundBuild;
+backgroundBuild = new JLabel("",img,JLabel.CENTER);
+backgroundBuild.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundTroops;
+ImageIcon imgBuildTroops = new ImageIcon("buildTroops.jpg");
+backgroundTroops = new JLabel("",imgBuildTroops,JLabel.CENTER);
+backgroundTroops.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundDefenses;
+ImageIcon imgBuildDefenses = new ImageIcon("buildDefenses.jpg");
+backgroundDefenses = new JLabel("",imgBuildDefenses,JLabel.CENTER);
+backgroundDefenses.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundTech;
+ImageIcon imgBuildTech = new ImageIcon("backg.jpg");
+backgroundTech = new JLabel("",img,JLabel.CENTER);
+backgroundTech.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundStats;
+ImageIcon imgBuildStats = new ImageIcon("backg.jpg");
+backgroundStats = new JLabel("",img,JLabel.CENTER);
+backgroundStats.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+
+JLabel backgroundReport;
+backgroundReport = new JLabel("",img,JLabel.CENTER);
+backgroundReport.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+//Panel INICIAL
+panel1 = new PanelInicio();
+panel1.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panel1);
+panel1.setLayout(null);
+
+
+JLabel titulo = new JLabel("ET-GAME", SwingConstants.CENTER);
+titulo.setFont(new Font("Verdana",1,35));
+titulo.setForeground(Color.white);
+
+
+
+panel1.add(titulo);
+titulo.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+
+panel1.add(botonesMenu1[0]);
+botonesMenu1[0].setBounds((ANCHO_TABLERO/2)-150, 90, 300, 50);
+botonesMenu1[0].addActionListener(new AddPanelStats());
+panel1.add(botonesMenu1[1]);
+botonesMenu1[1].setBounds((ANCHO_TABLERO/2)-150, 150, 300, 50);
+botonesMenu1[1].addActionListener(new AddPanelBuild());
+panel1.add(botonesMenu1[2]);
+botonesMenu1[2].setBounds((ANCHO_TABLERO/2)-150, 210, 300, 50);
+botonesMenu1[2].addActionListener(new AddPanelUpgrade());
+panel1.add(botonesMenu1[3]);
+botonesMenu1[3].setBounds((ANCHO_TABLERO/2)-150, 270, 300, 50);
+botonesMenu1[3].addActionListener(new AddPanelReport());
+panel1.add(botonesMenu1[4]);
+botonesMenu1[4].setEnabled(false);
+botonesMenu1[4].setBounds((ANCHO_TABLERO/2)-150, 330, 300, 50);
+panel1.add(botonesMenu1[5]);
+botonesMenu1[5].setEnabled(false);
+botonesMenu1[5].setBounds((ANCHO_TABLERO/2)-150, 390, 300, 50);
+botonesMenu1[6].setBackground(new Color(201,238,80));
+panel1.add(botonesMenu1[6]);
+botonesMenu1[6].setBounds((ANCHO_TABLERO/2)-150, 450, 300, 50);
+botonesMenu1[6].addActionListener(new ResetDatabase());
+botonesMenu1[7].setBackground(new Color(246, 90, 90));
+panel1.add(botonesMenu1[7]);
+botonesMenu1[7].setBounds((ANCHO_TABLERO/2)-150, 510, 300, 50);
+botonesMenu1[7].addActionListener(new CloseProgram());
+panel1.add(background);
+
+//View Planet Stats
+panelStats = new PanelInicio();
+panelStats.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelStats);
+panelStats.setLayout(null);
+panelStats.setVisible(false);
+
+
+JLabel tituloStats = new JLabel("PLANET STATS",SwingConstants.CENTER);
+panelStats.add(tituloStats);
+tituloStats.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloStats.setFont(new Font("Verdana",1,35));
+tituloStats.setForeground(Color.black);
+JLabel planet = new JLabel();
+planet.setText(planetaNuestro.printStats());
+planet.setBounds((ANCHO_TABLERO/2)-75,60,400,400);
+planet.setFont(new Font("Verdana",1,11));
+panelStats.add(planet);
+botonesMenu1[0].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		planet.setText(planetaNuestro.printStats());
+		
+	}
+});
+botonesStats = new JButton("Go back");
+
+panelStats.add(botonesStats);
+botonesStats.setBounds((ANCHO_TABLERO/2)-150, (ALTO_TABLERO)-100, 300, 50);
+botonesStats.addActionListener(new GoBackStats());
+botonesStats.setBackground(new Color(246, 90, 90));
+//panelStats.add(backgroundStats);
+
+//Panel Battle Report
+panelBattleReport = new PanelInicio();
+panelBattleReport.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelBattleReport);
+panelBattleReport.setLayout(null);
+panelBattleReport.setVisible(false);
+
+panelReportedBattle = new PanelInicio();
+panelReportedBattle.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelReportedBattle);
+panelReportedBattle.setLayout(null);
+panelReportedBattle.setVisible(false);
+
+JLabel tituloReport = new JLabel("BATTLE REPORT",SwingConstants.CENTER);
+panelBattleReport.add(tituloReport);
+tituloReport.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloReport.setFont(new Font("Verdana",1,35));
+tituloReport.setForeground(Color.white);
+
+JLabel tituloReportedBattle2 = new JLabel("",SwingConstants.CENTER);
+panelReportedBattle.add(tituloReportedBattle2);
+
+JLabel reports = new JLabel();
+panelReportedBattle.add(reports);
+reports.setBounds((ANCHO_TABLERO/2)-225, 30, 900, 480);
+reports.setFont(new Font("Verdana",1,11));
+
+botonesReport[0] = new JButton("View Battle");
+botonesReport[1] = new JButton("Go Back");
+
+panelBattleReport.add(botonesReport[0]);
+panelBattleReport.add(botonesReport[1]);
+
+botonesReport[0].setBounds((ANCHO_TABLERO/2)-150, (ALTO_TABLERO/2)-50, 300, 50);
+
+botonesReport[0].addActionListener(new ActionListener() {
+	
+	int numBattleReport;
+	public void actionPerformed(ActionEvent e) {
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Batalla que deseas ver");
+		try {
+			numBattleReport = Integer.parseInt(getMessage);
+			if (numBattleReport > 5){
+				JOptionPane.showMessageDialog(panelBattleReport,"La batalla con ID "+numBattleReport+" no existe");
+			} else if (numBattleReport > 0 && numBattleReport <= 5) {
+				
+				panelBattleReport.setVisible(false);
+				panelReportedBattle.setVisible(true);
+				
+				botonesReportedBattle = new JButton("Go Back");
+				panelReportedBattle.add(botonesReportedBattle);
+				botonesReportedBattle.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+				botonesReportedBattle.setBackground(new Color(246, 90, 90));
+				botonesReportedBattle.addActionListener(new GoBackReportedBattle());
+				
+				tituloReportedBattle2.setText("BATTLE " + Integer.toString(numBattleReport));
+				
+				tituloReportedBattle2.setBounds((ANCHO_TABLERO/2)-455, 15, 900, 70);
+				tituloReportedBattle2.setFont(new Font("Verdana",1,35));
+				
+				reports.setText(batalla.battleReport(numBattleReport));
+				
+				botonDevelopmentBattle = new JButton("View Development");
+				panelReportedBattle.add(botonDevelopmentBattle);
+				botonDevelopmentBattle.setBounds(750, 400, 150, 30);
+				botonDevelopmentBattle.addActionListener(new AddPanelDevelopment());
+				
+				JTextArea DevelopmentBattle = new JTextArea();
+				DevelopmentBattle.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+				DevelopmentBattle.setFont(new Font("Verdana",1,11));
+				DevelopmentBattle.setForeground(Color.black);
+				DevelopmentBattle.setWrapStyleWord(true);
+				DevelopmentBattle.setLineWrap(true);
+
+				JScrollPane scrollPaneDevelopment = new JScrollPane(DevelopmentBattle);
+				scrollPaneDevelopment.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+				scrollPaneDevelopment.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				panelDevelopmentBattle.add(scrollPaneDevelopment);
+				botonDevelopmentBattle.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						DevelopmentBattle.setText(batalla.getBattleDevelopmentbyUser(numBattleReport));
+						
+					}
+				});
+			}
+		} catch (Exception e1) {
+			// TODO: handle exception
+			e1.getMessage();
+		}
+		
+		
+	}
+});
+
+botonesReport[1].setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+botonesReport[1].setBackground(new Color(246, 90, 90));
+botonesReport[1].addActionListener(new GoBackReport());
+
+panelBattleReport.add(backgroundReport);
+
+//Panel Development Battle
+panelDevelopmentBattle = new PanelInicio();
+panelDevelopmentBattle.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelDevelopmentBattle);
+panelDevelopmentBattle.setLayout(null);
+panelDevelopmentBattle.setVisible(false);
+
+JLabel tituloDevelopment = new JLabel("BATTLE DEVELOPMENT",SwingConstants.CENTER);
+panelDevelopmentBattle.add(tituloDevelopment);
+tituloDevelopment.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloDevelopment.setFont(new Font("Verdana",1,35));
+tituloDevelopment.setForeground(Color.black);
+
+botonDevelopmentBattle = new JButton("Go back");
+panelDevelopmentBattle.add(botonDevelopmentBattle);
+botonDevelopmentBattle.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+botonDevelopmentBattle.setBackground(new Color(246, 90, 90));
+botonDevelopmentBattle.addActionListener(new GoBackDevelopmentBattle());
+
+
+
+//Panel Build
+panelBuild = new PanelInicio();
+panelBuild.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelBuild);
+panelBuild.setLayout(null);
+panelBuild.setVisible(false);
+
+
+JLabel tituloBuild = new JLabel("BUILD",SwingConstants.CENTER);
+panelBuild.add(tituloBuild);
+tituloBuild.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloBuild.setFont(new Font("Verdana",1,35));
+tituloBuild.setForeground(Color.white);
+
+botonesBuild[0] = new JButton("Build Troops");
+botonesBuild[1] = new JButton("Build Defenses");
+botonesBuild[2] = new JButton("Go back");
+
+panelBuild.add(botonesBuild[0]);
+botonesBuild[0].setBounds((ANCHO_TABLERO/2)-310, 90, 300, 50);
+botonesBuild[0].addActionListener(new BuildTroops());
+panelBuild.add(botonesBuild[1]);
+botonesBuild[1].setBounds((ANCHO_TABLERO/2)+10, 90, 300, 50);
+botonesBuild[1].addActionListener(new BuildDefenses());
+panelBuild.add(botonesBuild[2]);
+botonesBuild[2].setBounds((ANCHO_TABLERO/2)-150, 150, 300, 50);
+botonesBuild[2].setBackground(new Color(246, 90, 90));
+botonesBuild[2].addActionListener(new GoBackBuild());
+
+panelBuild.add(backgroundBuild);
+
+
+//Build Troops
+panelBuildTroops = new PanelInicio();
+panelBuildTroops.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelBuildTroops);
+panelBuildTroops.setLayout(null);
+panelBuildTroops.setVisible(false);
+
+
+JLabel tituloBuildTroops = new JLabel("BUILD TROOPS",SwingConstants.CENTER);
+panelBuildTroops.add(tituloBuildTroops);
+tituloBuildTroops.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloBuildTroops.setFont(new Font("Verdana",1,35));
+tituloBuildTroops.setForeground(Color.white);
+JLabel error3 = new JLabel("");
+error3.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error3);
+error3.setFont(new Font("Verdana",1,15));
+error3.setForeground(Color.black);
+JLabel error4 = new JLabel("");
+error4.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error4);
+error4.setFont(new Font("Verdana",1,15));
+error4.setForeground(Color.black);
+JLabel error5 = new JLabel("");
+error5.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error5);
+error5.setFont(new Font("Verdana",1,15));
+error5.setForeground(Color.black);
+JLabel error6 = new JLabel("");
+error6.setBounds((ANCHO_TABLERO/2)+20, 200, 900, 70);
+panelBuildTroops.add(error6);
+error6.setFont(new Font("Verdana",1,15));
+error6.setForeground(Color.black);
+botonesBuild[4] = new JButton("Build Heavy Hunter");
+botonesBuild[3] = new JButton("Build Light Hunter");
+botonesBuild[3].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error4.setText("");
+		error5.setText("");
+		error6.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Lighthunters que desea construir:");
+		try {
+			int numLightHunters = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newLightHunter(numLightHunters);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error3.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+		
+	}
+});
+
+botonesBuild[4].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error5.setText("");
+		error6.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Heavyhunters que desea construir:");
+		try {
+			int numHeavyHunters = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newHeavyHunter(numHeavyHunters);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error4.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+		
+	}
+});
+botonesBuild[5] = new JButton("Build Battle Ship");
+botonesBuild[5].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error4.setText("");
+		error6.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Battleships que desea construir:");
+		try {
+			int numBattleships = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newBattleShip(numBattleships);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error5.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+		
+	}
+});
+botonesBuild[6] = new JButton("Build Armored Ship");
+botonesBuild[6].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error4.setText("");
+		error5.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Armoredship que desea construir:");
+		try {
+			int numArmoredship = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newArmoredShip(numArmoredship);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error6.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+		
+	}
+});
+botonesBuild[7] = new JButton("Go back");
+botonesBuild[7].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error3.setText("");
+		error4.setText("");
+		error5.setText("");
+		error6.setText("");
+		
+	}
+});
+
+panelBuildTroops.add(botonesBuild[3]);
+botonesBuild[3].setBounds((ANCHO_TABLERO/2)-415, 90, 200, 50);
+panelBuildTroops.add(botonesBuild[4]);
+botonesBuild[4].setBounds((ANCHO_TABLERO/2)-200, 90, 200, 50);
+panelBuildTroops.add(botonesBuild[5]);
+botonesBuild[5].setBounds((ANCHO_TABLERO/2)+15, 90, 200, 50);
+panelBuildTroops.add(botonesBuild[6]);
+botonesBuild[6].setBounds((ANCHO_TABLERO/2)+230, 90, 200, 50);
+panelBuildTroops.add(botonesBuild[7]);
+botonesBuild[7].setBounds((ANCHO_TABLERO/2)-75, 400, 150, 50);
+botonesBuild[7].setBackground(new Color(246, 90, 90));
+botonesBuild[7].addActionListener(new GoBackBuildTroops());
+panelBuildTroops.add(backgroundTroops);
+//Build Defenses
+panelBuildDefenses = new PanelInicio();
+panelBuildDefenses.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelBuildDefenses);
+panelBuildDefenses.setLayout(null);
+panelBuildDefenses.setVisible(false);
+
+
+JLabel tituloBuildDefenses = new JLabel("BUILD DEFENSES",SwingConstants.CENTER);
+panelBuildDefenses.add(tituloBuildDefenses);
+tituloBuildDefenses.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloBuildDefenses.setFont(new Font("Verdana",1,35));
+tituloBuildDefenses.setForeground(Color.white);
+
+
+
+JLabel error8 = new JLabel("");
+error8.setBounds((ANCHO_TABLERO/2)+20, 300, 900, 70);
+panelBuildDefenses.add(error8);
+error8.setFont(new Font("Verdana",1,15));
+error8.setForeground(Color.white);
+JLabel error9 = new JLabel("");
+error9.setBounds((ANCHO_TABLERO/2)+20, 300, 900, 70);
+panelBuildDefenses.add(error9);
+error9.setFont(new Font("Verdana",1,15));
+error9.setForeground(Color.white);
+JLabel error10 = new JLabel("");
+error10.setBounds((ANCHO_TABLERO/2)+20, 300, 900, 70);
+panelBuildDefenses.add(error10);
+error10.setFont(new Font("Verdana",1,15));
+error10.setForeground(Color.white);
+botonesBuild[8] = new JButton("Build Missile Launcher");
+botonesBuild[8].addActionListener(new ActionListener() {
+	
+	public void actionPerformed(ActionEvent e) {
+		error9.setText("");
+		error10.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"MissileLauncher que desea construir:");
+		try {
+			int numMissileLauncher = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newMissileLauncher(numMissileLauncher);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error8.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+		
+	}
+});
+botonesBuild[9] = new JButton("Build Ion Cannon");
+botonesBuild[9].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error8.setText("");
+		error10.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Ion Cannon que desea construir:");
+		try {
+			int numIonCannon = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newIonCannon(numIonCannon);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error9.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+		
+	}
+});
+botonesBuild[10] = new JButton("Build Build Plasma Cannon");
+botonesBuild[10].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error8.setText("");
+		error9.setText("");
+		JFrame panelDatos = new JFrame();
+		String getMessage = JOptionPane.showInputDialog(panelDatos,"Plasma Cannon que desea construir:");
+		try {
+			int numPlasmaCannon = Integer.parseInt(getMessage);
+			try {
+				planetaNuestro.newPlasmaCannon(numPlasmaCannon);
+			} catch (ResourceException e1) {
+				// TODO Auto-generated catch block
+				error10.setText(e1.getMessage());
+			}
+		} catch (Exception e2) {
+			e2.getMessage();
+		}
+		
+	}
+});
+botonesBuild[11] = new JButton("Go Back");
+botonesBuild[11].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error8.setText("");
+		error10.setText("");
+		error9.setText("");
+	}
+});
+
+panelBuildDefenses.add(botonesBuild[8]);
+botonesBuild[8].setBounds((ANCHO_TABLERO/2)-300, 90, 200, 50);
+panelBuildDefenses.add(botonesBuild[9]);
+botonesBuild[9].setBounds((ANCHO_TABLERO/2)-75, 90, 200, 50);
+panelBuildDefenses.add(botonesBuild[10]);
+botonesBuild[10].setBounds((ANCHO_TABLERO/2)+150, 90, 200, 50);
+panelBuildDefenses.add(botonesBuild[11]);
+botonesBuild[11].setBounds((ANCHO_TABLERO/2)-75, 400, 200, 50);
+botonesBuild[11].setBackground(new Color(246, 90, 90));
+botonesBuild[11].addActionListener(new GoBackBuildDefenses());
+panelBuildDefenses.add(backgroundDefenses);
+//Upgrade Tech
+
+panelUpgradeTech = new PanelInicio();
+panelUpgradeTech.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelUpgradeTech);
+panelUpgradeTech.setLayout(null);
+panelUpgradeTech.setVisible(false);
+
+JLabel tituloUpgradeTech = new JLabel("UPGRADE TECHNOLOGY",SwingConstants.CENTER);
+panelUpgradeTech.add(tituloUpgradeTech);
+tituloUpgradeTech.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloUpgradeTech.setFont(new Font("Verdana",1,35));
+tituloUpgradeTech.setForeground(Color.white);
+JLabel CantidadDeuterium = new JLabel("Deuterium resources: " + planetaNuestro.getDeuterium());
+panelUpgradeTech.add(CantidadDeuterium);
+CantidadDeuterium.setBounds((ANCHO_TABLERO/2)-185, 50, 900, 70);
+CantidadDeuterium.setFont(new Font("Verdana",1,20));
+CantidadDeuterium.setForeground(Color.white);
+
+botonesTech[0] = new JButton("<html>Upgrade Attack Technology<br> COSTE: "+planetaNuestro.getCosteAtaque()+"</html>");
+JLabel error = new JLabel("");
+error.setBounds((ANCHO_TABLERO/2)-110, 290, 900, 70);
+panelUpgradeTech.add(error);
+error.setFont(new Font("Verdana",1,20));
+error.setForeground(Color.black);
+JLabel error2 = new JLabel("");
+error2.setBounds((ANCHO_TABLERO/2)-110, 290, 900, 70);
+panelUpgradeTech.add(error2);
+error2.setFont(new Font("Verdana",1,20));
+error2.setForeground(Color.black);
+botonesTech[0].addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		try {
+			planetaNuestro.upgradeTechnologyAttack();
+			CantidadDeuterium.setText("Deuterium resources: " + planetaNuestro.getDeuterium());
+			botonesTech[0].setText("<html>Upgrade Attack Technology<br> COSTE: "+planetaNuestro.getCosteAtaque()+"</html>");
+			error2.setText("");
+			
+		} catch (ResourceException e1) {
+			// TODO Auto-generated catch block
+			error.setText(e1.getMessage());
+		}
+		
+	}
+});
+botonesTech[1] = new JButton("<html>Upgrade Defenses Technology<br> COSTE: "+planetaNuestro.getCosteDefensa()+"</html>");
+
+botonesTech[1].addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		try {
+			planetaNuestro.upgradeTechnologyDefense();
+			CantidadDeuterium.setText("Deuterium resources: " + planetaNuestro.getDeuterium());
+			botonesTech[1].setText("<html>Upgrade Defenses Technology<br> COSTE: "+planetaNuestro.getCosteDefensa()+"</html>");
+			error.setText("");
+			
+		} catch (ResourceException e2) {
+			// TODO Auto-generated catch block
+			error2.setText(e2.getMessage());
+		}
+		
+	}
+});
+botonesTech[2] = new JButton("Go Back");
+botonesTech[2].addActionListener(new ActionListener() {
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		error.setText("");
+		error2.setText("");
+		
+	}
+});
+panelUpgradeTech.add(botonesTech[0]);
+botonesTech[0].setBounds((ANCHO_TABLERO/2)-250, 150, 250, 50);
+panelUpgradeTech.add(botonesTech[1]);
+botonesTech[1].setBounds((ANCHO_TABLERO/2)+15, 150, 250, 50);
+panelUpgradeTech.add(botonesTech[2]);
+botonesTech[2].setBounds((ANCHO_TABLERO/2)-75, 400, 200, 50);
+botonesTech[2].setBackground(new Color(246, 90, 90));
+botonesTech[2].addActionListener(new GoBackUpgradeTech());
+panelUpgradeTech.add(backgroundTech);
+
+//View Current Battle
+panelCurrentBattle= new PanelInicio();
+panelCurrentBattle.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(panelCurrentBattle);
+panelCurrentBattle.setLayout(null);
+panelCurrentBattle.setVisible(false);
+
+JLabel tituloCurrentB = new JLabel("CURRENT BATTLE",SwingConstants.CENTER);
+panelCurrentBattle.add(tituloCurrentB);
+tituloCurrentB.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloCurrentB.setFont(new Font("Verdana",1,35));
+tituloCurrentB.setForeground(Color.black);
+botonesMenu1[4].addActionListener(new AddPanelCurrentBattle());
+
+botonesCurrent = new JButton("Go back");
+panelCurrentBattle.add(botonesCurrent);
+botonesCurrent.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+botonesCurrent.setBackground(new Color(246, 90, 90));
+botonesCurrent.addActionListener(new GoBackViewCurrentBattle());
+
+
+JTextArea battleCurrent = new JTextArea();
+battleCurrent.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+battleCurrent.setFont(new Font("Verdana",1,11));
+battleCurrent.setForeground(Color.black);
+battleCurrent.setWrapStyleWord(true);
+battleCurrent.setLineWrap(true);
+
+JScrollPane scrollPane = new JScrollPane(battleCurrent);
+scrollPane.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+panelCurrentBattle.add(scrollPane);
+
+botonesMenu1[4].addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		battleCurrent.setText(batalla.getBattleDevelopment());
+	}
+});
+
+//View Thread Coming
+Timer timer = new Timer();
+TimerTask task1 = new TimerTask() {
+    public void run() {
+    	JFrame panelThreadComing = new JFrame();
+		JOptionPane.showMessageDialog(panelThreadComing, "NEW THREAD IS COMING");
+        batalla.createEnemyArmy();
+        botonesMenu1[5].setEnabled(true);
+    }
+};
+
+PanelThreadComing= new PanelInicio();
+PanelThreadComing.setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
+add(PanelThreadComing);
+PanelThreadComing.setLayout(null);
+PanelThreadComing.setVisible(false);
+
+JLabel tituloThreadC = new JLabel("Thread Coming",SwingConstants.CENTER);
+PanelThreadComing.add(tituloThreadC);
+tituloThreadC.setBounds((ANCHO_TABLERO/2)-450, 10, 900, 70);
+tituloThreadC.setFont(new Font("Verdana",1,35));
+tituloThreadC.setForeground(Color.black);
+botonesMenu1[5].addActionListener(new AddPanelThreadComing());
+
+JLabel battleThread = new JLabel();
+battleThread.setText(batalla.ViewThread());
+battleThread.setBounds((ANCHO_TABLERO/2)-75,60,400,400);
+battleThread.setFont(new Font("Verdana",1,15));
+PanelThreadComing.add(battleThread);
+
+botonesThread = new JButton("Go back");
+PanelThreadComing.add(botonesThread);
+botonesThread.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
+botonesThread.setBackground(new Color(246, 90, 90));
+botonesThread.addActionListener(new GoBackViewThreadComing());
+botonesMenu1[5].addActionListener(new ActionListener() {
+	public void actionPerformed(ActionEvent e) {
+		battleThread.setText(batalla.ViewThread());
+	}
+});
+
+
+TimerTask task2 = new TimerTask() {
+    public void run() {
+    	JFrame panelAttacked = new JFrame();
+		JOptionPane.showMessageDialog(panelAttacked, "WE HAVE BEEN ATTACKED");
+		
+        batalla.playBattle(planetaNuestro);
+        botonesMenu1[4].setEnabled(true);
+    }
+};
+TimerTask task3 = new TimerTask() {
+    public void run() {
+        botonesMenu1[5].setEnabled(false);
+    }
+};
+TimerTask task4 = new TimerTask() {
+    public void run() {
+        botonesMenu1[4].setEnabled(false);
+    }
+};
+timer.schedule(task1, 10000, 40000);
+timer.schedule(task2, 20000, 60000);
+//timer.schedule(task3, 0, 180000);
+//timer.schedule(task4, 0, 240000);
+
+setLocationRelativeTo(null);
+setResizable(false);
+setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+setVisible(true);
+}
+
+class PanelInicio extends JPanel{
+
+}
+
+
+class AddPanelStats implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelStats.setVisible(true);
+
+	}
+}
+
+class AddPanelReport implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelBattleReport.setVisible(true);
+
+	}
+}
+
+class AddPanelDevelopment implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panelReportedBattle.setVisible(false);
+		panelDevelopmentBattle.setVisible(true);
+
+	}
+}
+
+class AddPanelBuild implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelBuild.setVisible(true);
+
+	}
+}
+
+class AddPanelThreadComing implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		PanelThreadComing.setVisible(true);
+
+	}
+}
+
+class AddPanelCurrentBattle implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelCurrentBattle.setVisible(true);
+	}
+}
+//Go back
+
+class GoBackStats implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelStats.setVisible(false);
+
+	}
+}
+
+class GoBackReport implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelBattleReport.setVisible(false);
+
+	}
+}
+
+class GoBackReportedBattle implements ActionListener{
+    public void actionPerformed(ActionEvent e) {
+        panelBattleReport.setVisible(true);
+        panelReportedBattle.setVisible(false);
+
+    }
+}
+
+class GoBackDevelopmentBattle implements ActionListener{
+    public void actionPerformed(ActionEvent e) {
+        panelReportedBattle.setVisible(true);
+        panelDevelopmentBattle.setVisible(false);
+
+    }
+}
+
+class GoBackBuild implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelBuild.setVisible(false);
+
+	}
+}
+
+class GoBackBuildTroops implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panelBuild.setVisible(true);
+		panelBuildTroops.setVisible(false);
+
+	}
+}
+
+class GoBackBuildDefenses implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panelBuild.setVisible(true);
+		panelBuildDefenses.setVisible(false);
+
+	}
+}
+
+class GoBackViewThreadComing implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		PanelThreadComing.setVisible(false);
+
+	}
+}
+
+class GoBackViewCurrentBattle implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelCurrentBattle.setVisible(false);
+	}
+}
+class BuildTroops implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panelBuild.setVisible(false);
+		panelBuildTroops.setVisible(true);
+	}
+}
+
+class BuildDefenses implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panelBuild.setVisible(false);
+		panelBuildDefenses.setVisible(true);
+	}
+}
+
+class AddPanelUpgrade implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(false);
+		panelUpgradeTech.setVisible(true);
+	}
+}
+
+class GoBackUpgradeTech implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		panel1.setVisible(true);
+		panelUpgradeTech.setVisible(false);
+	}
+}
+
+
+
+class ResetDatabase implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		Connection cn = null;
+		CallableStatement cst,cst2;
+		int reset = JOptionPane.showConfirmDialog(panel1, "Â¿Do you really want to reset database?");
+		if (JOptionPane.OK_OPTION == reset) {
+			
+			try {
+				DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+				cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+				 // Conecta con la base de datos orcl con el usuario system y la contraseï¿½a password
+	            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+				cst = cn.prepareCall("{call INITIALIZE}");
+				cst.execute();
+				cst2 = cn.prepareCall("{call userCreate}");
+				cst2.execute();
+			} catch (SQLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			} finally{
+				try {
+					cn.close();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			}
+            
+           
+            
+			
+		}
+	
+	}
+}
+
+class CloseProgram implements ActionListener{
+	public void actionPerformed(ActionEvent e) {
+		int salir = JOptionPane.showConfirmDialog(panel1, "¿Do you really want to exit?");
+		if (JOptionPane.OK_OPTION == salir) {
+			System.exit(0);
+		}
+	
+	}
+}
+
+
 }
 
 class VariablesBBDDShips{
@@ -283,6 +1281,7 @@ class Planet {
         army[4] = new ArrayList<>(0);
         army[5] = new ArrayList<>(0);
         army[6] = new ArrayList<>(0);
+        
 	}
 	public int getCosteAtaque() {
 		return costeAtaque;
@@ -349,14 +1348,12 @@ class Planet {
 	}
 	
 	public void newLightHunter(int n) throws ResourceException{
-		army[0] = new ArrayList<>();
 		VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
 		int costeMetal = variablesLightHunter.getCosteMetal();
 		int costeDeuterium = variablesLightHunter.getCosteDeuterium();
 		int count = 0;
 		int armor_plus = variablesLightHunter.getinitialArmor() + (getTechnologyDefense()*Variables.PLUS_ARMOR_LIGTHHUNTER_BY_TECHNOLOGY)*variablesLightHunter.getinitialArmor()/100;
 		int damage_plus = variablesLightHunter.getBaseDamage() + (getTechnologyAtack()*Variables.PLUS_ATTACK_LIGTHHUNTER_BY_TECHNOLOGY)*variablesLightHunter.getBaseDamage()/100;
-		
 		while (count < n) {
 			if (getMetal() >= costeMetal && getDeuterium() >= costeDeuterium) {
 				//si tecnlogia es 0 blindaje y lo otro normal.
@@ -375,16 +1372,15 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lanzamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " LightHunters.<br>" + "No se han podido crear mas LightHunters.</html>");
 			}
+			
 		}
-		System.out.println("Se han creado " + count + " lanzamisiles.");
+		
 		
 	}
 	
 	public void newHeavyHunter(int n) throws ResourceException{
-		army[1] = new ArrayList<>();
 		VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
 		int costeMetal = variablesHeavyHunter.getCosteMetal();
 		int costeDeuterium = variablesHeavyHunter.getCosteDeuterium();
@@ -409,15 +1405,13 @@ class Planet {
 				
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " HeavyHunters.<br>" + "No se han podido crear mas HeavyHunters.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 	}
 	
 	public void newBattleShip(int n) throws ResourceException{
-		army[2] = new ArrayList<>();
 		VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
 		int costeMetal = variablesBattleShip.getCosteMetal();
 		int costeDeuterium = variablesBattleShip.getCosteDeuterium();
@@ -442,15 +1436,13 @@ class Planet {
 				
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " BattleShip.<br>" + "No se han podido crear mas BattleShip.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 	}
 	
 	public void newArmoredShip(int n) throws ResourceException{
-		army[3] = new ArrayList<>();
 		VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
 		int costeMetal = variablesArmoredShip.getCosteMetal();
 		int costeDeuterium = variablesArmoredShip.getCosteDeuterium();
@@ -475,16 +1467,13 @@ class Planet {
 				
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " ArmoredShip.<br>" + "No se han podido crear mas ArmoredShip.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
 		
 	}
 	
 	public void newMissileLauncher(int n) throws ResourceException{
-		army[4] = new ArrayList<>();
 		VariablesBBDDDefenses variablesMissileLauncher = new VariablesBBDDDefenses(1);
 		int costeMetal = variablesMissileLauncher.getCosteMetal();
 		int costeDeuterium = variablesMissileLauncher.getCosteDeuterium();
@@ -508,16 +1497,14 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " MissileLauncher.<br>" + "No se han podido crear mas MissileLauncher.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
+		
 		
 	}
 	
 	public void newIonCannon(int n) throws ResourceException{
-		army[5] = new ArrayList<>();
 		VariablesBBDDDefenses variablesIonCannon= new VariablesBBDDDefenses(2);
 		int costeMetal = variablesIonCannon.getCosteMetal();
 		int costeDeuterium = variablesIonCannon.getCosteDeuterium();
@@ -541,15 +1528,12 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " IonCannon.<br>" + "No se han podido crear mas IonCannon.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
 	}
 	
 	public void newPlasmaCannon(int n) throws ResourceException{
-		army[6] = new ArrayList<>();
 		VariablesBBDDDefenses variablesPlasmaCannon= new VariablesBBDDDefenses(3);
 		int costeMetal = variablesPlasmaCannon.getCosteMetal();
 		int costeDeuterium = variablesPlasmaCannon.getCosteDeuterium();
@@ -573,28 +1557,26 @@ class Planet {
 				}
 			}
 			else {
-				System.out.println("Se han creado " + count + " lazamisiles.");
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " PlasmaCannon.<br>" + "No se han podido crear mas PlasmaCannon.</html>");
 			}
 		}
-		System.out.println("Se han creado " + count + " lazamisiles.");
 	}
 	
-	public void printStats() {
-		System.out.println("Planet Stats:\n\nTECHNOLOGY\n\n"
-			   +"Attack Technology          "+getTechnologyAtack()+
-			  "\nDefense Technology         "+getTechnologyDefense()+
-			    "\n\nDEFENSES\n\n"
-			   +"Missile Launcher           "+army[4].size()+"\n"
-			   +"Ion Cannon                 "+army[5].size()+"\n"
-			   +"Plasma Cannon              "+army[6].size()+"\n\nFLEET\n\n"
-			   +"Light Hunter               "+army[0].size()+"\n"
-			   +"Heavy Hunter               "+army[1].size()+"\n"
-			   +"Battle Ship                "+army[2].size()+"\n"
-			   +"Armored Ship               "+army[3].size()+"\n\nRESOURCES\n\n"
-			   +"Metal                      "+getMetal()+"\n"
-			   +"Deuterium                  "+getDeuterium()+"\n");
-	}
+	public String printStats() {
+        return "<html>"
+               +"Attack Technology          "+getTechnologyAtack()+
+              "<br>Defense Technology         "+getTechnologyDefense()+
+                "<br><br>DEFENSES<br><br>"
+               +"Missile Launcher           "+army[4].size()+"<br>"
+               +"Ion Cannon                 "+army[5].size()+"<br>"
+               +"Plasma Cannon              "+army[6].size()+"<br><br>FLEET<br><br>"
+               +"Light Hunter               "+army[0].size()+"<br>"
+               +"Heavy Hunter               "+army[1].size()+"<br>"
+               +"Battle Ship                "+army[2].size()+"<br>"
+               +"Armored Ship               "+army[3].size()+"<br><br>RESOURCES<br><br>"
+               +"Metal                      "+getMetal()+"<br>"
+               +"Deuterium                  "+getDeuterium()+"<br>" + "</html>";
+    }
 	
 	
 
@@ -1257,6 +2239,8 @@ interface Variables{
 
 class Battle{
 	
+	VariablesBBDDShips variablesLightHunters = new VariablesBBDDShips(1);
+	
 	private ArrayList<MilitaryUnit>[] planetArmy;
 	private ArrayList<MilitaryUnit>[] planetArmyDeath;
 	private ArrayList<MilitaryUnit>[] enemyArmy;
@@ -1487,7 +2471,15 @@ class Battle{
 	String battle;
 	
 	
-	
+	int ResiduosTotalMetal;
+	int ResiduosTotalDeuterium;
+	VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
+	VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
+	VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
+	VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
+	VariablesBBDDDefenses variablesMissileLauncher = new VariablesBBDDDefenses(1);
+	VariablesBBDDDefenses variablesIonCannon = new VariablesBBDDDefenses(2);
+	VariablesBBDDDefenses variablesPlasmaCannon = new VariablesBBDDDefenses(3);
 	public void playBattle(Planet miPlaneta) {
 		
 		planetArmy=miPlaneta.getArmy();
@@ -1499,8 +2491,8 @@ class Battle{
 		MilitaryUnit defensorMiPlaneta = EjercitoDefensorNuestro();
 		int sumaEjercitoAtacante = enemyArmy[0].size() + enemyArmy[1].size() + enemyArmy[2].size() + enemyArmy[3].size();
 		int sumaEjercitoDefensor = planetArmy[0].size() + planetArmy[1].size() + planetArmy[2].size() +  planetArmy[3].size() + planetArmy[4].size() + planetArmy[5].size() + planetArmy[0].size();
-		int ResiduosTotalMetal = 0;
-		int ResiduosTotalDeuterium = 0;
+		ResiduosTotalMetal = 0;
+		ResiduosTotalDeuterium = 0;
 		int pararAtacante = sumaEjercitoAtacante*20/100;
 		int pararDefensor = sumaEjercitoDefensor*20/100;
 		boolean parar = false;
@@ -2959,6 +3951,20 @@ class Battle{
 			}
 			if (parar == true) {
 				guardarPartidaEnBasedatos();
+				int metalPerdidoPlaneta = (LightHunterMiosFinal*variablesLightHunter.getCosteMetal() + HeavyHunterMiosFinal*variablesHeavyHunter.getCosteMetal() + BattleShipMiosFinal*variablesBattleShip.getCosteMetal() + ArmoredShipMiosFinal*variablesArmoredShip.getCosteMetal() +
+						MissileLauncherMiosFinal*variablesMissileLauncher.getCosteMetal() + IonCannonMiosFinal*variablesIonCannon.getCosteMetal()+ PlasmaCannonMiosFinal*variablesPlasmaCannon.getCosteMetal());
+				int metalPerdidoEnemigo = (LightHuntersEnemigoFinal*variablesLightHunters.getCosteMetal()+
+						HeavyHuntersEnemigoFinal*variablesHeavyHunter.getCosteMetal() + BattleShipEnemigoFinal*variablesBattleShip.getCosteMetal() + ArmoredShipMiosFinal*variablesArmoredShip.getCosteMetal());
+				int deuteriumPerdidoPlaneta = (LightHunterMiosFinal*variablesLightHunter.getCosteDeuterium() + HeavyHunterMiosFinal*variablesHeavyHunter.getCosteDeuterium() + BattleShipMiosFinal*variablesBattleShip.getCosteDeuterium() + ArmoredShipMiosFinal*variablesArmoredShip.getCosteDeuterium() +
+						MissileLauncherMiosFinal*variablesMissileLauncher.getCosteDeuterium() + IonCannonMiosFinal*variablesIonCannon.getCosteDeuterium()+ PlasmaCannonMiosFinal*variablesPlasmaCannon.getCosteDeuterium());
+				int deuteriumPerdidoEnemigo = (LightHuntersEnemigoFinal*variablesLightHunter.getCosteDeuterium()+
+						HeavyHuntersEnemigoFinal*variablesHeavyHunter.getCosteDeuterium() + BattleShipEnemigoFinal*variablesBattleShip.getCosteDeuterium() + ArmoredShipEnemigoFinal*variablesArmoredShip.getCosteDeuterium());
+				int perdidasPlaneta = (metalPerdidoPlaneta) + (deuteriumPerdidoPlaneta)*5;
+				int perdidasEnemigo = (metalPerdidoEnemigo) + (deuteriumPerdidoPlaneta)*5;
+				if (perdidasPlaneta < perdidasEnemigo) {
+					miPlaneta.setMetal(miPlaneta.getMetal()+ResiduosTotalMetal);
+					miPlaneta.setDeuterium(miPlaneta.getDeuterium()+ResiduosTotalDeuterium);
+				}
 				break;
 			}
 			
@@ -2969,13 +3975,7 @@ class Battle{
 
 	}
 	
-	VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
-	VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
-	VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
-	VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
-	VariablesBBDDDefenses variablesMissileLauncher = new VariablesBBDDDefenses(1);
-	VariablesBBDDDefenses variablesIonCannon = new VariablesBBDDDefenses(2);
-	VariablesBBDDDefenses variablesPlasmaCannon = new VariablesBBDDDefenses(3);
+
 	int battleId;
 	private void guardarPartidaEnBasedatos() {
 		int userId = 1;
@@ -3449,7 +4449,7 @@ class Battle{
 	
 	public String ViewThread() {
 		String cadena;
-		cadena = "Light Hunter " + enemyArmy[0].size() + "\nHeavy Hunter " + enemyArmy[1].size() + "\nBattle Ship "+ enemyArmy[2].size() + "\nArmored Ship " + enemyArmy[3].size() ;
+		cadena = "<html>Light Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + enemyArmy[0].size() + "<br>Heavy Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + enemyArmy[1].size() + "<br>Battle Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ enemyArmy[2].size() + "<br>Armored Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + enemyArmy[3].size() + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp</html>" ;
 		return cadena;
 	}
 	
@@ -3702,7 +4702,6 @@ class Battle{
 			}
 		}
 		 
-		
 		int metalPlaneta = (LightHuntersPlanetStart*Lighthunters.getCosteMetal() + HeavyHuntersPlanetStart*HeavyHunters.getCosteMetal() + BattleShipsPlanetStart*Battleship.getCosteMetal() + ArmoredShipPlanetStart*Armoredship.getCosteMetal() +
 				MissileLauncherPlanetStart*MissileLauncher.getCosteMetal() + IonCannonPlanetStart*IonCannon.getCosteMetal()+ PlasmaCannonPlanetStart*PlasmaCannon.getCosteMetal());
 		int metalEnemigo = (LightHuntersEnemyStart*Lighthunters.getCosteMetal()+
@@ -3721,33 +4720,35 @@ class Battle{
 				HeavyHuntersEnemyDrop*HeavyHunters.getCosteDeuterium() + BattleShipEnemyDrop*Battleship.getCosteDeuterium() + ArmoredShipEnemyDrop*Armoredship.getCosteDeuterium());
 		int weightedPlaneta = (metalPerdidoPlaneta) + (deuteriumPerdidoPlaneta)*5;
 		int weightedEnemigo = (metalPerdidoEnemigo) + (deuteriumPerdidoEnemigo)*5;
-		String cadena = "<html>BATTLE STATISTICS<br><br>"
-				+ "Army Planet Units Drops Initial Army Enemy Units Drops<br>"
-				+ "LightHunter "+LightHuntersPlanetStart + " "+ LightHuntersPlanetDrop + " Light Hunter" + LightHuntersEnemyStart + LightHuntersEnemyDrop + "<br>"
-						+ "Heavy Hunter "+ HeavyHuntersPlanetStart + " "+ HeavyHuntersPlanetDrop + " Heavy Hunter "+HeavyHuntersEnemyStart + " "+HeavyHuntersEnemyDrop + "<br>"
-								+ "Battle Ship "+BattleShipsPlanetStart + " "+BattleShipPlanetDrop + " Battle Ship "+BattleShipEnemyStart + " "+BattleShipEnemyDrop + "<br>"
-										+ "Armored Ship "+ArmoredShipPlanetStart+" "+ArmoredShipPlanetDrop + " Armored Ship "+ArmoredShipEnemyStart + " "+ArmoredShipEnemyDrop + "<br>"
-												+ "Missile Launcher "+MissileLauncherPlanetStart + " "+MissileLauncherPlanetDrop+"<br>"
-														+ "Ion Cannon "+ IonCannonPlanetStart + " "+IonCannonPlanetDrop+"<br>"
-																+ "Plasma Cannon "+PlasmaCannonPlanetStart + " "+PlasmaCannonPlanetDrop + "<br>"
-																		+ "*********************************" + "<br>"
-																				+ "Cost Army Planet Cost Army Enemy"+"<br>"
-																						+ "Metal: "+ metalPlaneta + "Metal: " + metalEnemigo + "<br>"
-																												+ "Deuterium: " + deuteriumPlaneta+ "Deuterium: " + deuteriumEnemigo + "<br>"
-																																		+ "**************************************" + "<br>"
-																																				+ "Losses Army Planet Losses Army Enemy" + "<br>"
-																																						+ "Metal: "+ metalPerdidoPlaneta + "Metal: " +  metalPerdidoEnemigo+ "<br>"
-																																												+ "Deuterium: " + deuteriumPerdidoPlaneta + "Deuterium " + deuteriumPerdidoEnemigo + "<br>"
-																																																		+ "Weighted: " + weightedPlaneta + "Weighted: " + weightedEnemigo + "<br>"
-																																																				+ "*********************" + "<br>"
+		String cadena = "<html>"
+				+ "Army Planet&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Units&nbsp&nbsp&nbsp&nbsp&nbsp Drops&nbsp&nbsp&nbsp&nbsp&nbsp Initial Army Enemy&nbsp&nbsp&nbsp&nbsp&nbsp Units&nbsp&nbsp&nbsp&nbsp&nbsp Drops<br>"
+				+ "LightHunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+LightHuntersPlanetStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ LightHuntersPlanetDrop + " &nbsp&nbsp&nbsp&nbsp Light Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + LightHuntersEnemyStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + LightHuntersEnemyDrop + "<br>"
+						+ "Heavy Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ HeavyHuntersPlanetStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ HeavyHuntersPlanetDrop + " &nbsp&nbsp&nbsp&nbsp Heavy Hunter &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+HeavyHuntersEnemyStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+HeavyHuntersEnemyDrop + "<br>"
+								+ "Battle Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipsPlanetStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipPlanetDrop + " &nbsp&nbsp&nbsp&nbsp Battle Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipEnemyStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+BattleShipEnemyDrop + "<br>"
+										+ "Armored Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipPlanetStart+" &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipPlanetDrop + " &nbsp&nbsp&nbsp&nbsp Armored Ship &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipEnemyStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ArmoredShipEnemyDrop + "<br>"
+												+ "Missile Launcher &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+MissileLauncherPlanetStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+MissileLauncherPlanetDrop+"<br>"
+														+ "Ion Cannon &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ IonCannonPlanetStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+IonCannonPlanetDrop+"<br>"
+																+ "Plasma Cannon &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+PlasmaCannonPlanetStart + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+PlasmaCannonPlanetDrop + "<br>"
+																		+ "***************************************************************" + "<br>"
+																				+ "Cost Army Planet &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Cost Army Enemy"+"<br>"
+																						+ "Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ metalPlaneta + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + metalEnemigo + "<br>"
+																												+ "Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumPlaneta+ " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumEnemigo + "<br>"
+																																		+ "***************************************************************" + "<br>"
+																																				+ "Losses Army Planet &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Losses Army Enemy" + "<br>"
+																																						+ "Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ metalPerdidoPlaneta + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " +  metalPerdidoEnemigo+ "<br>"
+																																												+ "Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumPerdidoPlaneta + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Deuterium &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + deuteriumPerdidoEnemigo + "<br>"
+																																																		+ "Weighted: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + weightedPlaneta + " &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp Weighted: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp " + weightedEnemigo + "<br>"
+																																																				+ "***************************************************************" + "<br>"
 																																																						+ "Waste Generated " + "<br>"
-																																																								+ "Metal: "+ residuosMetal + "<br>"
-																																																										+ "Deuterium: "+ residuoDeuterio + "<br></html>";
+																																																								+ "Metal: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ ResiduosTotalMetal + "<br>"
+																																																										+ "Deuterium: &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp "+ ResiduosTotalDeuterium + "<br><br><br>";
 		if (weightedEnemigo < weightedPlaneta) {
-			cadena = cadena + "Battle Winned by Fleet enemy, don't Collecte Rubble";
+			cadena = cadena + "Battle Winned by Fleet enemy, don't Collecte Rubble</html>";
 		}
 		else if (weightedPlaneta < weightedEnemigo) {
-			cadena = cadena + "Battle Winned by Planet, We Collect Rubble";
+			cadena = cadena + "Battle Winned by Planet, We Collect Rubble</html>";
+			
+			
 		}
 		return cadena;												
 	}
@@ -3756,11 +4757,11 @@ class Battle{
 		return battle;
 	}
 	
-	String battleUser = "";
+	
 	Connection cn = null;
 	
 	public String getBattleDevelopmentbyUser(int idbatalla) {
-		
+		String battleUser = "";
 		try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			// Conecta con la base de datos orcl con el usuario system y la contraseï¿½a password
@@ -3774,10 +4775,16 @@ class Battle{
 	        while (rs.next()) {
 	        	battleUser = battleUser + rs.getString(1) + "\n";
 	        }
-	          
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		} finally {
+			try {
+				cn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		return battleUser;
