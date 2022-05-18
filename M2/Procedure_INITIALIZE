@@ -21,6 +21,7 @@ if battleNum + usersNum + planetsNum + shipsNum + defensesNum + shipsPlanetNum +
 drop_table();
 create_table();
 insert_data();
+user_create();
 end if;
 end;
 
