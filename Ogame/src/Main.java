@@ -22,7 +22,7 @@ public class Main {
 	public static void main(String[] args) {
 		Planet miPlaneta = new Planet();
 		try {
-			miPlaneta.newLightHunter(12);
+			miPlaneta.newLightHunter(1);
 			miPlaneta.newIonCannon(3);
 		} catch (ResourceException e) {
 			// TODO Auto-generated catch block
@@ -31,8 +31,9 @@ public class Main {
 		Battle b = new Battle();
 		b.createEnemyArmy();
 		b.playBattle(miPlaneta);
-		System.out.println(b.getBattleDevelopment());
-		System.out.println(b.battleReport(9));
+//		System.out.println(b.getBattleDevelopment());
+//		System.out.println(b.battleReport(7));
+		System.out.println(b.getBattleDevelopmentbyUser(7));
 	}
 }
 
@@ -47,6 +48,7 @@ class VariablesBBDDShips{
 	Integer P_METAL_COST;
 	Integer P_CRYSTAL_COST;
 	Integer P_DEUTERIUM_COST;
+	
 	Integer P_INITIALARMOR;
 	Integer P_ARMOR;
 	Integer P_BASEDAMAGE;
@@ -63,8 +65,8 @@ class VariablesBBDDShips{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
            
             
             
@@ -169,8 +171,8 @@ class VariablesBBDDDefenses{
             DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
             
             // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+            //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+            cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
             
             // Llamada al procedimiento almacenado
             cst = cn.prepareCall("{call GET_DEFENSE (?,?,?,?,?,?,?,?,?,?)}");
@@ -2984,8 +2986,8 @@ class Battle{
 		 try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			 // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-	         cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-	         //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+	         //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+	         cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
 	         String query = "select nvl(max(id_battle),0) from battle";
 	         Statement stmnt = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
 	         ResultSet rs = stmnt.executeQuery(query);
@@ -3358,8 +3360,8 @@ class Battle{
 		 
 		 try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-			cn2 = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-			//cn2 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+			//cn2 = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+			cn2 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
 			//guardar los steps
 	        String[] pasosBatalla = battle.split("\n");
 			
@@ -3486,8 +3488,8 @@ class Battle{
 		try {
 			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
 			// Conecta con la base de datos orcl con el usuario system y la contrase�a password
-	        cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-	        //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+	        //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+	        cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
 	        String query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 0";
 	        PreparedStatement ps = cn.prepareStatement(query);
 	        ps.setInt(1, ibatalla);
@@ -3752,6 +3754,33 @@ class Battle{
 	
 	public String getBattleDevelopment() {
 		return battle;
+	}
+	
+	String battleUser = "";
+	Connection cn = null;
+	
+	public String getBattleDevelopmentbyUser(int idbatalla) {
+		
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			// Conecta con la base de datos orcl con el usuario system y la contrase�a password
+	        //cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+	        cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+	        String query = "select step from battle where id_battle = ?";
+	        PreparedStatement ps = cn.prepareStatement(query);
+	        ps.setInt(1, idbatalla);
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while (rs.next()) {
+	        	battleUser = battleUser + rs.getString(1) + "\n";
+	        }
+	          
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return battleUser;
 	}
 	
 }
