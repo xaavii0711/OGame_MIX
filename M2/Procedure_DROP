@@ -1,4 +1,4 @@
-create or replace procedure DROP_TABLE
+create or replace NONEDITIONABLE procedure DROP_TABLE
 is
 usersNum int;
 battleNum int;
@@ -45,7 +45,7 @@ end if;
 if defensesPlanetsNum > 0 then
  execute immediate 'DROP TABLE BATTLE_DETAILS';
 else
- DBMS_OUTPUT.PUT_LINE('No existe la tabla SHIPS_IN_BATTLE_DETAILS');
+ DBMS_OUTPUT.PUT_LINE('No existe la tabla BATTLE_DETAILS');
 end if;
 
 if shipsNum > 0 then
