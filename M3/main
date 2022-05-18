@@ -81,8 +81,8 @@ Battle batalla = new Battle();
 //batalla.playBattle();
 //System.out.println(batalla.getBattleDevelopment());
 
-planetaNuestro.setMetal(999999);
-planetaNuestro.setDeuterium(999999);
+planetaNuestro.setMetal(1000);
+planetaNuestro.setDeuterium(1000);
 
 setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
 setTitle("Orgasm");
@@ -1341,7 +1341,7 @@ class Planet {
 				}
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " LightHunters. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 		
@@ -1373,7 +1373,7 @@ class Planet {
 				
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " HeavyHunters. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 	}
@@ -1404,7 +1404,7 @@ class Planet {
 				
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " BattleShip. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 	}
@@ -1435,7 +1435,7 @@ class Planet {
 				
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " ArmoredShip. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 		
@@ -1466,7 +1466,7 @@ class Planet {
 				}
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " MissileLauncher. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 		
@@ -1497,7 +1497,7 @@ class Planet {
 				}
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " IonCannon. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 	}
@@ -1527,7 +1527,7 @@ class Planet {
 				}
 			}
 			else {
-				throw new ResourceException("No se han podido crear mas lanzamisiles.");
+				throw new ResourceException("<html>Se han creado " + count + " PlasmaCannon. <br>No se han podido crear mas lanzamisiles.</html>");
 			}
 		}
 	}
