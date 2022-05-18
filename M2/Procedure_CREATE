@@ -1,20 +1,20 @@
-create or replace NONEDITIONABLE procedure CREATE_TABLE
+create or replace procedure CREATE_TABLE
 is
 planetsCreate varchar2(1000);
 usersCreate varchar2(1000);
 shipsCreate varchar2(1000);
 defensesCreate varchar2(1000);
 battleCreate varchar2(1000);
-shipsPlanetsCreate varchar2(1000);
-defensesPlanetsCreate varchar2(1000);
+ships_defenses_battle varchar2(1000);
+battle_details varchar2(1000);
 begin
 
 usersCreate := 'CREATE TABLE USERS
 (ID_User NUMBER,
-Username VARCHAR(30) UNIQUE,
+Username VARCHAR(30),
 Birth_date DATE,
 Password VARCHAR(20),
-Constraint pk_users PRIMARY KEY (ID_User))';
+Constraint pk_users2 PRIMARY KEY (ID_User))';
 
 planetsCreate := 'CREATE TABLE PLANETS
 (ID_Planet NUMBER,
@@ -66,35 +66,29 @@ Constraint pk_battle PRIMARY KEY (ID_Battle),
 Constraint fk_users_battle FOREIGN KEY (ID_User)
 REFERENCES USERS (ID_User))';
 
-shipsPlanetsCreate := 'CREATE TABLE SHIPS_IN_PLANETS
-(
-ID_BATTLE NUMBER,
-ID_Planet NUMBER,
-ID_Ships NUMBER,
-QuantityInitial NUMBER,
-QuantityFinal NUMBER,
-AttackTecnhology NUMBER,
-DefenseTecnhology NUMBER,
-Constraint fk_ships_planets2 FOREIGN KEY (ID_Ships)
-REFERENCES SHIPS (ID_Ships))';
+ships_defenses_battle := 'CREATE TABLE SHIPS_DEFENSES_BATTLE
+(IDBattle NUMBER,
+IDPlanet NUMBER,
+IDShips NUMBER,
+Initial2 NUMBER,
+Drop_Tropy NUMBER,
+Constraint pk_battle2 PRIMARY KEY (IDBattle))';
 
-defensesPlanetsCreate := 'CREATE TABLE DEFENSES_IN_PLANETS
-(
-ID_Battle Number,
-ID_Planet NUMBER,
-ID_Defense NUMBER,
-QuantityInitial NUMBER,
-QuantityFinal NUMBER,
-AttackTecnhology NUMBER,
-DefenseTecnhology NUMBER,
-Constraint fk_ships_defenses2 FOREIGN KEY (ID_Defense)
-REFERENCES DEFENSES (ID_Defense))';
+battle_details := 'CREATE TABLE SHIPS_IN_BATTLE_DETAILS
+(IDBattle NUMBER,
+IDPlanet NUMBER,
+IDShip NUMBER,
+TecnhnologyAttack NUMBER,
+TecnhologyDefense NUMBER,
+IsDeath VARCHAR(25),
+Constraint pk_battle3 PRIMARY KEY (IDBattle))';
+
 
 execute immediate usersCreate;
 execute immediate planetsCreate;
 execute immediate shipsCreate;
 execute immediate defensesCreate;
 execute immediate battleCreate;
-execute immediate shipsPlanetsCreate;
-execute immediate defensesPlanetsCreate;
+execute immediate ships_defenses_battle;
+execute immediate battle_details;
 end;
