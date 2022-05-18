@@ -1,4 +1,4 @@
-create or replace procedure INITIALIZE
+create or replace NONEDITIONABLE procedure INITIALIZE
 is
 battleNum int;
 usersNum int;
@@ -21,11 +21,6 @@ if battleNum + usersNum + planetsNum + shipsNum + defensesNum + shipsPlanetNum +
 drop_table();
 create_table();
 insert_data();
-userCreate();
 end if;
-end;
 
-set serveroutput on
-begin
-INITIALIZE();
 end;
