@@ -70,8 +70,7 @@ ships_defenses_battle := 'CREATE TABLE SHIPS_DEFENSES_BATTLE
 ID_Planet NUMBER,
 ID_Ships NUMBER,
 QuantityInitial NUMBER,
-QuantityFinal NUMBER,
-Drop_Tropy NUMBER)';
+QuantityFinal NUMBER)';
 
 battle_details := 'CREATE TABLE BATTLE_DETAILS
 (ID_Battle NUMBER,
