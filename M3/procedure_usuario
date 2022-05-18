@@ -1,4 +1,4 @@
-create or replace procedure userCreate(userID INT, usernameUser VARCHAR, fecha DATE, passwordUser VARCHAR)
+create or replace procedure userCreate
 is
 existe int;
 
@@ -8,11 +8,11 @@ select count(*) into existe from users;
 
 if existe = 0 then
     INSERT INTO USERS
-    Values(userID,usernameUser, fecha,passwordUser);        
+    Values(1,'Pedri', '26/09/2003','P@ssw0rd');        
 else
-    delete from users where userID=ID_USER;
+    delete from users where 1=ID_USER;
     INSERT INTO USERS
-    Values(userID,usernameUser, fecha,passwordUser);    
+    Values(1,'Pedri', '26/09/2003','P@ssw0rd');     
 end if;
 
 end;
