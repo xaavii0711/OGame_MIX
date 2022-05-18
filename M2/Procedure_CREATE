@@ -66,7 +66,7 @@ Constraint fk_users_battle FOREIGN KEY (ID_User)
 REFERENCES USERS (ID_User))';
 
 ships_defenses_battle := 'CREATE TABLE SHIPS_DEFENSES_BATTLE
-(IDBattle NUMBER,
+(ID_Battle NUMBER,
 ID_Planet NUMBER,
 ID_Ships NUMBER,
 QuantityInitial NUMBER,
