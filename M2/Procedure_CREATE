@@ -1,4 +1,4 @@
-create or replace procedure CREATE_TABLE
+create or replace NONEDITIONABLE procedure CREATE_TABLE
 is
 planetsCreate varchar2(1000);
 usersCreate varchar2(1000);
@@ -29,7 +29,7 @@ Deuterium NUMBER,
 ID_User NUMBER,
 Constraint pk_planets PRIMARY KEY (ID_Planet),
 Constraint fk_users FOREIGN KEY (ID_User)
-REFERENCES Users (ID_User))';
+REFERENCES USERS (ID_User))';
 
 shipsCreate := 'CREATE TABLE SHIPS
 (ID_Ships NUMBER,
