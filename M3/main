@@ -81,8 +81,8 @@ Battle batalla = new Battle();
 //batalla.playBattle();
 //System.out.println(batalla.getBattleDevelopment());
 
-planetaNuestro.setMetal(1000);
-planetaNuestro.setDeuterium(1000);
+planetaNuestro.setMetal(999999);
+planetaNuestro.setDeuterium(999999);
 
 setBounds(0, 0, ANCHO_TABLERO, ALTO_TABLERO);
 setTitle("Orgasm");
@@ -275,6 +275,24 @@ botonesReport[0].addActionListener(new ActionListener() {
 				panelReportedBattle.add(botonDevelopmentBattle);
 				botonDevelopmentBattle.setBounds(750, 225, 150, 30);
 				botonDevelopmentBattle.addActionListener(new AddPanelDevelopment());
+				
+				JTextArea DevelopmentBattle = new JTextArea();
+				DevelopmentBattle.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+				DevelopmentBattle.setFont(new Font("Verdana",1,11));
+				DevelopmentBattle.setForeground(Color.black);
+				DevelopmentBattle.setWrapStyleWord(true);
+				DevelopmentBattle.setLineWrap(true);
+
+				JScrollPane scrollPaneDevelopment = new JScrollPane(DevelopmentBattle);
+				scrollPaneDevelopment.setBounds(100, 100, ANCHO_TABLERO-200, ALTO_TABLERO-230);
+				scrollPaneDevelopment.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+				panelDevelopmentBattle.add(scrollPaneDevelopment);
+				
+				botonDevelopmentBattle.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						DevelopmentBattle.setText(batalla.getBattleDevelopment());
+					}
+				});
 			}
 		} catch (Exception e1) {
 			// TODO: handle exception
@@ -309,6 +327,8 @@ panelDevelopmentBattle.add(botonDevelopmentBattle);
 botonDevelopmentBattle.setBounds((ANCHO_TABLERO/2)-150, ALTO_TABLERO-100, 300, 50);
 botonDevelopmentBattle.setBackground(new Color(246, 90, 90));
 botonDevelopmentBattle.addActionListener(new GoBackDevelopmentBattle());
+
+
 
 //Panel Build
 panelBuild = new PanelInicio();
@@ -806,8 +826,8 @@ TimerTask task4 = new TimerTask() {
         botonesMenu1[4].setEnabled(false);
     }
 };
-timer.schedule(task1, 60000, 180000);
-timer.schedule(task2, 180000, 180000);
+timer.schedule(task1, 10000, 180000);
+timer.schedule(task2, 20000, 180000);
 timer.schedule(task3, 0, 180000);
 timer.schedule(task4, 0, 240000);
 
