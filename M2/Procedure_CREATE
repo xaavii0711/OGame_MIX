@@ -72,7 +72,7 @@ IDShips NUMBER,
 Initial2 NUMBER,
 Drop_Tropy NUMBER)';
 
-battle_details := 'CREATE TABLE SHIPS_IN_BATTLE_DETAILS
+battle_details := 'CREATE TABLE BATTLE_DETAILS
 (IDBattle NUMBER,
 IDPlanet NUMBER,
 IDShip NUMBER,
