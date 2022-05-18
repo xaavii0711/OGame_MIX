@@ -15,7 +15,7 @@ select count(*) into planetsNum from user_tables where table_name='PLANETS';
 select count(*) into shipsNum from user_tables where table_name='SHIPS';
 select count(*) into defensesNum from user_tables where table_name='DEFENSES';
 select count(*) into shipsPlanetsNum from user_tables where table_name='SHIPS_DEFENSES_BATTLE';
-select count(*) into defensesPlanetsNum from user_tables where table_name='SHIPS_IN_BATTLE_DETAILS';
+select count(*) into defensesPlanetsNum from user_tables where table_name='BATTLE_DETAILS';
 
 
 if planetsNum > 0 then
@@ -43,7 +43,7 @@ else
 end if;
 
 if defensesPlanetsNum > 0 then
- execute immediate 'DROP TABLE SHIPS_IN_BATTLE_DETAILS';
+ execute immediate 'DROP TABLE BATTLE_DETAILS';
 else
  DBMS_OUTPUT.PUT_LINE('No existe la tabla SHIPS_IN_BATTLE_DETAILS');
 end if;
