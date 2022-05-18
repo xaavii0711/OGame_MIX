@@ -62,7 +62,6 @@ battleCreate := 'CREATE TABLE BATTLE
 ID_User NUMBER,
 ID_Step NUMBER,
 Step VARCHAR(4000),
-Constraint pk_battle PRIMARY KEY (ID_Battle),
 Constraint fk_users_battle FOREIGN KEY (ID_User)
 REFERENCES USERS (ID_User))';
 
@@ -71,8 +70,7 @@ ships_defenses_battle := 'CREATE TABLE SHIPS_DEFENSES_BATTLE
 IDPlanet NUMBER,
 IDShips NUMBER,
 Initial2 NUMBER,
-Drop_Tropy NUMBER,
-Constraint pk_battle2 PRIMARY KEY (IDBattle))';
+Drop_Tropy NUMBER)';
 
 battle_details := 'CREATE TABLE SHIPS_IN_BATTLE_DETAILS
 (IDBattle NUMBER,
@@ -80,8 +78,7 @@ IDPlanet NUMBER,
 IDShip NUMBER,
 TecnhnologyAttack NUMBER,
 TecnhologyDefense NUMBER,
-IsDeath VARCHAR(25),
-Constraint pk_battle3 PRIMARY KEY (IDBattle))';
+IsDeath VARCHAR(25))';
 
 
 execute immediate usersCreate;
