@@ -1,0 +1,91 @@
+create or replace procedure CREATE_TABLE
+is
+planetsCreate varchar2(1000);
+usersCreate varchar2(1000);
+shipsCreate varchar2(1000);
+defensesCreate varchar2(1000);
+battleCreate varchar2(1000);
+ships_defenses_battle varchar2(1000);
+battle_details varchar2(1000);
+begin
+
+usersCreate := 'CREATE TABLE USERS
+(ID_User NUMBER,
+Username VARCHAR(30),
+Birth_date DATE,
+Password VARCHAR(20),
+Constraint pk_users2 PRIMARY KEY (ID_User))';
+
+planetsCreate := 'CREATE TABLE PLANETS
+(ID_Planet NUMBER,
+Name VARCHAR(30) UNIQUE,
+Technology_attack NUMBER,
+Technology_defense NUMBER,
+UpgradeTechnology_attack NUMBER,
+UpgradeTechnology_defense NUMBER,
+Crystal NUMBER,
+Metal NUMBER,
+Deuterium NUMBER,
+ID_User NUMBER,
+Constraint pk_planets PRIMARY KEY (ID_Planet),
+Constraint fk_users FOREIGN KEY (ID_User)
+REFERENCES Users (ID_User))';
+
+shipsCreate := 'CREATE TABLE SHIPS
+(ID_Ships NUMBER,
+Name VARCHAR(30),
+Metal_cost NUMBER,
+Crystal_cost NUMBER,
+Deuterium_cost NUMBER,
+InitialArmor NUMBER,
+Armor NUMBER,
+BaseDamage NUMBER,
+Speed NUMBER,
+Generate_Wastings NUMBER,
+Constraint pk_ships PRIMARY KEY (ID_Ships))';
+
+defensesCreate := 'CREATE TABLE DEFENSES
+(ID_Defense NUMBER,
+Name VARCHAR(30),
+Metal_cost NUMBER,
+Crystal_cost NUMBER,
+Deuterium_cost NUMBER,
+InitialArmor NUMBER,
+Armor NUMBER,
+BaseDamage NUMBER,
+Speed NUMBER,
+Generate_Wastings NUMBER,
+Constraint pk_defenses PRIMARY KEY(ID_Defense))';
+
+battleCreate := 'CREATE TABLE BATTLE
+(ID_Battle NUMBER,
+ID_User NUMBER,
+ID_Step NUMBER,
+Step VARCHAR(4000),
+Constraint fk_users_battle FOREIGN KEY (ID_User)
+REFERENCES USERS (ID_User))';
+
+ships_defenses_battle := 'CREATE TABLE SHIPS_DEFENSES_BATTLE
+(ID_Battle NUMBER,
+ID_Planet NUMBER,
+ID_Ships NUMBER,
+QuantityInitial NUMBER,
+QuantityFinal NUMBER)';
+
+battle_details := 'CREATE TABLE BATTLE_DETAILS
+(ID_Battle NUMBER,
+ID_Planet NUMBER,
+ID_Ship NUMBER,
+TecnhnologyAttack NUMBER,
+TecnhologyDefense NUMBER,
+IsDeath VARCHAR(25))';
+
+
+execute immediate usersCreate;
+execute immediate planetsCreate;
+execute immediate shipsCreate;
+execute immediate defensesCreate;
+execute immediate battleCreate;
+execute immediate ships_defenses_battle;
+execute immediate battle_details;
+end;
