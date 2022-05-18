@@ -1,0 +1,23 @@
+create or replace NONEDITIONABLE procedure userCreate
+is
+existe int;
+userCreado varchar2(1000);
+userEliminado varchar2(1000);
+
+begin
+
+select count(*) into existe from USERS;
+
+if existe = 0 then
+    userCreado := 'INSERT INTO USERS
+    Values(1,''Pedri'', ''26/09/2003'',''P@ssw0rd'')';   
+     execute immediate userCreado;
+else
+    userEliminado := 'delete from USERS where 1=ID_USER';
+    userCreado := 'INSERT INTO USERS
+    Values(1,''Pedri'', ''26/09/2003'',''P@ssw0rd'')';
+    execute immediate userEliminado;
+    execute immediate userCreado;
+end if;
+
+end;
