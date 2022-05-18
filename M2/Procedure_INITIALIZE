@@ -1,0 +1,31 @@
+create or replace procedure INITIALIZE
+is
+battleNum int;
+usersNum int;
+planetsNum int;
+shipsNum int;
+defensesNum int;
+shipsPlanetNum int;
+defensesPlanetNum int;
+
+begin
+select count(*) into battleNum from user_tables where table_name='BATTLE';
+select count(*) into usersNum from user_tables where table_name='USERS';
+select count(*) into planetsNum from user_tables where table_name='PLANETS';
+select count(*) into shipsNum from user_tables where table_name='SHIPS';
+select count(*) into defensesNum from user_tables where table_name='DEFENSES';
+select count(*) into shipsPlanetNum from user_tables where table_name='SHIPS_DEFENSES_BATTLE';
+select count(*) into defensesPlanetNum from user_tables where table_name='BATTLE_DETAILS';
+
+if battleNum + usersNum + planetsNum + shipsNum + defensesNum + shipsPlanetNum + defensesPlanetNum <= 7 then
+drop_table();
+create_table();
+insert_data();
+userCreate();
+end if;
+end;
+
+set serveroutput on
+begin
+INITIALIZE();
+end;
