@@ -822,10 +822,10 @@ TimerTask task4 = new TimerTask() {
         botonesMenu1[4].setEnabled(false);
     }
 };
-timer.schedule(task1, 10000, 40000);
-timer.schedule(task2, 20000, 60000);
-//timer.schedule(task3, 0, 180000);
-//timer.schedule(task4, 0, 240000);
+timer.schedule(task1, 60000, 180000);
+timer.schedule(task2, 180000, 180000);
+timer.schedule(task3, 0, 180000);
+timer.schedule(task4, 0, 240000);
 
 setLocationRelativeTo(null);
 setResizable(false);
@@ -1100,14 +1100,14 @@ class VariablesBBDDShips{
             } while (id > 0);
 
         } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
+            ex.getMessage();
         
         }
         finally {
             try {
                 cn.close();
             } catch (SQLException ex) {
-                System.out.println("Error: " + ex.getMessage());
+                 ex.getMessage();
             }
         }
 	}
@@ -1199,25 +1199,15 @@ class VariablesBBDDDefenses{
                 P_BASEDAMAGE = cst.getInt(8);
                 P_SPEED = cst.getInt(9);
                 P_GENERATE_WASTINGS = cst.getInt(10);
-//                System.out.println("P_ID: "+P_ID);
-//                System.out.println("P_NAME: " + P_NAME);
-//                System.out.println("P_METAL_COST: " + P_METAL_COST);
-//                System.out.println("P_CRYSTAL_COST: " + P_CRYSTAL_COST);
-//                System.out.println("P_DEUTERIUM_COST: " + P_DEUTERIUM_COST);
-//                System.out.println("P_INITIALARMOR: " + P_INITIALARMOR);
-//                System.out.println("P_ARMOR: " + P_ARMOR);
-//                System.out.println("P_BASEDAMAGE: " + P_BASEDAMAGE);
-//                System.out.println("P_SPEED: " + P_SPEED);
-//                System.out.println("P_GENERATE_WASTINGS: " + P_GENERATE_WASTINGS);
             } while (id > 0);
 
         } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
+             ex.getMessage();
         } finally {
             try {
                 cn.close();
             } catch (SQLException ex) {
-                System.out.println("Error: " + ex.getMessage());
+                ex.getMessage();
             }
         } 
 	
@@ -1281,6 +1271,15 @@ class Planet {
         army[4] = new ArrayList<>(0);
         army[5] = new ArrayList<>(0);
         army[6] = new ArrayList<>(0);
+        Timer dinero = new Timer();
+    	TimerTask tiempodinero = new TimerTask() {
+    		
+    		public void run() {
+    			setMetal(getMetal()+150);
+    			setDeuterium(getDeuterium()+100);
+    		}
+    	};
+    	dinero.schedule(tiempodinero, 10000, 10000);
         
 	}
 	public int getCosteAtaque() {
@@ -1298,7 +1297,10 @@ class Planet {
 	public void setCosteDefensa(int coste) {
 		this.costeDefensa = coste;
 	}
-
+	
+	
+	
+	
 	public void upgradeTechnologyDefense() throws ResourceException{
 		if (getTechnologyDefense() < 1) {
 			setCosteDefensa(Variables.UPGRADE_BASE_DEFENSE_TECHNOLOGY_DEUTERIUM_COST);
@@ -2405,6 +2407,7 @@ class Battle{
 		
 		if (planetArmy[0].size() > 0 && arrayProbabilidades[0] > numAleatorio) {
 				defensorNuestro = planetArmy[0].get((int)(Math.random()*planetArmy[0].size()));
+				
 			
 			
 		}
@@ -2550,11 +2553,11 @@ class Battle{
 							battle = battle + "Eliminado lighthunter" + "\n";
 							LightHunterMiosFinal = LightHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -2586,11 +2589,11 @@ class Battle{
 							battle = battle + "Eliminado heavyhunter" + "\n";
 							HeavyHunterMiosFinal = HeavyHunterMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -2620,11 +2623,11 @@ class Battle{
 							battle = battle + "Eliminado battleship" + "\n";
 							BattleShipMiosFinal = BattleShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -2656,11 +2659,11 @@ class Battle{
 							battle = battle + "Eliminado armoredship" + "\n";
 							ArmoredShipMiosFinal = ArmoredShipMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -2692,12 +2695,11 @@ class Battle{
 							}	
 							battle = battle + "Eliminado missilelauncher" + "\n";
 							MissileLauncherMiosFinal = MissileLauncherMiosFinal + 1;
-							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -2727,12 +2729,11 @@ class Battle{
 						
 							battle = battle + "Eliminado ioncannon" + "\n";
 							IonCannonMiosFinal = IonCannonMiosFinal + 1;
-							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -2763,14 +2764,14 @@ class Battle{
 								planetArmy[6].remove(0);
 							}
 							
-							System.out.println("Eliminado plasmacannon");
+							battle = battle + "Eliminado plasmacannon" + "\n";
 							PlasmaCannonMiosFinal = PlasmaCannonMiosFinal + 1;
 							sumaEjercitoDefensor = sumaEjercitoDefensor - 1;
-							if (sumaEjercitoAtacante <pararAtacante ) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararAtacante ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararDefensor) {
 								parar = true;
 								break;
 							}
@@ -3310,11 +3311,11 @@ class Battle{
 							battle = battle + "Eliminado lighthunter" + "\n";
 							LightHuntersEnemigoFinal = LightHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
-							if (sumaEjercitoAtacante < pararAtacante) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararDefensor ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararAtacante) {
 								parar = true;
 								break;
 							}
@@ -3339,11 +3340,11 @@ class Battle{
 							battle = battle + "Eliminado heavyhunter" + "\n";
 							HeavyHuntersEnemigoFinal = HeavyHuntersEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
-							if (sumaEjercitoAtacante < pararAtacante) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararDefensor ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararAtacante) {
 								parar = true;
 								break;
 							}
@@ -3368,11 +3369,11 @@ class Battle{
 							battle = battle + "Eliminado battleship" + "\n";
 							BattleShipEnemigoFinal = BattleShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
-							if (sumaEjercitoAtacante < pararAtacante) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararDefensor ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararAtacante) {
 								parar = true;
 								break;
 							}
@@ -3398,11 +3399,11 @@ class Battle{
 							battle = battle + "Eliminado armoredship" + "\n";
 							ArmoredShipEnemigoFinal = ArmoredShipEnemigoFinal + 1;
 							sumaEjercitoAtacante = sumaEjercitoAtacante - 1;
-							if (sumaEjercitoAtacante < pararAtacante) {
+							if (enemyArmy[0].size()+enemyArmy[1].size()+enemyArmy[2].size()+enemyArmy[3].size() <pararDefensor ) {
 								parar = true;
 								break;
 							}
-							else if (sumaEjercitoDefensor < pararDefensor) {
+							else if (planetArmy[0].size()+planetArmy[1].size()+planetArmy[2].size()+planetArmy[3].size()+planetArmy[4].size()+planetArmy[5].size()+planetArmy[6].size() < pararAtacante) {
 								parar = true;
 								break;
 							}
