@@ -67,15 +67,16 @@ REFERENCES USERS (ID_User))';
 
 ships_defenses_battle := 'CREATE TABLE SHIPS_DEFENSES_BATTLE
 (IDBattle NUMBER,
-IDPlanet NUMBER,
-IDShips NUMBER,
-Initial2 NUMBER,
+ID_Planet NUMBER,
+ID_Ships NUMBER,
+QuantityInitial NUMBER,
+QuantityFinal NUMBER,
 Drop_Tropy NUMBER)';
 
 battle_details := 'CREATE TABLE BATTLE_DETAILS
-(IDBattle NUMBER,
-IDPlanet NUMBER,
-IDShip NUMBER,
+(ID_Battle NUMBER,
+ID_Planet NUMBER,
+ID_Ship NUMBER,
 TecnhnologyAttack NUMBER,
 TecnhologyDefense NUMBER,
 IsDeath VARCHAR(25))';
