@@ -21,263 +21,18 @@ public class Main {
 	
 	public static void main(String[] args) {
 		Planet miPlaneta = new Planet();
-		Planet planetaEnemigo = new Planet();
+		try {
+			miPlaneta.newLightHunter(12);
+			miPlaneta.newIonCannon(3);
+		} catch (ResourceException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		Battle b = new Battle();
 		b.createEnemyArmy();
-		b.playBattle();
-		
-		
-		CallableStatement cst3,cst4,cst5,cst6,cst7,cst8,cst9,cst10,cst11,cst12,cst13,cst14,cst15;
-		BufferedReader entrada;
-		int id;
-		Connection cn;
-		cn = null;
-		id = 0;
-		int id_batalla = 1;
-        
-        try {
-            // Carga el driver de oracle
-            DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
-            
-            // Conecta con la base de datos orcl con el usuario system y la contrase�a password
-            cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
-            //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
-           
-            
-            // Llamada al procedimiento almacenado
-            cst4 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst5 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst6 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst7 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst11 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst12 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst13 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst14 = cn.prepareCall("{call insert_ships_in_planets (?,?,?,?,?,?,?)}");
-            cst8 = cn.prepareCall("{call insert_planets (?,?,?,?,?,?,?,?,?,?)}");
-            cst9 = cn.prepareCall("{call insert_defenses_in_planets (?,?,?,?,?,?,?)}");
-            cst10 = cn.prepareCall("{call insert_defenses_in_planets (?,?,?,?,?,?,?)}");
-            cst15 = cn.prepareCall("{call insert_defenses_in_planets (?,?,?,?,?,?,?)}");
-            do {
-            	//cada ejecucion hacer commit para q se guarde bien
-            	
-            	cst4.setInt(1, 1);
-            	cst4.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst4.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst4.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst4.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst4.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst4.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst4.setInt(1, id_batalla);
-            	cst4.setInt(2, 1);
-            	cst4.setInt(3, 1);
-            	cst4.setInt(4, b.LightHunterMiosComienzo);
-            	cst4.setInt(5, b.LightHunterMiosFinal);
-            	cst4.setInt(6, 0);
-            	cst4.setInt(7, 0);
-            	cst4.execute();
-            	
-            	cst5.setInt(1, 2);
-            	cst5.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst5.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst5.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst5.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst5.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst5.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst5.setInt(1, id_batalla);
-            	cst5.setInt(2, 1);
-            	cst5.setInt(3, 2);
-            	cst5.setInt(4, b.HeavyHunterMiosComienzo);
-            	cst5.setInt(5, b.HeavyHunterMiosFinal);
-            	cst5.setInt(6, 0);
-            	cst5.setInt(7, 0);
-            	cst5.execute();
-            	
-            	cst6.setInt(1, 3);
-            	cst6.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst6.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst6.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst6.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst6.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst6.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst6.setInt(1, id_batalla);
-            	cst6.setInt(2, 1);
-            	cst6.setInt(3, 3);
-            	cst6.setInt(4, b.BattleShipMiosComienzo);
-            	cst6.setInt(5, b.BattleShipMiosFinal);
-            	cst6.setInt(6, 0);
-            	cst6.setInt(7, 0);
-            	cst6.execute();
-            	
-            	cst7.setInt(1, 4);
-            	cst7.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst7.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst7.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst7.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst7.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst7.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst7.setInt(1, id_batalla);
-            	cst7.setInt(2, 1);
-            	cst7.setInt(3, 4);
-            	cst7.setInt(4, b.ArmoredShipMiosComienzo);
-            	cst7.setInt(5, b.ArmoredShipMiosFinal);
-            	cst7.setInt(6, 0);
-            	cst7.setInt(7, 0);
-            	cst7.execute();
-            	
-            	cst11.setInt(1, 5);
-            	cst11.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst11.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst11.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst11.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst11.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst11.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst11.setInt(1, id_batalla);
-            	cst11.setInt(2, 2);
-            	cst11.setInt(3, 1);
-            	cst11.setInt(4, b.LightHuntersEnemigoComienzo);
-            	cst11.setInt(5, b.LightHuntersEnemigoFinal);
-            	cst11.setInt(6, 0);
-            	cst11.setInt(7, 0);
-            	cst11.execute();
-            	
-            	cst12.setInt(1, 6);
-            	cst12.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst12.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst12.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst12.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst12.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst12.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst12.setInt(1, id_batalla);
-            	cst12.setInt(2, 2);
-            	cst12.setInt(3, 2);
-            	cst12.setInt(4, b.HeavyHuntersEnemigoComienzo);
-            	cst12.setInt(5, b.HeavyHuntersEnemigoFinal);
-            	cst12.setInt(6, 0);
-            	cst12.setInt(7, 0);
-            	cst12.execute();
-            	
-            	cst13.setInt(1, 7);
-            	cst13.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst13.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst13.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst13.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst13.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst13.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst13.setInt(1, id_batalla);
-            	cst13.setInt(2, 2);
-            	cst13.setInt(3, 3);
-            	cst13.setInt(4, b.BattleShipEnemigoComienzo);
-            	cst13.setInt(5, b.BattleShipEnemigoFinal);
-            	cst13.setInt(6, 0);
-            	cst13.setInt(7, 0);
-            	cst13.execute();
-            	
-            	cst14.setInt(1, 8);
-            	cst14.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst14.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst14.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst14.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst14.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst14.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst14.setInt(1, id_batalla);
-            	cst14.setInt(2, 2);
-            	cst14.setInt(3, 4);
-            	cst14.setInt(4, b.ArmoredShipEnemigoComienzo);
-            	cst14.setInt(5, b.ArmoredShipEnemigoFinal);
-            	cst14.setInt(6, 0);
-            	cst14.setInt(7, 0);
-            	cst14.execute();
-            	
-            	cst9.setInt(1, 1);
-            	cst9.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst9.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst9.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst9.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst9.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst9.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst9.setInt(1, id_batalla);
-            	cst9.setInt(2, 1);
-            	cst9.setInt(3, 1);
-            	cst9.setInt(4, b.MissileLauncherMiosComienzo);
-            	cst9.setInt(5, b.MissileLauncherMiosFinal);
-            	cst9.setInt(6, 0);
-            	cst9.setInt(7, 0);
-            	cst9.execute();
-            	
-            	cst10.setInt(1, 2);
-            	cst10.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst10.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst10.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst10.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst10.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst10.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst10.setInt(1, id_batalla);
-            	cst10.setInt(2, 1);
-            	cst10.setInt(3, 2);
-            	cst10.setInt(4, b.IonCannonMiosComienzo);
-            	cst10.setInt(5, b.IonCannonMiosFinal);
-            	cst10.setInt(6, 0);
-            	cst10.setInt(7, 0);
-            	cst10.execute();
-            	
-            	cst15.setInt(1, 3);
-            	cst15.registerOutParameter(2, java.sql.Types.INTEGER);
-            	cst15.registerOutParameter(3, java.sql.Types.INTEGER);
-            	cst15.registerOutParameter(4, java.sql.Types.INTEGER);
-            	cst15.registerOutParameter(5, java.sql.Types.INTEGER);
-            	cst15.registerOutParameter(6, java.sql.Types.INTEGER);
-            	cst15.registerOutParameter(7, java.sql.Types.INTEGER);
-            	cst15.setInt(1, id_batalla);
-            	cst15.setInt(2, 1);
-            	cst15.setInt(3, 3);
-            	cst15.setInt(4, b.PlasmaCannonMiosComienzo);
-            	cst15.setInt(5, b.PlasmaCannonMiosFinal);
-            	cst15.setInt(6, 0);
-            	cst15.setInt(7, 0);
-            	cst15.execute();
-            	
-            	
-                cst8.setInt(1, 2);
-                cst8.registerOutParameter(2, java.sql.Types.CHAR);
-                cst8.registerOutParameter(3, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(4, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(5, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(6, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(7, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(8, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(9, java.sql.Types.INTEGER);
-                cst8.registerOutParameter(10, java.sql.Types.INTEGER);
-                cst8.setInt(1, 1);
-                cst8.setString(2, "MyPlanet");
-                System.out.println(miPlaneta.getTechnologyAtack());
-                cst8.setInt(3, miPlaneta.getTechnologyAtack());
-                cst8.setInt(4, miPlaneta.getTechnologyDefense());
-                cst8.setInt(5, miPlaneta.getUpgradeAttackTechnologyDeuteriumCost());
-                cst8.setInt(6, 0);
-                cst8.setInt(7, miPlaneta.getUpgradeDefenseTechnologyDeuteriumCost());
-                cst8.setInt(8, miPlaneta.getMetal());
-                cst8.setInt(9, miPlaneta.getDeuterium());
-                cst8.setInt(10, 1);
-                cst8.execute();
-                
-                System.out.println("Datos insertados correctamente");
-            } while (id > 0);
-
-        } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
-        
-        }
-        finally {
-            try {
-                cn.close();
-            } catch (SQLException ex) {
-                System.out.println("Error: " + ex.getMessage());
-            }
-        }
-		
-		
-		
-		
+		b.playBattle(miPlaneta);
+		System.out.println(b.getBattleDevelopment());
+		System.out.println(b.battleReport(9));
 	}
 }
 
@@ -312,7 +67,7 @@ class VariablesBBDDShips{
             //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
            
             
-            // Llamada al procedimiento almacenado
+            
             cst = cn.prepareCall("{call GET_SHIP (?,?,?,?,?,?,?,?,?,?)}");
 
             do {
@@ -330,7 +85,7 @@ class VariablesBBDDShips{
              
 
 
-                // Se obtienen la salida del procedimineto almacenado
+              
                 P_ID = cst.getInt(1);
                 P_NAME = cst.getString(2);
                 P_METAL_COST = cst.getInt(3);
@@ -341,16 +96,7 @@ class VariablesBBDDShips{
                 P_BASEDAMAGE = cst.getInt(8);
                 P_SPEED = cst.getInt(9);
                 P_GENERATE_WASTINGS = cst.getInt(10);
-//                System.out.println("P_ID: "+P_ID);
-//                System.out.println("P_NAME: " + P_NAME);
-//                System.out.println("P_METAL_COST: " + P_METAL_COST);
-//                System.out.println("P_CRYSTAL_COST: " + P_CRYSTAL_COST);
-//                System.out.println("P_DEUTERIUM_COST: " + P_DEUTERIUM_COST);
-//                System.out.println("P_INITIALARMOR: " + P_INITIALARMOR);
-//                System.out.println("P_ARMOR: " + P_ARMOR);
-//                System.out.println("P_BASEDAMAGE: " + P_BASEDAMAGE);
-//                System.out.println("P_SPEED: " + P_SPEED);
-//                System.out.println("P_GENERATE_WASTINGS: " + P_GENERATE_WASTINGS);
+
             } while (id > 0);
 
         } catch (SQLException ex) {
@@ -1510,7 +1256,9 @@ interface Variables{
 class Battle{
 	
 	private ArrayList<MilitaryUnit>[] planetArmy;
+	private ArrayList<MilitaryUnit>[] planetArmyDeath;
 	private ArrayList<MilitaryUnit>[] enemyArmy;
+	private ArrayList<MilitaryUnit>[] enemyArmyDeath;
 	
 	public Battle() {
 		planetArmy = new ArrayList[7];
@@ -1519,45 +1267,20 @@ class Battle{
 		enemyArmy[1] = new ArrayList<>(0);
 		enemyArmy[2] = new ArrayList<>(0);
 		enemyArmy[3] = new ArrayList<>(0);
-		planetArmy[0] = new ArrayList<>(0);
-		planetArmy[1] = new ArrayList<>(0);
-		planetArmy[2] = new ArrayList<>(0);
-		planetArmy[3] = new ArrayList<>(0);
-		planetArmy[4] = new ArrayList<>(0);
-		planetArmy[5] = new ArrayList<>(0);
-		planetArmy[6] = new ArrayList<>(0);
-//		enemyArmy[0].add(new LightHunter());
-//		enemyArmy[1].add(new HeavyHunter());
-//		enemyArmy[2].add(new BattleShip());
-//		enemyArmy[3].add(new ArmoredShip());
-//		enemyArmy[0].add(new LightHunter());
-//		enemyArmy[1].add(new HeavyHunter());
-//		enemyArmy[2].add(new BattleShip());
-//		enemyArmy[3].add(new ArmoredShip());
-//		enemyArmy[0].add(new LightHunter());
-//		enemyArmy[1].add(new HeavyHunter());
-//		enemyArmy[2].add(new BattleShip());
-//		enemyArmy[3].add(new ArmoredShip());
-//		enemyArmy[0].add(new LightHunter());
-//		enemyArmy[1].add(new HeavyHunter());
-//		enemyArmy[2].add(new BattleShip());
-//		enemyArmy[3].add(new ArmoredShip());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[4].add(new MissileLauncher());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[0].add(new LightHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[1].add(new HeavyHunter());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[2].add(new BattleShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[3].add(new ArmoredShip());
-		planetArmy[4].add(new MissileLauncher());
-		planetArmy[4].add(new MissileLauncher());
+		planetArmyDeath = new ArrayList[7];
+		planetArmyDeath[0] = new ArrayList<>(0);
+		planetArmyDeath[1] = new ArrayList<>(0);
+		planetArmyDeath[2] = new ArrayList<>(0);
+		planetArmyDeath[3] = new ArrayList<>(0);
+		planetArmyDeath[4] = new ArrayList<>(0);
+		planetArmyDeath[5] = new ArrayList<>(0);
+		planetArmyDeath[6] = new ArrayList<>(0);
+		enemyArmyDeath = new ArrayList[4];
+		enemyArmyDeath[0] = new ArrayList<>(0);
+		enemyArmyDeath[1] = new ArrayList<>(0);
+		enemyArmyDeath[2] = new ArrayList<>(0);
+		enemyArmyDeath[3] = new ArrayList<>(0);
+		
 		
 	}
 	
@@ -1763,8 +1486,9 @@ class Battle{
 	
 	
 	
-	public void playBattle() {
+	public void playBattle(Planet miPlaneta) {
 		
+		planetArmy=miPlaneta.getArmy();
 		boolean turnoMiplaneta = false; 
 		boolean turnoPlanetaAtacante = true;
 		MilitaryUnit atacanteContrario = EjercitoAtacanteEnemigo();
@@ -1822,7 +1546,11 @@ class Battle{
 						}
 						if (planetArmy[0].size() > 0) {
 							boolean eliminado = planetArmy[0].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[0].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[0].add(planetArmy[0].get(0));
 								planetArmy[0].remove(0);
 							}
 							battle = battle + "Eliminado lighthunter" + "\n";
@@ -1854,7 +1582,11 @@ class Battle{
 						}
 						if (planetArmy[1].size() > 0) {
 							boolean eliminado = planetArmy[1].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[1].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[1].add(planetArmy[1].get(0));
 								planetArmy[1].remove(0);
 							}
 							battle = battle + "Eliminado heavyhunter" + "\n";
@@ -1884,7 +1616,11 @@ class Battle{
 						}
 						if (planetArmy[2].size() > 0) {
 							boolean eliminado = planetArmy[2].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[2].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[2].add(planetArmy[2].get(0));
 								planetArmy[2].remove(0);
 							}
 							battle = battle + "Eliminado battleship" + "\n";
@@ -1916,7 +1652,11 @@ class Battle{
 						}
 						if (planetArmy[3].size() > 0) {
 							boolean eliminado = planetArmy[3].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[3].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[3].add(planetArmy[3].get(0));
 								planetArmy[3].remove(0);
 							}
 							battle = battle + "Eliminado armoredship" + "\n";
@@ -1949,7 +1689,11 @@ class Battle{
 						}
 						if (planetArmy[4].size() > 0) {
 							boolean eliminado = planetArmy[4].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[4].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[4].add(planetArmy[4].get(0));
 								planetArmy[4].remove(0);
 							}	
 							battle = battle + "Eliminado missilelauncher" + "\n";
@@ -1979,7 +1723,11 @@ class Battle{
 						}
 						if (planetArmy[5].size() > 0) {
 							boolean eliminado = planetArmy[5].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[5].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[5].add(planetArmy[5].get(0));
 								planetArmy[5].remove(0);
 							}
 						
@@ -2013,7 +1761,11 @@ class Battle{
 						}
 						if (planetArmy[6].size() > 0) {
 							boolean eliminado = planetArmy[6].remove(defensorMiPlaneta);
+							if (eliminado) {
+								planetArmyDeath[6].add(defensorMiPlaneta);
+							}
 							if (!eliminado) {
+								planetArmyDeath[6].add(planetArmy[6].get(0));
 								planetArmy[6].remove(0);
 							}
 							
@@ -2551,15 +2303,14 @@ class Battle{
 				int probabilidadRecursosEnemigo = (int)((Math.random()* 100)+1);
 				if (defensorContrario.getActualArmor() <= 0) {
 					if (defensorContrario.getClass().getName().equals("LightHunter")) {
-//						if (probabilidadRecursosEnemigo <= Variables.CHANCE_GENERATNG_WASTE_LIGTHHUNTER) {
-//							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
-//							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
-//							ResiduosTotalMetal += residuosMetal;
-//							ResiduosTotalDeuterium += residuoDeuterio;
-//						}
+
 						if (enemyArmy[0].size() > 0) {
 							boolean eliminado = enemyArmy[0].remove(defensorContrario);
+							if (eliminado) {
+								enemyArmyDeath[0].add(defensorContrario);
+							}
 							if (!eliminado) {
+								enemyArmyDeath[0].add(enemyArmy[0].get(0));
 								enemyArmy[0].remove(0);
 							}
 							battle = battle + "Eliminado lighthunter" + "\n";
@@ -2580,15 +2331,14 @@ class Battle{
 							
 					}
 					else if (defensorContrario.getClass().getName().equals("HeavyHunter")) {
-//						if (probabilidadRecursosEnemigo <= Variables.CHANCE_GENERATNG_WASTE_HEAVYHUNTER) {
-//							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
-//							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
-//							ResiduosTotalMetal += residuosMetal;
-//							ResiduosTotalDeuterium += residuoDeuterio;
-//						}
+
 						if (enemyArmy[1].size() > 0) {
 							boolean eliminado = enemyArmy[1].remove(defensorContrario);
+							if (eliminado) {
+								enemyArmyDeath[1].add(defensorContrario);
+							}
 							if (!eliminado) {
+								enemyArmyDeath[1].add(enemyArmy[1].get(0));
 								enemyArmy[1].remove(0);
 							}
 							
@@ -2611,15 +2361,14 @@ class Battle{
 						
 					}
 					else if (defensorContrario.getClass().getName().equals("BattleShip")) {
-//						if (probabilidadRecursosEnemigo <= Variables.CHANCE_GENERATNG_WASTE_BATTLESHIP) {
-//							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
-//							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
-//							ResiduosTotalMetal += residuosMetal;
-//							ResiduosTotalDeuterium += residuoDeuterio;
-//						}
+
 						if (enemyArmy[2].size() > 0) {
 							boolean eliminado = enemyArmy[2].remove(defensorContrario);
+							if (eliminado) {
+								enemyArmyDeath[2].add(defensorContrario);
+							}
 							if (!eliminado) {
+								enemyArmyDeath[2].add(enemyArmy[2].get(0));
 								enemyArmy[2].remove(0);
 							}
 							battle = battle + "Eliminado battleship" + "\n";
@@ -2642,15 +2391,14 @@ class Battle{
 						
 					}
 					else if (defensorContrario.getClass().getName().equals("ArmoredShip")) {
-//						if (probabilidadRecursosEnemigo <= Variables.CHANCE_GENERATNG_WASTE_ARMOREDSHIP) {
-//							int residuosMetal = defensorContrario.getMetalCost()*Variables.PERCENTATGE_WASTE/100;
-//							int residuoDeuterio = defensorContrario.getDeuteriumCost()*Variables.PERCENTATGE_WASTE/100;
-//							ResiduosTotalMetal += residuosMetal;
-//							ResiduosTotalDeuterium += residuoDeuterio;
-//						}
+
 						if (enemyArmy[3].size() > 0) {
 							boolean eliminado = enemyArmy[3].remove(defensorContrario);
+							if (eliminado) {
+								enemyArmyDeath[3].add(defensorContrario);
+							}
 							if (!eliminado) {
+								enemyArmyDeath[3].add(enemyArmy[3].get(0));
 								enemyArmy[3].remove(0);
 							}
 							battle = battle + "Eliminado armoredship" + "\n";
@@ -3208,7 +2956,7 @@ class Battle{
 					
 			}
 			if (parar == true) {
-				
+				guardarPartidaEnBasedatos();
 				break;
 			}
 			
@@ -3216,22 +2964,431 @@ class Battle{
 			
 		
 		}
-//		System.out.println("Mi ejercito");
-//		System.out.println("Lighthunters prinicpio = "+ LightHunterMiosComienzo + " Lighthunters final = " + LightHunterMiosFinal);
-//		System.out.println("HeavyHunters prinicpio = "+ HeavyHunterMiosComienzo + " HeavyHunters final = " + HeavyHunterMiosFinal);
-//		System.out.println("BattleShip prinicpio = "+ BattleShipMiosComienzo + " BattleShip final = " + BattleShipMiosFinal );
-//		System.out.println("ArmoredShip prinicpio = "+ ArmoredShipMiosComienzo + " ArmoredShip final = " + ArmoredShipMiosFinal );
-//		System.out.println("MissileLauncher prinicpio = "+ MissileLauncherMiosComienzo + " MissileLauncher final = " + MissileLauncherMiosFinal );
-//		System.out.println("IonCannon prinicpio = "+ IonCannonMiosComienzo + " IonCannon final = " + IonCannonMiosFinal );
-//		System.out.println("PlasmaCannon prinicpio = "+ PlasmaCannonMiosComienzo + " PlasmaCannon final = " + PlasmaCannonMiosFinal );
-//		System.out.println("");
-//		System.out.println("Ejercito atacante");
-//		System.out.println("Lighthunters prinicpio = "+ LightHuntersEnemigoComienzo + " Lighthunters final = " + LightHuntersEnemigoFinal);
-//		System.out.println("HeavyHunters prinicpio = "+ HeavyHuntersEnemigoComienzo + " HeavyHunters final = " + HeavyHuntersEnemigoFinal);
-//		System.out.println("BattleShip prinicpio = "+ BattleShipEnemigoComienzo + " BattleShip final = " + BattleShipEnemigoFinal );
-//		System.out.println("ArmoredShip prinicpio = "+ ArmoredShipEnemigoComienzo + " ArmoredShip final = " + ArmoredShipEnemigoFinal );
+
 	}
 	
+	VariablesBBDDShips variablesLightHunter = new VariablesBBDDShips(1);
+	VariablesBBDDShips variablesHeavyHunter = new VariablesBBDDShips(2);
+	VariablesBBDDShips variablesBattleShip = new VariablesBBDDShips(3);
+	VariablesBBDDShips variablesArmoredShip = new VariablesBBDDShips(4);
+	VariablesBBDDDefenses variablesMissileLauncher = new VariablesBBDDDefenses(1);
+	VariablesBBDDDefenses variablesIonCannon = new VariablesBBDDDefenses(2);
+	VariablesBBDDDefenses variablesPlasmaCannon = new VariablesBBDDDefenses(3);
+	int battleId;
+	private void guardarPartidaEnBasedatos() {
+		int userId = 1;
+		Connection cn = null;
+		Connection cn2 = null;
+		
+		
+		 try {
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			 // Conecta con la base de datos orcl con el usuario system y la contrase�a password
+	         cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+	         //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+	         String query = "select nvl(max(id_battle),0) from battle";
+	         Statement stmnt = cn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_UPDATABLE);
+	         ResultSet rs = stmnt.executeQuery(query);
+	         
+	         //maxID
+	         while(rs.next()) {
+	        	 battleId = rs.getInt(1);
+	         }
+	         
+	         battleId = battleId + 1;
+	         //PlanetNuestro
+	         String query2 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst;
+	         pst = cn.prepareStatement(query2);
+	         pst.setInt(1, battleId);
+	         pst.setInt(2, 1);
+	         pst.setInt(3, 0);
+	         pst.setInt(4, LightHunterMiosComienzo);
+	         pst.setInt(5, LightHunterMiosFinal);
+	         pst.execute();
+	         
+	         String query3 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst2;
+	         pst2 = cn.prepareStatement(query3);
+	         pst2.setInt(1, battleId);
+	         pst2.setInt(2, 1);
+	         pst2.setInt(3, 1);
+	         pst2.setInt(4, HeavyHunterMiosComienzo);
+	         pst2.setInt(5, HeavyHunterMiosFinal);
+	         pst2.execute();
+	         
+	         String query4 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst3;
+	         pst3 = cn.prepareStatement(query4);
+	         pst3.setInt(1, battleId);
+	         pst3.setInt(2, 1);
+	         pst3.setInt(3, 2);
+	         pst3.setInt(4, BattleShipMiosComienzo);
+	         pst3.setInt(5, BattleShipMiosFinal);
+	         pst3.execute();
+	         
+	         String query5 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst4;
+	         pst4 = cn.prepareStatement(query5);
+	         pst4.setInt(1, battleId);
+	         pst4.setInt(2, 1);
+	         pst4.setInt(3, 3);
+	         pst4.setInt(4, ArmoredShipMiosComienzo);
+	         pst4.setInt(5, ArmoredShipMiosFinal);
+	         pst4.execute();
+	         
+	         String query6 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst5;
+	         pst5 = cn.prepareStatement(query6);
+	         pst5.setInt(1, battleId);
+	         pst5.setInt(2, 1);
+	         pst5.setInt(3, 4);
+	         pst5.setInt(4, MissileLauncherMiosComienzo);
+	         pst5.setInt(5, MissileLauncherMiosFinal);
+	         pst5.execute();
+	         
+	         String query7 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst6;
+	         pst6 = cn.prepareStatement(query7);
+	         pst6.setInt(1, battleId);
+	         pst6.setInt(2, 1);
+	         pst6.setInt(3, 5);
+	         pst6.setInt(4, IonCannonMiosComienzo);
+	         pst6.setInt(5, IonCannonMiosFinal);
+	         pst6.execute();
+	         
+	         String query8 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	         PreparedStatement pst7;
+	         pst7 = cn.prepareStatement(query8);
+	         pst7.setInt(1, battleId);
+	         pst7.setInt(2, 1);
+	         pst7.setInt(3, 6);
+	         pst7.setInt(4, PlasmaCannonMiosComienzo);
+	         pst7.setInt(5, PlasmaCannonMiosFinal);
+	         pst7.execute();
+	         
+	         //planet enemigo
+	        String query9 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	        PreparedStatement pst8;
+	        pst8 = cn.prepareStatement(query9);
+	        pst8.setInt(1, battleId);
+	        pst8.setInt(2, 2);
+	        pst8.setInt(3, 0);
+	        pst8.setInt(4, LightHuntersEnemigoComienzo);
+	        pst8.setInt(5, LightHuntersEnemigoFinal);
+	        pst8.execute();
+	        
+	        String query10 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	        PreparedStatement pst9;
+	        pst9 = cn.prepareStatement(query10);
+	        pst9.setInt(1, battleId);
+	        pst9.setInt(2, 2);
+	        pst9.setInt(3, 1);
+	        pst9.setInt(4, HeavyHuntersEnemigoComienzo);
+	        pst9.setInt(5, HeavyHuntersEnemigoFinal);
+	        pst9.execute();
+	        
+	        String query11 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	        PreparedStatement pst10;
+	        pst10 = cn.prepareStatement(query11);
+	        pst10.setInt(1, battleId);
+	        pst10.setInt(2, 2);
+	        pst10.setInt(3, 2);
+	        pst10.setInt(4, BattleShipEnemigoComienzo);
+	        pst10.setInt(5, BattleShipEnemigoFinal);
+	        pst10.execute();
+	        
+	        String query12 = "INSERT INTO ships_defenses_battle values(?,?,?,?,?)";
+	        PreparedStatement pst11;
+	        pst11 = cn.prepareStatement(query12);
+	        pst11.setInt(1, battleId);
+	        pst11.setInt(2, 2);
+	        pst11.setInt(3, 3);
+	        pst11.setInt(4, ArmoredShipEnemigoComienzo);
+	        pst11.setInt(5, ArmoredShipEnemigoFinal);
+	        pst11.execute();
+	        
+	        //meto ejercito planeta vivo
+	        String query13 = "INSERT INTO battle_details values(?,?,?,?,?,?)";
+	        PreparedStatement pst12;
+	        int techA;
+	        int techB;
+	        for (int i = 0; i < planetArmy.length; i++) {
+				for (int j = 0; j < planetArmy[i].size(); j++) {
+					 MilitaryUnit m = planetArmy[i].get(j);
+					 if (m.getClass().getName().equals("LightHunter")) {
+						 LightHunter l = (LightHunter) m;
+						 techA = 100*(l.getBaseDamage()-variablesLightHunter.getBaseDamage())/(Variables.PLUS_ATTACK_LIGTHHUNTER_BY_TECHNOLOGY*variablesLightHunter.getBaseDamage());
+						 techB = 100*(l.getInitialArmor()-variablesLightHunter.getinitialArmor())/(Variables.PLUS_ARMOR_LIGTHHUNTER_BY_TECHNOLOGY*variablesLightHunter.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 0);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 }
+					 else if (m.getClass().getName().equals("HeavyHunter")) {
+						 HeavyHunter h = (HeavyHunter) m;
+						 techA = 100*(h.getBaseDamage()-variablesHeavyHunter.getBaseDamage())/(Variables.PLUS_ATTACK_HEAVYHUNTER_BY_TECHNOLOGY*variablesHeavyHunter.getBaseDamage());
+						 techB = 100*(h.getInitialArmor()-variablesHeavyHunter.getinitialArmor())/(Variables.PLUS_ARMOR_HEAVYHUNTER_BY_TECHNOLOGY*variablesHeavyHunter.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 1);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 }
+					 else if (m.getClass().getName().equals("BattleShip")) {
+						 BattleShip b = (BattleShip) m;
+						 techA = 100*(b.getBaseDamage()-variablesBattleShip.getBaseDamage())/(Variables.PLUS_ATTACK_BATTLESHIP_BY_TECHNOLOGY*variablesBattleShip.getBaseDamage());
+						 techB = 100*(b.getInitialArmor()-variablesBattleShip.getinitialArmor())/(Variables.PLUS_ARMOR_BATTLESHIP_BY_TECHNOLOGY*variablesBattleShip.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 2);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 }
+					 else if (m.getClass().getName().equals("ArmoredShip")) {
+						 ArmoredShip a = (ArmoredShip) m;
+						 techA = 100*(a.getBaseDamage()-variablesArmoredShip.getBaseDamage())/(Variables.PLUS_ATTACK_ARMOREDSHIP_BY_TECHNOLOGY*variablesArmoredShip.getBaseDamage());
+						 techB = 100*(a.getInitialArmor()-variablesArmoredShip.getinitialArmor())/(Variables.PLUS_ARMOR_ARMOREDSHIP_BY_TECHNOLOGY*variablesArmoredShip.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 3);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 }
+					 else if (m.getClass().getName().equals("MissileLauncher")) {
+						 MissileLauncher mi = (MissileLauncher) m;
+						 techA = 100*(mi.getBaseDamage()-variablesMissileLauncher.getBaseDamage())/(Variables.PLUS_ATTACK_MISSILELAUNCHER_BY_TECHNOLOGY*variablesMissileLauncher.getBaseDamage());
+						 techB = 100*(mi.getInitialArmor()-variablesMissileLauncher.getinitialArmor())/(Variables.PLUS_ARMOR_MISSILELAUNCHER_BY_TECHNOLOGY*variablesMissileLauncher.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 4);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 }
+					 else if (m.getClass().getName().equals("IonCannon")) {
+						 IonCannon io = (IonCannon) m;
+						 techA = 100*(io.getBaseDamage()-variablesIonCannon.getBaseDamage())/(Variables.PLUS_ATTACK_IONCANNON_BY_TECHNOLOGY*variablesIonCannon.getBaseDamage());
+						 techB = 100*(io.getInitialArmor()-variablesIonCannon.getinitialArmor())/(Variables.PLUS_ARMOR_IONCANNON_BY_TECHNOLOGY*variablesIonCannon.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 5);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 }
+					 else if (m.getClass().getName().equals("PlasmaCannon")) {
+						 PlasmaCannon p = (PlasmaCannon) m;
+						 techA = 100*(p.getBaseDamage()-variablesPlasmaCannon.getBaseDamage())/(Variables.PLUS_ATTACK_PLASMACANNON_BY_TECHNOLOGY*variablesPlasmaCannon.getBaseDamage());
+						 techB = 100*(p.getInitialArmor()-variablesPlasmaCannon.getinitialArmor())/(Variables.PLUS_ARMOR_PLASMACANNON_BY_TECHNOLOGY*variablesPlasmaCannon.getinitialArmor());
+						 pst12 = cn.prepareStatement(query13);
+					        pst12.setInt(1, battleId);
+					        pst12.setInt(2, 1);
+					        pst12.setInt(3, 6);
+					        pst12.setInt(4, techA);
+					        pst12.setInt(5, techB);
+					        pst12.setString(6, "false");
+					        pst12.execute();
+					 } 
+				}	
+			}
+	        //meter ejercito planeta muerto
+	        
+	        String query15 = "INSERT INTO battle_details values(?,?,?,?,?,?)";
+	        PreparedStatement pst15;
+	        for (int i = 0; i < planetArmyDeath.length; i++) {
+				for (int j = 0; j < planetArmyDeath[i].size(); j++) {
+					 MilitaryUnit m = planetArmyDeath[i].get(j);
+					 if (m.getClass().getName().equals("LightHunter")) {
+						 LightHunter l = (LightHunter) m;
+						 techA = 100*(l.getBaseDamage()-variablesLightHunter.getBaseDamage())/(Variables.PLUS_ATTACK_LIGTHHUNTER_BY_TECHNOLOGY*variablesLightHunter.getBaseDamage());
+						 techB = 100*(l.getInitialArmor()-variablesLightHunter.getinitialArmor())/(Variables.PLUS_ARMOR_LIGTHHUNTER_BY_TECHNOLOGY*variablesLightHunter.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 0);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 }
+					 else if (m.getClass().getName().equals("HeavyHunter")) {
+						 HeavyHunter h = (HeavyHunter) m;
+						 techA = 100*(h.getBaseDamage()-variablesHeavyHunter.getBaseDamage())/(Variables.PLUS_ATTACK_HEAVYHUNTER_BY_TECHNOLOGY*variablesHeavyHunter.getBaseDamage());
+						 techB = 100*(h.getInitialArmor()-variablesHeavyHunter.getinitialArmor())/(Variables.PLUS_ARMOR_HEAVYHUNTER_BY_TECHNOLOGY*variablesHeavyHunter.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 1);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 }
+					 else if (m.getClass().getName().equals("BattleShip")) {
+						 BattleShip b = (BattleShip) m;
+						 techA = 100*(b.getBaseDamage()-variablesBattleShip.getBaseDamage())/(Variables.PLUS_ATTACK_BATTLESHIP_BY_TECHNOLOGY*variablesBattleShip.getBaseDamage());
+						 techB = 100*(b.getInitialArmor()-variablesBattleShip.getinitialArmor())/(Variables.PLUS_ARMOR_BATTLESHIP_BY_TECHNOLOGY*variablesBattleShip.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 2);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 }
+					 else if (m.getClass().getName().equals("ArmoredShip")) {
+						 ArmoredShip a = (ArmoredShip) m;
+						 techA = 100*(a.getBaseDamage()-variablesArmoredShip.getBaseDamage())/(Variables.PLUS_ATTACK_ARMOREDSHIP_BY_TECHNOLOGY*variablesArmoredShip.getBaseDamage());
+						 techB = 100*(a.getInitialArmor()-variablesArmoredShip.getinitialArmor())/(Variables.PLUS_ARMOR_ARMOREDSHIP_BY_TECHNOLOGY*variablesArmoredShip.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 3);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 }
+					 else if (m.getClass().getName().equals("MissileLauncher")) {
+						 MissileLauncher mi = (MissileLauncher) m;
+						 techA = 100*(mi.getBaseDamage()-variablesMissileLauncher.getBaseDamage())/(Variables.PLUS_ATTACK_MISSILELAUNCHER_BY_TECHNOLOGY*variablesMissileLauncher.getBaseDamage());
+						 techB = 100*(mi.getInitialArmor()-variablesMissileLauncher.getinitialArmor())/(Variables.PLUS_ARMOR_MISSILELAUNCHER_BY_TECHNOLOGY*variablesMissileLauncher.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 4);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 }
+					 else if (m.getClass().getName().equals("IonCannon")) {
+						 IonCannon io = (IonCannon) m;
+						 techA = 100*(io.getBaseDamage()-variablesIonCannon.getBaseDamage())/(Variables.PLUS_ATTACK_IONCANNON_BY_TECHNOLOGY*variablesIonCannon.getBaseDamage());
+						 techB = 100*(io.getInitialArmor()-variablesIonCannon.getinitialArmor())/(Variables.PLUS_ARMOR_IONCANNON_BY_TECHNOLOGY*variablesIonCannon.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 5);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 }
+					 else if (m.getClass().getName().equals("PlasmaCannon")) {
+						 PlasmaCannon p = (PlasmaCannon) m;
+						 techA = 100*(p.getBaseDamage()-variablesPlasmaCannon.getBaseDamage())/(Variables.PLUS_ATTACK_PLASMACANNON_BY_TECHNOLOGY*variablesPlasmaCannon.getBaseDamage());
+						 techB = 100*(p.getInitialArmor()-variablesPlasmaCannon.getinitialArmor())/(Variables.PLUS_ARMOR_PLASMACANNON_BY_TECHNOLOGY*variablesPlasmaCannon.getinitialArmor());
+						 pst15 = cn.prepareStatement(query15);
+						 pst15.setInt(1, battleId);
+						 pst15.setInt(2, 1);
+						 pst15.setInt(3, 6);
+						 pst15.setInt(4, techA);
+						 pst15.setInt(5, techB);
+						 pst15.setString(6, "true");
+						 pst15.execute();
+					 } 
+				}	
+			}
+	        
+	      //meter ejercito enemigo muerto
+
+	        for (int i = 0; i < enemyArmy.length; i++) {
+				for (int j = 0; j < enemyArmy[i].size(); j++) {
+					MilitaryUnit m = enemyArmy[i].get(j);
+					String query14 = "INSERT INTO battle_details values(?,?,?,?,?,?)";
+			        PreparedStatement pst13;
+			        pst13 = cn.prepareStatement(query14);
+			        pst13.setInt(1, battleId);
+			        pst13.setInt(2, 2);
+			        pst13.setInt(3, j);
+			        pst13.setInt(4, 0);
+			        pst13.setInt(5, 0);
+			        pst13.setString(6, "false");
+			        pst13.execute();
+				}
+			}
+	        
+	        for (int i = 0; i < enemyArmyDeath.length; i++) {
+				for (int j = 0; j < enemyArmyDeath[i].size(); j++) {
+					MilitaryUnit m = enemyArmyDeath[i].get(j);
+					String query16 = "INSERT INTO battle_details values(?,?,?,?,?,?)";
+			        PreparedStatement pst16;
+			        pst16 = cn.prepareStatement(query16);
+			        pst16.setInt(1, battleId);
+			        pst16.setInt(2, 2);
+			        pst16.setInt(3, j);
+			        pst16.setInt(4, 0);
+			        pst16.setInt(5, 0);
+			        pst16.setString(6, "true");
+			        pst16.execute();
+				}
+			}
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				cn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		 
+		 try {
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			cn2 = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+			//cn2 = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+			//guardar los steps
+	        String[] pasosBatalla = battle.split("\n");
+			
+			for (int i = 0; i < pasosBatalla.length; i++) {
+				PreparedStatement pst12;
+				String query13 = "INSERT INTO battle values(?,?,?,?)";
+				pst12 = cn2.prepareStatement(query13);
+				pst12.setInt(1, battleId);
+				pst12.setInt(2, userId);
+				pst12.setInt(3, i);
+				pst12.setString(4, pasosBatalla[i]);
+				pst12.execute();
+				//insert into battle values (battleId, userId, i, pasosBatalla[i])
+			}
+			 
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				cn2.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+	}
+
 	int metalPlanetaEnemigo;
 	int deuteriumPlanetaEnemigo;
 	public void createEnemyArmy() {
@@ -3294,7 +3451,29 @@ class Battle{
 		return cadena;
 	}
 	
-	public String battleReport() {
+	int LightHuntersPlanetStart;
+	int LightHuntersPlanetDrop;
+	int HeavyHuntersPlanetStart;
+	int HeavyHuntersPlanetDrop;
+	int BattleShipsPlanetStart;
+	int BattleShipPlanetDrop;
+	int ArmoredShipPlanetStart;
+	int ArmoredShipPlanetDrop;
+	int MissileLauncherPlanetStart;
+	int MissileLauncherPlanetDrop;
+	int IonCannonPlanetStart;
+	int IonCannonPlanetDrop;
+	int PlasmaCannonPlanetStart;
+	int PlasmaCannonPlanetDrop;
+	int LightHuntersEnemyStart;
+	int LightHuntersEnemyDrop;
+	int HeavyHuntersEnemyStart;
+	int HeavyHuntersEnemyDrop;
+	int BattleShipEnemyStart;
+	int BattleShipEnemyDrop;
+	int ArmoredShipEnemyStart;
+	int ArmoredShipEnemyDrop;
+	public String battleReport(int ibatalla) {
 		VariablesBBDDShips Lighthunters = new VariablesBBDDShips(1);
 		VariablesBBDDShips HeavyHunters = new VariablesBBDDShips(2);
 		VariablesBBDDShips Battleship = new VariablesBBDDShips(3);
@@ -3302,33 +3481,253 @@ class Battle{
 		VariablesBBDDDefenses MissileLauncher = new VariablesBBDDDefenses(1);
 		VariablesBBDDDefenses IonCannon = new VariablesBBDDDefenses(2);
 		VariablesBBDDDefenses PlasmaCannon = new VariablesBBDDDefenses(3);
-		int metalPlaneta = (LightHunterMiosComienzo*Lighthunters.getCosteMetal() + HeavyHunterMiosComienzo*HeavyHunters.getCosteMetal() + BattleShipMiosComienzo*Battleship.getCosteMetal() + ArmoredShipMiosComienzo*Armoredship.getCosteMetal() +
-				MissileLauncherMiosComienzo*MissileLauncher.getCosteMetal() + IonCannonMiosComienzo*IonCannon.getCosteMetal()+ PlasmaCannonMiosComienzo*PlasmaCannon.getCosteMetal());
-		int metalEnemigo = (LightHuntersEnemigoComienzo*Lighthunters.getCosteMetal()+
-				HeavyHuntersEnemigoComienzo*HeavyHunters.getCosteMetal() + BattleShipEnemigoComienzo*Battleship.getCosteMetal() + ArmoredShipEnemigoComienzo*Armoredship.getCosteMetal());
-		int deuteriumPlaneta = (LightHunterMiosComienzo*Lighthunters.getCosteDeuterium() + HeavyHunterMiosComienzo*HeavyHunters.getCosteDeuterium() + BattleShipMiosComienzo*Battleship.getCosteDeuterium() + ArmoredShipMiosComienzo*Armoredship.getCosteDeuterium() +
-				MissileLauncherMiosComienzo*MissileLauncher.getCosteDeuterium() + IonCannonMiosComienzo*IonCannon.getCosteDeuterium()+ PlasmaCannonMiosComienzo*PlasmaCannon.getCosteDeuterium());
-		int deuteriumEnemigo = (LightHuntersEnemigoComienzo*Lighthunters.getCosteDeuterium()+
-				HeavyHuntersEnemigoComienzo*HeavyHunters.getCosteDeuterium() + BattleShipEnemigoComienzo*Battleship.getCosteDeuterium() + ArmoredShipEnemigoComienzo*Armoredship.getCosteDeuterium());
-		int metalPerdidoPlaneta = (LightHunterMiosFinal*Lighthunters.getCosteMetal() + HeavyHunterMiosFinal*HeavyHunters.getCosteMetal() + BattleShipMiosFinal*Battleship.getCosteMetal() + ArmoredShipMiosFinal*Armoredship.getCosteMetal() +
-				MissileLauncherMiosFinal*MissileLauncher.getCosteMetal() + IonCannonMiosFinal*IonCannon.getCosteMetal()+ PlasmaCannonMiosFinal*PlasmaCannon.getCosteMetal());
-		int metalPerdidoEnemigo = (LightHuntersEnemigoFinal*Lighthunters.getCosteMetal()+
-				HeavyHuntersEnemigoFinal*HeavyHunters.getCosteMetal() + BattleShipEnemigoFinal*Battleship.getCosteMetal() + ArmoredShipMiosFinal*Armoredship.getCosteMetal());
-		int deuteriumPerdidoPlaneta = (LightHunterMiosFinal*Lighthunters.getCosteDeuterium() + HeavyHunterMiosFinal*HeavyHunters.getCosteDeuterium() + BattleShipMiosFinal*Battleship.getCosteDeuterium() + ArmoredShipMiosFinal*Armoredship.getCosteDeuterium() +
-				MissileLauncherMiosFinal*MissileLauncher.getCosteDeuterium() + IonCannonMiosFinal*IonCannon.getCosteDeuterium()+ PlasmaCannonMiosFinal*PlasmaCannon.getCosteDeuterium());
-		int deuteriumPerdidoEnemigo = (LightHuntersEnemigoFinal*Lighthunters.getCosteDeuterium()+
-				HeavyHuntersEnemigoFinal*HeavyHunters.getCosteDeuterium() + BattleShipEnemigoFinal*Battleship.getCosteDeuterium() + ArmoredShipEnemigoFinal*Armoredship.getCosteDeuterium());
+		
+		Connection cn = null;
+		try {
+			DriverManager.registerDriver(new oracle.jdbc.driver.OracleDriver());
+			// Conecta con la base de datos orcl con el usuario system y la contrase�a password
+	        cn = DriverManager.getConnection("jdbc:oracle:thin:@192.168.40.2:1521:orcl", "alumnoMIX4", "alumnoMIX4");
+	        //cn = DriverManager.getConnection("jdbc:oracle:thin:@localhost:1521:xe", "SYSTEM", "P@ssw0rd");
+	        String query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 0";
+	        PreparedStatement ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        ResultSet rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	LightHuntersPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal  from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 0";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	LightHuntersPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial  from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 1";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	HeavyHuntersPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal  from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 1";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	HeavyHuntersPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 2";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	BattleShipsPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 2";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	BattleShipPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 3";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	ArmoredShipPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 3";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	ArmoredShipPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 4";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	MissileLauncherPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 4";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	MissileLauncherPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 5";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	IonCannonPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 5";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	IonCannonPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 6";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	PlasmaCannonPlanetStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 1 and id_ships = 6";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	PlasmaCannonPlanetDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 0";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	LightHuntersEnemyStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 0";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	LightHuntersEnemyDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 1";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	HeavyHuntersEnemyStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 1";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	HeavyHuntersEnemyDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 2";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	BattleShipEnemyStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 2";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	BattleShipEnemyDrop = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityinitial from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 3";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	ArmoredShipEnemyStart = rs.getInt(1);
+	        }
+	        
+	        query = "select quantityfinal from ships_defenses_battle where id_battle = ? and id_planet = 2 and id_ships = 3";
+	        ps = cn.prepareStatement(query);
+	        ps.setInt(1, ibatalla);
+	        rs = ps.executeQuery();
+	        
+	        while(rs.next()) {
+	        	ArmoredShipEnemyDrop = rs.getInt(1);
+	        }
+	        
+	        
+	        
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				cn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		 
+		
+		int metalPlaneta = (LightHuntersPlanetStart*Lighthunters.getCosteMetal() + HeavyHuntersPlanetStart*HeavyHunters.getCosteMetal() + BattleShipsPlanetStart*Battleship.getCosteMetal() + ArmoredShipPlanetStart*Armoredship.getCosteMetal() +
+				MissileLauncherPlanetStart*MissileLauncher.getCosteMetal() + IonCannonPlanetStart*IonCannon.getCosteMetal()+ PlasmaCannonPlanetStart*PlasmaCannon.getCosteMetal());
+		int metalEnemigo = (LightHuntersEnemyStart*Lighthunters.getCosteMetal()+
+				HeavyHuntersEnemyStart*HeavyHunters.getCosteMetal() + BattleShipEnemyStart*Battleship.getCosteMetal() + ArmoredShipEnemyStart*Armoredship.getCosteMetal());
+		int deuteriumPlaneta = (LightHuntersPlanetStart*Lighthunters.getCosteDeuterium() + HeavyHuntersPlanetStart*HeavyHunters.getCosteDeuterium() + BattleShipsPlanetStart*Battleship.getCosteDeuterium() + ArmoredShipPlanetStart*Armoredship.getCosteDeuterium() +
+				MissileLauncherPlanetStart*MissileLauncher.getCosteDeuterium() + IonCannonPlanetStart*IonCannon.getCosteDeuterium()+ PlasmaCannonPlanetStart*PlasmaCannon.getCosteDeuterium());
+		int deuteriumEnemigo = (LightHuntersEnemyStart*Lighthunters.getCosteDeuterium()+
+				HeavyHuntersEnemyStart*HeavyHunters.getCosteDeuterium() + BattleShipEnemyStart*Battleship.getCosteDeuterium() + ArmoredShipEnemyStart*Armoredship.getCosteDeuterium());
+		int metalPerdidoPlaneta = (LightHuntersPlanetDrop*Lighthunters.getCosteMetal() + HeavyHuntersPlanetDrop*HeavyHunters.getCosteMetal() + BattleShipPlanetDrop*Battleship.getCosteMetal() + ArmoredShipPlanetDrop*Armoredship.getCosteMetal() +
+				MissileLauncherPlanetDrop*MissileLauncher.getCosteMetal() + IonCannonPlanetDrop*IonCannon.getCosteMetal()+ PlasmaCannonPlanetDrop*PlasmaCannon.getCosteMetal());
+		int metalPerdidoEnemigo = (LightHuntersEnemyDrop*Lighthunters.getCosteMetal()+
+				HeavyHuntersEnemyDrop*HeavyHunters.getCosteMetal() + BattleShipEnemyDrop*Battleship.getCosteMetal() + ArmoredShipEnemyDrop*Armoredship.getCosteMetal());
+		int deuteriumPerdidoPlaneta = (LightHuntersPlanetDrop*Lighthunters.getCosteDeuterium() + HeavyHuntersPlanetDrop*HeavyHunters.getCosteDeuterium() + BattleShipPlanetDrop*Battleship.getCosteDeuterium() + ArmoredShipPlanetDrop*Armoredship.getCosteDeuterium() +
+				MissileLauncherPlanetDrop*MissileLauncher.getCosteDeuterium() + IonCannonPlanetDrop*IonCannon.getCosteDeuterium()+ PlasmaCannonPlanetDrop*PlasmaCannon.getCosteDeuterium());
+		int deuteriumPerdidoEnemigo = (LightHuntersEnemyDrop*Lighthunters.getCosteDeuterium()+
+				HeavyHuntersEnemyDrop*HeavyHunters.getCosteDeuterium() + BattleShipEnemyDrop*Battleship.getCosteDeuterium() + ArmoredShipEnemyDrop*Armoredship.getCosteDeuterium());
 		int weightedPlaneta = (metalPerdidoPlaneta) + (deuteriumPerdidoPlaneta)*5;
 		int weightedEnemigo = (metalPerdidoEnemigo) + (deuteriumPerdidoEnemigo)*5;
 		String cadena = "<html>BATTLE STATISTICS<br><br>"
 				+ "Army Planet Units Drops Initial Army Enemy Units Drops<br>"
-				+ "LightHunter "+LightHunterMiosComienzo + " "+ LightHunterMiosFinal + " Light Hunter" + LightHuntersEnemigoComienzo + LightHuntersEnemigoFinal + "<br>"
-						+ "Heavy Hunter "+ HeavyHunterMiosComienzo + " "+ HeavyHunterMiosFinal + " Heavy Hunter "+HeavyHuntersEnemigoComienzo + " "+HeavyHuntersEnemigoFinal + "<br>"
-								+ "Battle Ship "+BattleShipMiosComienzo + " "+BattleShipMiosFinal + " Battle Ship "+BattleShipEnemigoComienzo + " "+BattleShipEnemigoFinal + "<br>"
-										+ "Armored Ship "+ArmoredShipMiosComienzo+" "+ArmoredShipMiosFinal + " Armored Ship "+ArmoredShipEnemigoComienzo + " "+ArmoredShipEnemigoFinal + "<br>"
-												+ "Missile Launcher "+MissileLauncherMiosComienzo + " "+MissileLauncherMiosFinal+"<br>"
-														+ "Ion Cannon "+ IonCannonMiosComienzo + " "+IonCannonMiosFinal+"<br>"
-																+ "Plasma Cannon "+PlasmaCannonMiosComienzo + " "+PlasmaCannonMiosFinal + "<br>"
+				+ "LightHunter "+LightHuntersPlanetStart + " "+ LightHuntersPlanetDrop + " Light Hunter" + LightHuntersEnemyStart + LightHuntersEnemyDrop + "<br>"
+						+ "Heavy Hunter "+ HeavyHuntersPlanetStart + " "+ HeavyHuntersPlanetDrop + " Heavy Hunter "+HeavyHuntersEnemyStart + " "+HeavyHuntersEnemyDrop + "<br>"
+								+ "Battle Ship "+BattleShipsPlanetStart + " "+BattleShipPlanetDrop + " Battle Ship "+BattleShipEnemyStart + " "+BattleShipEnemyDrop + "<br>"
+										+ "Armored Ship "+ArmoredShipPlanetStart+" "+ArmoredShipPlanetDrop + " Armored Ship "+ArmoredShipEnemyStart + " "+ArmoredShipEnemyDrop + "<br>"
+												+ "Missile Launcher "+MissileLauncherPlanetStart + " "+MissileLauncherPlanetDrop+"<br>"
+														+ "Ion Cannon "+ IonCannonPlanetStart + " "+IonCannonPlanetDrop+"<br>"
+																+ "Plasma Cannon "+PlasmaCannonPlanetStart + " "+PlasmaCannonPlanetDrop + "<br>"
 																		+ "*********************************" + "<br>"
 																				+ "Cost Army Planet Cost Army Enemy"+"<br>"
 																						+ "Metal: "+ metalPlaneta + "Metal: " + metalEnemigo + "<br>"
